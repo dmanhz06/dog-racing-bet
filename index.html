@@ -9,13 +9,11 @@
     <!-- FontAwesome Icons CDN -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* CSS Ép chú chó luôn quay mặt sang PHẢI */
         .dog-facing-right {
             transform: scaleX(-1);
             display: inline-block;
         }
 
-        /* Animation khi chạy nhún nhảy */
         @keyframes gallop {
             0% { transform: translateY(0px) scale(1); }
             50% { transform: translateY(-3px) scale(1.05); }
@@ -25,7 +23,6 @@
             animation: gallop 0.18s infinite ease-in-out;
         }
 
-        /* Hiệu ứng khói đằng sau */
         @keyframes dust {
             0% { opacity: 0; transform: translateX(0) scale(0.5); }
             50% { opacity: 0.8; }
@@ -40,32 +37,24 @@
             animation: dust 0.3s infinite linear;
         }
 
-        /* Hiệu ứng Highlight Viền khi cuộn tới */
         @keyframes borderPulseGold {
             0%, 100% { border-color: rgba(245, 158, 11, 0.2); box-shadow: 0 0 0px rgba(245, 158, 11, 0); }
             50% { border-color: rgba(245, 158, 11, 1); box-shadow: 0 0 25px rgba(245, 158, 11, 0.6); }
         }
-        .highlight-border-gold {
-            animation: borderPulseGold 1.2s ease-in-out 2;
-        }
+        .highlight-border-gold { animation: borderPulseGold 1.2s ease-in-out 2; }
 
         @keyframes borderPulseGreen {
             0%, 100% { border-color: rgba(16, 185, 129, 0.2); box-shadow: 0 0 0px rgba(16, 185, 129, 0); }
             50% { border-color: rgba(16, 185, 129, 1); box-shadow: 0 0 25px rgba(16, 185, 129, 0.6); }
         }
-        .highlight-border-green {
-            animation: borderPulseGreen 1.2s ease-in-out 2;
-        }
+        .highlight-border-green { animation: borderPulseGreen 1.2s ease-in-out 2; }
 
         @keyframes borderPulseRed {
             0%, 100% { border-color: rgba(244, 63, 94, 0.2); box-shadow: 0 0 0px rgba(244, 63, 94, 0); }
             50% { border-color: rgba(244, 63, 94, 1); box-shadow: 0 0 25px rgba(244, 63, 94, 0.6); }
         }
-        .highlight-border-red {
-            animation: borderPulseRed 1.2s ease-in-out 2;
-        }
+        .highlight-border-red { animation: borderPulseRed 1.2s ease-in-out 2; }
 
-        /* Custom Scrollbar */
         ::-webkit-scrollbar { width: 6px; }
         ::-webkit-scrollbar-track { background: #0f172a; }
         ::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
@@ -74,7 +63,7 @@
 </head>
 <body class="bg-slate-950 text-slate-100 min-h-screen font-sans flex flex-col justify-between selection:bg-amber-500 selection:text-black">
 
-    <!-- BANNER THÔNG BÁO THẮNG / THUA THỜI GIAN THỰC -->
+    <!-- BANNER THÔNG BÁO THẮNG / THUA & THÔNG BÁO NẠP TIỀN -->
     <div id="result-banner" class="fixed top-20 left-1/2 -translate-x-1/2 z-50 transition-all duration-500 transform -translate-y-32 opacity-0 pointer-events-none max-w-md w-11/12">
         <div id="banner-content" class="p-4 rounded-2xl border shadow-2xl backdrop-blur-xl flex items-center justify-between">
             <div class="flex items-center gap-3">
@@ -88,10 +77,27 @@
         </div>
     </div>
 
-    <!-- HEADER: THANH THÔNG TIN, AUTH VÀ NẠP TIỀN -->
+    <!-- POPUP THÔNG BÁO CHO ADMIN KHI CÓ YÊU CẦU NẠP TIỀN -->
+    <div id="admin-notify-popup" class="fixed bottom-5 right-5 z-50 max-w-sm w-full bg-slate-900 border-2 border-amber-500 rounded-2xl p-4 shadow-2xl transition-all duration-300 transform translate-y-40 opacity-0 pointer-events-none">
+        <div class="flex items-start gap-3">
+            <div class="bg-amber-500 text-slate-950 p-2.5 rounded-xl font-black text-xl">
+                <i class="fa-solid fa-bell animate-bounce"></i>
+            </div>
+            <div class="flex-1">
+                <h4 class="font-black text-amber-400 text-xs uppercase">Yêu cầu nạp tiền mới!</h4>
+                <p id="admin-notify-text" class="text-xs text-slate-300 mt-1 font-medium"></p>
+                <div class="mt-3 flex gap-2">
+                    <button id="admin-notify-approve-btn" class="bg-emerald-500 hover:bg-emerald-400 text-slate-950 text-xs font-black px-3 py-1.5 rounded-lg transition">Duyệt ngay</button>
+                    <button onclick="closeAdminNotify()" class="bg-slate-800 text-slate-400 text-xs font-bold px-3 py-1.5 rounded-lg hover:text-white transition">Bỏ qua</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- HEADER -->
     <header class="bg-slate-900/90 backdrop-blur-md border-b border-slate-800 sticky top-0 z-40 shadow-2xl">
         <div class="max-w-7xl mx-auto px-3 sm:px-4 py-3 flex flex-wrap justify-between items-center gap-2 sm:gap-4">
-            <!-- Tên Game -->
+            <!-- Logo -->
             <div class="flex items-center space-x-2 sm:space-x-3">
                 <div class="bg-gradient-to-tr from-amber-500 to-yellow-300 text-slate-950 p-2 sm:p-2.5 rounded-2xl shadow-lg shadow-amber-500/20 text-lg sm:text-xl font-black">
                     <i class="fa-solid fa-trophy"></i>
@@ -104,9 +110,8 @@
                 </div>
             </div>
 
-            <!-- Khu vực tài khoản & Số dư -->
+            <!-- Tài khoản & Số dư -->
             <div class="flex items-center space-x-2 sm:space-x-3">
-                <!-- Ví Tiền -->
                 <div class="bg-slate-950/80 border border-slate-800 px-2.5 sm:px-4 py-1.5 sm:py-2 rounded-2xl flex items-center space-x-2 sm:space-x-3 shadow-inner">
                     <i class="fa-solid fa-coins text-amber-400 text-base sm:text-xl animate-bounce"></i>
                     <div>
@@ -115,13 +120,18 @@
                     </div>
                 </div>
 
-                <!-- Nút Nạp tiền -->
                 <button onclick="openDepositModal()" class="bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-400 hover:to-teal-500 text-slate-950 font-black px-3 sm:px-4 py-2 sm:py-2.5 rounded-2xl shadow-lg shadow-emerald-500/20 transition active:scale-95 flex items-center gap-1.5 sm:gap-2 text-xs sm:text-sm">
                     <i class="fa-solid fa-plus-circle text-xs sm:text-base"></i>
                     <span class="hidden sm:inline">NẠP TIỀN</span>
                 </button>
 
-                <!-- KHU VỰC AUTHENTICATION -->
+                <!-- Nút Admin Panel (Hiện khi Admin đăng nhập) -->
+                <button id="admin-panel-btn" onclick="openAdminModal()" class="hidden bg-rose-600 hover:bg-rose-500 text-white font-black px-3 sm:px-4 py-2 sm:py-2.5 rounded-2xl shadow-lg shadow-rose-600/30 transition active:scale-95 flex items-center gap-1.5 text-xs sm:text-sm animate-pulse">
+                    <i class="fa-solid fa-user-shield"></i>
+                    <span>ADMIN PANEL</span>
+                </button>
+
+                <!-- KHU VỰC AUTH -->
                 <div id="auth-container" class="relative">
                     <div id="guest-view" class="flex gap-1.5 sm:gap-2">
                         <button onclick="openAuthModal('login')" class="bg-slate-800 hover:bg-slate-700 text-amber-400 font-bold px-2.5 sm:px-3 py-2 sm:py-2.5 rounded-2xl border border-amber-500/30 text-[11px] sm:text-xs transition">
@@ -167,13 +177,9 @@
     <!-- CONTAINER CHÍNH -->
     <main class="max-w-7xl mx-auto w-full px-3 sm:px-4 py-4 sm:py-6 grid grid-cols-1 lg:grid-cols-12 gap-5 sm:gap-6">
 
-        <!-- CỘT TRÁI: ĐƯỜNG ĐUA THỜI GIAN THỰC (8 CỘT) -->
+        <!-- CỘT TRÁI: ĐƯỜNG ĐUA (8 CỘT) -->
         <section class="lg:col-span-8 space-y-4">
-            
-            <!-- SECTION ĐƯỜNG ĐUA -->
             <div id="track-section" class="bg-slate-900 border border-slate-800 rounded-3xl p-3 sm:p-5 shadow-2xl relative overflow-hidden transition-all duration-300">
-                
-                <!-- Bảng Trạng Thái -->
                 <div class="flex justify-between items-center mb-3 sm:mb-4 pb-2.5 sm:pb-3 border-b border-slate-800/80">
                     <div class="flex items-center gap-2 sm:gap-3">
                         <span class="relative flex h-3 w-3 sm:h-3.5 sm:w-3.5">
@@ -189,110 +195,144 @@
                     </div>
                 </div>
 
-                <!-- THANH TIÊU ĐỀ ĐƯỜNG ĐUA -->
                 <div class="flex justify-between items-center text-[10px] sm:text-[11px] font-black text-slate-500 uppercase px-1 mb-2 tracking-wider">
                     <div class="w-24 sm:w-32 flex items-center gap-1"><i class="fa-solid fa-flag"></i> Xuất Phát</div>
                     <div class="flex-1 text-center text-slate-600">Đường Đua 100M</div>
                     <div class="w-16 text-right text-rose-500 font-bold flex items-center justify-end gap-1"><i class="fa-solid fa-flag-checkered"></i> ĐÍCH</div>
                 </div>
 
-                <!-- KHU VỰC ĐƯỜNG ĐUA THỰC TẾ -->
-                <div id="track-container" class="space-y-2.5 sm:space-y-3 bg-slate-950 p-2 sm:p-4 rounded-2xl border border-slate-800/80 relative">
-                    
-                    <!-- Vạch đích chuẩn ở 90% chiều rộng khung -->
+                <div id="track-container" class="space-y-2 bg-slate-950 p-2 sm:p-3 rounded-2xl border border-slate-800/80 relative">
                     <div class="absolute right-[10%] top-0 bottom-0 w-1.5 bg-gradient-to-b from-rose-500 via-white to-rose-500 z-10 opacity-90 border-r border-l border-slate-900 shadow-[0_0_10px_rgba(244,63,94,0.5)]"></div>
 
                     <!-- Làn Đua 1 -->
-                    <div class="relative bg-slate-900/90 rounded-xl p-1.5 sm:p-2 border border-slate-800/80 flex items-center h-14 sm:h-16 group hover:border-amber-500/30 transition">
-                        <div class="w-24 sm:w-32 flex flex-col justify-center gap-0.5 z-20 shrink-0 pr-1 sm:pr-2">
+                    <div class="relative bg-slate-900/90 rounded-xl p-1.5 border border-slate-800/80 flex items-center h-12 sm:h-14 group hover:border-amber-500/30 transition">
+                        <div class="w-24 sm:w-32 flex flex-col justify-center gap-0.5 z-20 shrink-0 pr-1">
                             <div class="flex items-center gap-1">
                                 <span class="w-2 h-2 rounded-full bg-amber-400 shrink-0"></span>
-                                <span class="text-[11px] sm:text-xs font-bold text-amber-300 truncate">1. Kil'groth</span>
+                                <span class="text-[11px] font-bold text-amber-300 truncate">1. Kil'groth</span>
                             </div>
-                            <div class="w-full bg-slate-800 h-1.5 rounded-full overflow-hidden">
+                            <div class="w-full bg-slate-800 h-1 rounded-full overflow-hidden">
                                 <div class="bg-amber-400 h-full rounded-full" style="width: 90%"></div>
                             </div>
                         </div>
                         <div class="flex-1 relative h-full flex items-center overflow-hidden">
-                            <div id="horse-1" class="absolute left-0 transition-all duration-75 flex items-center gap-1 sm:gap-2 z-20">
-                                <div class="dog-facing-right text-xl sm:text-3xl filter drop-shadow">🐕</div>
-                                <span id="time-1" class="text-[9px] sm:text-[10px] bg-amber-500 text-slate-950 font-black border border-amber-300 px-1.5 sm:px-2 py-0.5 rounded-full font-mono shadow-md hidden z-30 whitespace-nowrap">0s</span>
+                            <div id="horse-1" class="absolute left-0 transition-all duration-75 flex items-center gap-1 z-20">
+                                <div class="dog-facing-right text-lg sm:text-2xl filter drop-shadow">🐕</div>
+                                <span id="time-1" class="text-[9px] bg-amber-500 text-slate-950 font-black border border-amber-300 px-1 rounded-full font-mono hidden z-30 whitespace-nowrap">0s</span>
                             </div>
                         </div>
                     </div>
 
                     <!-- Làn Đua 2 -->
-                    <div class="relative bg-slate-900/90 rounded-xl p-1.5 sm:p-2 border border-slate-800/80 flex items-center h-14 sm:h-16 group hover:border-cyan-500/30 transition">
-                        <div class="w-24 sm:w-32 flex flex-col justify-center gap-0.5 z-20 shrink-0 pr-1 sm:pr-2">
+                    <div class="relative bg-slate-900/90 rounded-xl p-1.5 border border-slate-800/80 flex items-center h-12 sm:h-14 group hover:border-cyan-500/30 transition">
+                        <div class="w-24 sm:w-32 flex flex-col justify-center gap-0.5 z-20 shrink-0 pr-1">
                             <div class="flex items-center gap-1">
                                 <span class="w-2 h-2 rounded-full bg-cyan-400 shrink-0"></span>
-                                <span class="text-[11px] sm:text-xs font-bold text-cyan-300 truncate">2. Dolia</span>
+                                <span class="text-[11px] font-bold text-cyan-300 truncate">2. Dolia</span>
                             </div>
-                            <div class="w-full bg-slate-800 h-1.5 rounded-full overflow-hidden">
+                            <div class="w-full bg-slate-800 h-1 rounded-full overflow-hidden">
                                 <div class="bg-cyan-400 h-full rounded-full" style="width: 80%"></div>
                             </div>
                         </div>
                         <div class="flex-1 relative h-full flex items-center overflow-hidden">
-                            <div id="horse-2" class="absolute left-0 transition-all duration-75 flex items-center gap-1 sm:gap-2 z-20">
-                                <div class="dog-facing-right text-xl sm:text-3xl filter drop-shadow">🐕</div>
-                                <span id="time-2" class="text-[9px] sm:text-[10px] bg-cyan-400 text-slate-950 font-black border border-cyan-200 px-1.5 sm:px-2 py-0.5 rounded-full font-mono shadow-md hidden z-30 whitespace-nowrap">0s</span>
+                            <div id="horse-2" class="absolute left-0 transition-all duration-75 flex items-center gap-1 z-20">
+                                <div class="dog-facing-right text-lg sm:text-2xl filter drop-shadow">🐕</div>
+                                <span id="time-2" class="text-[9px] bg-cyan-400 text-slate-950 font-black border border-cyan-200 px-1 rounded-full font-mono hidden z-30 whitespace-nowrap">0s</span>
                             </div>
                         </div>
                     </div>
 
                     <!-- Làn Đua 3 -->
-                    <div class="relative bg-slate-900/90 rounded-xl p-1.5 sm:p-2 border border-slate-800/80 flex items-center h-14 sm:h-16 group hover:border-purple-500/30 transition">
-                        <div class="w-24 sm:w-32 flex flex-col justify-center gap-0.5 z-20 shrink-0 pr-1 sm:pr-2">
+                    <div class="relative bg-slate-900/90 rounded-xl p-1.5 border border-slate-800/80 flex items-center h-12 sm:h-14 group hover:border-purple-500/30 transition">
+                        <div class="w-24 sm:w-32 flex flex-col justify-center gap-0.5 z-20 shrink-0 pr-1">
                             <div class="flex items-center gap-1">
                                 <span class="w-2 h-2 rounded-full bg-purple-400 shrink-0"></span>
-                                <span class="text-[11px] sm:text-xs font-bold text-purple-300 truncate">3. Billow</span>
+                                <span class="text-[11px] font-bold text-purple-300 truncate">3. Billow</span>
                             </div>
-                            <div class="w-full bg-slate-800 h-1.5 rounded-full overflow-hidden">
+                            <div class="w-full bg-slate-800 h-1 rounded-full overflow-hidden">
                                 <div class="bg-purple-400 h-full rounded-full" style="width: 75%"></div>
                             </div>
                         </div>
                         <div class="flex-1 relative h-full flex items-center overflow-hidden">
-                            <div id="horse-3" class="absolute left-0 transition-all duration-75 flex items-center gap-1 sm:gap-2 z-20">
-                                <div class="dog-facing-right text-xl sm:text-3xl filter drop-shadow">🐕</div>
-                                <span id="time-3" class="text-[9px] sm:text-[10px] bg-purple-400 text-slate-950 font-black border border-purple-200 px-1.5 sm:px-2 py-0.5 rounded-full font-mono shadow-md hidden z-30 whitespace-nowrap">0s</span>
+                            <div id="horse-3" class="absolute left-0 transition-all duration-75 flex items-center gap-1 z-20">
+                                <div class="dog-facing-right text-lg sm:text-2xl filter drop-shadow">🐕</div>
+                                <span id="time-3" class="text-[9px] bg-purple-400 text-slate-950 font-black border border-purple-200 px-1 rounded-full font-mono hidden z-30 whitespace-nowrap">0s</span>
                             </div>
                         </div>
                     </div>
 
                     <!-- Làn Đua 4 -->
-                    <div class="relative bg-slate-900/90 rounded-xl p-1.5 sm:p-2 border border-slate-800/80 flex items-center h-14 sm:h-16 group hover:border-rose-500/30 transition">
-                        <div class="w-24 sm:w-32 flex flex-col justify-center gap-0.5 z-20 shrink-0 pr-1 sm:pr-2">
+                    <div class="relative bg-slate-900/90 rounded-xl p-1.5 border border-slate-800/80 flex items-center h-12 sm:h-14 group hover:border-rose-500/30 transition">
+                        <div class="w-24 sm:w-32 flex flex-col justify-center gap-0.5 z-20 shrink-0 pr-1">
                             <div class="flex items-center gap-1">
                                 <span class="w-2 h-2 rounded-full bg-rose-400 shrink-0"></span>
-                                <span class="text-[11px] sm:text-xs font-bold text-rose-300 truncate">4. Flo</span>
+                                <span class="text-[11px] font-bold text-rose-300 truncate">4. Flo</span>
                             </div>
-                            <div class="w-full bg-slate-800 h-1.5 rounded-full overflow-hidden">
+                            <div class="w-full bg-slate-800 h-1 rounded-full overflow-hidden">
                                 <div class="bg-rose-400 h-full rounded-full" style="width: 65%"></div>
                             </div>
                         </div>
                         <div class="flex-1 relative h-full flex items-center overflow-hidden">
-                            <div id="horse-4" class="absolute left-0 transition-all duration-75 flex items-center gap-1 sm:gap-2 z-20">
-                                <div class="dog-facing-right text-xl sm:text-3xl filter drop-shadow">🐕</div>
-                                <span id="time-4" class="text-[9px] sm:text-[10px] bg-rose-400 text-slate-950 font-black border border-rose-200 px-1.5 sm:px-2 py-0.5 rounded-full font-mono shadow-md hidden z-30 whitespace-nowrap">0s</span>
+                            <div id="horse-4" class="absolute left-0 transition-all duration-75 flex items-center gap-1 z-20">
+                                <div class="dog-facing-right text-lg sm:text-2xl filter drop-shadow">🐕</div>
+                                <span id="time-4" class="text-[9px] bg-rose-400 text-slate-950 font-black border border-rose-200 px-1 rounded-full font-mono hidden z-30 whitespace-nowrap">0s</span>
                             </div>
                         </div>
                     </div>
 
                     <!-- Làn Đua 5 -->
-                    <div class="relative bg-slate-900/90 rounded-xl p-1.5 sm:p-2 border border-slate-800/80 flex items-center h-14 sm:h-16 group hover:border-emerald-500/30 transition">
-                        <div class="w-24 sm:w-32 flex flex-col justify-center gap-0.5 z-20 shrink-0 pr-1 sm:pr-2">
+                    <div class="relative bg-slate-900/90 rounded-xl p-1.5 border border-slate-800/80 flex items-center h-12 sm:h-14 group hover:border-emerald-500/30 transition">
+                        <div class="w-24 sm:w-32 flex flex-col justify-center gap-0.5 z-20 shrink-0 pr-1">
                             <div class="flex items-center gap-1">
                                 <span class="w-2 h-2 rounded-full bg-emerald-400 shrink-0"></span>
-                                <span class="text-[11px] sm:text-xs font-bold text-emerald-300 truncate">5. Bijan</span>
+                                <span class="text-[11px] font-bold text-emerald-300 truncate">5. Bijan</span>
                             </div>
-                            <div class="w-full bg-slate-800 h-1.5 rounded-full overflow-hidden">
+                            <div class="w-full bg-slate-800 h-1 rounded-full overflow-hidden">
                                 <div class="bg-emerald-400 h-full rounded-full" style="width: 55%"></div>
                             </div>
                         </div>
                         <div class="flex-1 relative h-full flex items-center overflow-hidden">
-                            <div id="horse-5" class="absolute left-0 transition-all duration-75 flex items-center gap-1 sm:gap-2 z-20">
-                                <div class="dog-facing-right text-xl sm:text-3xl filter drop-shadow">🐕</div>
-                                <span id="time-5" class="text-[9px] sm:text-[10px] bg-emerald-400 text-slate-950 font-black border border-emerald-200 px-1.5 sm:px-2 py-0.5 rounded-full font-mono shadow-md hidden z-30 whitespace-nowrap">0s</span>
+                            <div id="horse-5" class="absolute left-0 transition-all duration-75 flex items-center gap-1 z-20">
+                                <div class="dog-facing-right text-lg sm:text-2xl filter drop-shadow">🐕</div>
+                                <span id="time-5" class="text-[9px] bg-emerald-400 text-slate-950 font-black border border-emerald-200 px-1 rounded-full font-mono hidden z-30 whitespace-nowrap">0s</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Làn Đua 6 (Max) -->
+                    <div class="relative bg-slate-900/90 rounded-xl p-1.5 border border-slate-800/80 flex items-center h-12 sm:h-14 group hover:border-indigo-500/30 transition">
+                        <div class="w-24 sm:w-32 flex flex-col justify-center gap-0.5 z-20 shrink-0 pr-1">
+                            <div class="flex items-center gap-1">
+                                <span class="w-2 h-2 rounded-full bg-indigo-400 shrink-0"></span>
+                                <span class="text-[11px] font-bold text-indigo-300 truncate">6. Max</span>
+                            </div>
+                            <div class="w-full bg-slate-800 h-1 rounded-full overflow-hidden">
+                                <div class="bg-indigo-400 h-full rounded-full" style="width: 85%"></div>
+                            </div>
+                        </div>
+                        <div class="flex-1 relative h-full flex items-center overflow-hidden">
+                            <div id="horse-6" class="absolute left-0 transition-all duration-75 flex items-center gap-1 z-20">
+                                <div class="dog-facing-right text-lg sm:text-2xl filter drop-shadow">🐕</div>
+                                <span id="time-6" class="text-[9px] bg-indigo-400 text-slate-950 font-black border border-indigo-200 px-1 rounded-full font-mono hidden z-30 whitespace-nowrap">0s</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Làn Đua 7 (Zata) -->
+                    <div class="relative bg-slate-900/90 rounded-xl p-1.5 border border-slate-800/80 flex items-center h-12 sm:h-14 group hover:border-teal-500/30 transition">
+                        <div class="w-24 sm:w-32 flex flex-col justify-center gap-0.5 z-20 shrink-0 pr-1">
+                            <div class="flex items-center gap-1">
+                                <span class="w-2 h-2 rounded-full bg-teal-400 shrink-0"></span>
+                                <span class="text-[11px] font-bold text-teal-300 truncate">7. Zata</span>
+                            </div>
+                            <div class="w-full bg-slate-800 h-1 rounded-full overflow-hidden">
+                                <div class="bg-teal-400 h-full rounded-full" style="width: 70%"></div>
+                            </div>
+                        </div>
+                        <div class="flex-1 relative h-full flex items-center overflow-hidden">
+                            <div id="horse-7" class="absolute left-0 transition-all duration-75 flex items-center gap-1 z-20">
+                                <div class="dog-facing-right text-lg sm:text-2xl filter drop-shadow">🐕</div>
+                                <span id="time-7" class="text-[9px] bg-teal-400 text-slate-950 font-black border border-teal-200 px-1 rounded-full font-mono hidden z-30 whitespace-nowrap">0s</span>
                             </div>
                         </div>
                     </div>
@@ -321,77 +361,94 @@
                         Phiếu Cá Cược
                     </h2>
 
-                    <!-- 1. CHỌN CHÓ VỚI ODDS & POWER BAR MỚI -->
+                    <!-- CHỌN CHÓ -->
                     <div class="mb-4 sm:mb-5">
                         <label class="block text-xs font-bold text-slate-400 uppercase mb-2 tracking-wider">
                             1. Chọn Chiến Dũng Sĩ Về Nhất
                         </label>
-                        <div class="grid grid-cols-1 gap-2">
+                        <div class="grid grid-cols-1 gap-2 max-h-[380px] overflow-y-auto pr-1">
                             
-                            <!-- Chó 1 -->
-                            <button onclick="selectHorse(1)" id="btn-horse-1" class="horse-btn bg-slate-950 hover:bg-slate-800 border border-slate-800 p-2.5 sm:p-3 rounded-2xl text-left flex justify-between items-center transition group">
-                                <div class="flex items-center gap-2 sm:gap-3">
-                                    <span class="text-lg sm:text-xl dog-facing-right">🐕</span>
+                            <button onclick="selectHorse(1)" id="btn-horse-1" class="horse-btn bg-slate-950 hover:bg-slate-800 border border-slate-800 p-2.5 rounded-2xl text-left flex justify-between items-center transition group">
+                                <div class="flex items-center gap-2">
+                                    <span class="text-lg dog-facing-right">🐕</span>
                                     <div>
                                         <div class="font-bold text-xs text-slate-200 group-hover:text-amber-400 transition">1. Kil'groth</div>
-                                        <div class="text-[10px] text-slate-500">Thắng ~45% | Power: 90/100</div>
+                                        <div class="text-[10px] text-slate-500">70s-87s | Power: 90</div>
                                     </div>
                                 </div>
                                 <span class="text-[10px] bg-amber-500/10 text-amber-400 font-extrabold px-2 py-1 rounded-lg border border-amber-500/20">x1.5</span>
                             </button>
 
-                            <!-- Chó 2 -->
-                            <button onclick="selectHorse(2)" id="btn-horse-2" class="horse-btn bg-slate-950 hover:bg-slate-800 border border-slate-800 p-2.5 sm:p-3 rounded-2xl text-left flex justify-between items-center transition group">
-                                <div class="flex items-center gap-2 sm:gap-3">
-                                    <span class="text-lg sm:text-xl dog-facing-right">🐕</span>
+                            <button onclick="selectHorse(2)" id="btn-horse-2" class="horse-btn bg-slate-950 hover:bg-slate-800 border border-slate-800 p-2.5 rounded-2xl text-left flex justify-between items-center transition group">
+                                <div class="flex items-center gap-2">
+                                    <span class="text-lg dog-facing-right">🐕</span>
                                     <div>
                                         <div class="font-bold text-xs text-slate-200 group-hover:text-cyan-400 transition">2. Dolia</div>
-                                        <div class="text-[10px] text-slate-500">Thắng ~35% | Power: 80/100</div>
+                                        <div class="text-[10px] text-slate-500">72s-88s | Power: 80</div>
                                     </div>
                                 </div>
                                 <span class="text-[10px] bg-cyan-500/10 text-cyan-400 font-extrabold px-2 py-1 rounded-lg border border-cyan-500/20">x2.2</span>
                             </button>
 
-                            <!-- Chó 3 -->
-                            <button onclick="selectHorse(3)" id="btn-horse-3" class="horse-btn bg-slate-950 hover:bg-slate-800 border border-slate-800 p-2.5 sm:p-3 rounded-2xl text-left flex justify-between items-center transition group">
-                                <div class="flex items-center gap-2 sm:gap-3">
-                                    <span class="text-lg sm:text-xl dog-facing-right">🐕</span>
+                            <button onclick="selectHorse(3)" id="btn-horse-3" class="horse-btn bg-slate-950 hover:bg-slate-800 border border-slate-800 p-2.5 rounded-2xl text-left flex justify-between items-center transition group">
+                                <div class="flex items-center gap-2">
+                                    <span class="text-lg dog-facing-right">🐕</span>
                                     <div>
                                         <div class="font-bold text-xs text-slate-200 group-hover:text-purple-400 transition">3. Billow</div>
-                                        <div class="text-[10px] text-slate-500">Thắng ~25% | Power: 75/100</div>
+                                        <div class="text-[10px] text-slate-500">75s-92s | Power: 75</div>
                                     </div>
                                 </div>
                                 <span class="text-[10px] bg-purple-500/10 text-purple-400 font-extrabold px-2 py-1 rounded-lg border border-purple-500/20">x3.8</span>
                             </button>
 
-                            <!-- Chó 4 -->
-                            <button onclick="selectHorse(4)" id="btn-horse-4" class="horse-btn bg-slate-950 hover:bg-slate-800 border border-slate-800 p-2.5 sm:p-3 rounded-2xl text-left flex justify-between items-center transition group">
-                                <div class="flex items-center gap-2 sm:gap-3">
-                                    <span class="text-lg sm:text-xl dog-facing-right">🐕</span>
+                            <button onclick="selectHorse(4)" id="btn-horse-4" class="horse-btn bg-slate-950 hover:bg-slate-800 border border-slate-800 p-2.5 rounded-2xl text-left flex justify-between items-center transition group">
+                                <div class="flex items-center gap-2">
+                                    <span class="text-lg dog-facing-right">🐕</span>
                                     <div>
                                         <div class="font-bold text-xs text-slate-200 group-hover:text-rose-400 transition">4. Flo</div>
-                                        <div class="text-[10px] text-slate-500">Thắng ~20% | Power: 65/100</div>
+                                        <div class="text-[10px] text-slate-500">79s-95s | Power: 65</div>
                                     </div>
                                 </div>
                                 <span class="text-[10px] bg-rose-500/10 text-rose-400 font-extrabold px-2 py-1 rounded-lg border border-rose-500/20">x6.0</span>
                             </button>
 
-                            <!-- Chó 5 -->
-                            <button onclick="selectHorse(5)" id="btn-horse-5" class="horse-btn bg-slate-950 hover:bg-slate-800 border border-slate-800 p-2.5 sm:p-3 rounded-2xl text-left flex justify-between items-center transition group">
-                                <div class="flex items-center gap-2 sm:gap-3">
-                                    <span class="text-lg sm:text-xl dog-facing-right">🐕</span>
+                            <button onclick="selectHorse(5)" id="btn-horse-5" class="horse-btn bg-slate-950 hover:bg-slate-800 border border-slate-800 p-2.5 rounded-2xl text-left flex justify-between items-center transition group">
+                                <div class="flex items-center gap-2">
+                                    <span class="text-lg dog-facing-right">🐕</span>
                                     <div>
                                         <div class="font-bold text-xs text-slate-200 group-hover:text-emerald-400 transition">5. Bijan</div>
-                                        <div class="text-[10px] text-slate-500">Thắng ~9% | Power: 55/100</div>
+                                        <div class="text-[10px] text-slate-500">81s-100s | Power: 55</div>
                                     </div>
                                 </div>
                                 <span class="text-[10px] bg-emerald-500/10 text-emerald-400 font-extrabold px-2 py-1 rounded-lg border border-emerald-500/20">x12.0</span>
                             </button>
 
+                            <button onclick="selectHorse(6)" id="btn-horse-6" class="horse-btn bg-slate-950 hover:bg-slate-800 border border-slate-800 p-2.5 rounded-2xl text-left flex justify-between items-center transition group">
+                                <div class="flex items-center gap-2">
+                                    <span class="text-lg dog-facing-right">🐕</span>
+                                    <div>
+                                        <div class="font-bold text-xs text-slate-200 group-hover:text-indigo-400 transition">6. Max</div>
+                                        <div class="text-[10px] text-slate-500">72s-89s | Power: 85</div>
+                                    </div>
+                                </div>
+                                <span class="text-[10px] bg-indigo-500/10 text-indigo-400 font-extrabold px-2 py-1 rounded-lg border border-indigo-500/20">x2.0</span>
+                            </button>
+
+                            <button onclick="selectHorse(7)" id="btn-horse-7" class="horse-btn bg-slate-950 hover:bg-slate-800 border border-slate-800 p-2.5 rounded-2xl text-left flex justify-between items-center transition group">
+                                <div class="flex items-center gap-2">
+                                    <span class="text-lg dog-facing-right">🐕</span>
+                                    <div>
+                                        <div class="font-bold text-xs text-slate-200 group-hover:text-teal-400 transition">7. Zata</div>
+                                        <div class="text-[10px] text-slate-500">74s-90s | Power: 70</div>
+                                    </div>
+                                </div>
+                                <span class="text-[10px] bg-teal-500/10 text-teal-400 font-extrabold px-2 py-1 rounded-lg border border-teal-500/20">x2.8</span>
+                            </button>
+
                         </div>
                     </div>
 
-                    <!-- 2. NHẬP TIỀN CƯỢC -->
+                    <!-- NHẬP TIỀN CƯỢC -->
                     <div class="mb-4 sm:mb-5">
                         <div class="flex justify-between items-center mb-2">
                             <label class="text-xs font-bold text-slate-400 uppercase tracking-wider">2. Nhập Mức Đặt Cược</label>
@@ -403,7 +460,6 @@
                             <span class="absolute right-4 top-1/2 -translate-y-1/2 text-xs font-bold text-slate-500">VNĐ</span>
                         </div>
 
-                        <!-- CHỌN TIỀN NHANH -->
                         <div class="grid grid-cols-3 gap-2 mt-2">
                             <button onclick="setQuickBet(5000)" class="bg-slate-950 hover:bg-slate-800 text-xs font-bold py-2 rounded-xl border border-slate-800 text-slate-300 transition">5,000</button>
                             <button onclick="setQuickBet(15000)" class="bg-slate-950 hover:bg-slate-800 text-xs font-bold py-2 rounded-xl border border-slate-800 text-slate-300 transition">15,000</button>
@@ -412,7 +468,6 @@
                     </div>
                 </div>
 
-                <!-- NÚT BẮT ĐẦU ĐUA -->
                 <button id="start-btn" onclick="startRace()" class="w-full bg-gradient-to-r from-amber-500 via-orange-500 to-amber-600 hover:from-amber-400 hover:to-orange-400 text-slate-950 font-black py-3.5 sm:py-4 rounded-2xl shadow-xl shadow-amber-500/10 text-sm sm:text-base uppercase tracking-wider transition active:scale-95 flex items-center justify-center gap-2 mt-2">
                     <i class="fa-solid fa-flag-checkered text-base sm:text-lg"></i>
                     <span>BẮT ĐẦU ĐUA</span>
@@ -424,7 +479,7 @@
 
     <!-- FOOTER -->
     <footer class="bg-slate-900 border-t border-slate-800 py-4 text-center text-xs text-slate-500">
-        <p>© 2026 Game Cá Cược Đua Chó Chuyên Nghiệp - Tự động lưu dữ liệu tài khoản & số dư.</p>
+        <p>© 2026 Game Cá Cược Đua Chó Chuyên Nghiệp - Hệ thống quản lý tài khoản & nạp tiền tự động.</p>
     </footer>
 
     <!-- MODALS HỆ THỐNG -->
@@ -478,7 +533,7 @@
         <div class="bg-slate-900 border border-slate-800 rounded-3xl p-5 sm:p-6 w-full max-w-md shadow-2xl space-y-4 relative">
             <div class="flex justify-between items-center border-b border-slate-800 pb-3">
                 <h3 class="text-sm sm:text-base font-black text-amber-400 flex items-center gap-2">
-                    <i class="fa-solid fa-user-gear"></i> Thông Tin Tài Khoản DB
+                    <i class="fa-solid fa-user-gear"></i> Thông Tin Tài Khoản
                 </h3>
                 <button onclick="closeProfileModal()" class="text-slate-500 hover:text-white transition"><i class="fa-solid fa-xmark text-lg"></i></button>
             </div>
@@ -493,7 +548,7 @@
                     <span id="prof-email" class="font-bold text-slate-200 truncate ml-2"></span>
                 </div>
                 <div class="bg-slate-950 p-3 rounded-2xl border border-slate-800 flex justify-between">
-                    <span class="text-slate-400">Số dư trong DB:</span>
+                    <span class="text-slate-400">Số dư hiện tại:</span>
                     <span id="prof-balance" class="font-bold text-emerald-400"></span>
                 </div>
             </div>
@@ -502,40 +557,169 @@
         </div>
     </div>
 
-    <!-- MODAL NẠP TIỀN -->
+    <!-- MODAL NẠP TIỀN CẢI TIẾN: BẮT BUỘC UPLOAD PROOF & TẠO QR -->
     <div id="deposit-modal" class="fixed inset-0 bg-black/80 backdrop-blur-md z-50 flex items-center justify-center hidden p-4">
-        <div class="bg-slate-900 border border-slate-800 rounded-3xl p-5 sm:p-6 w-full max-w-md shadow-2xl space-y-4 relative">
+        <div class="bg-slate-900 border border-slate-800 rounded-3xl p-5 sm:p-6 w-full max-w-md shadow-2xl space-y-4 relative max-h-[90vh] overflow-y-auto">
             <div class="flex justify-between items-center border-b border-slate-800 pb-3">
                 <h3 class="text-sm sm:text-base font-black text-amber-400 flex items-center gap-2">
-                    <i class="fa-solid fa-wallet"></i> Nạp Tiền Vào Ví DB
+                    <i class="fa-solid fa-wallet"></i> Nạp Tiền Vào Tài Khoản
                 </h3>
                 <button onclick="closeDepositModal()" class="text-slate-500 hover:text-white transition"><i class="fa-solid fa-xmark text-lg"></i></button>
             </div>
             
-            <div>
-                <label class="block text-xs font-bold text-slate-400 uppercase mb-2">Số tiền muốn nạp (VNĐ)</label>
-                <input type="number" id="deposit-input" value="10000" min="5000" step="5000" class="w-full bg-slate-950 border border-slate-800 rounded-2xl px-4 py-3 text-emerald-400 font-bold text-base sm:text-lg focus:outline-none focus:border-emerald-500 transition">
+            <!-- CHỌN PHƯƠNG THỨC -->
+            <div class="grid grid-cols-2 gap-2 bg-slate-950 p-1 rounded-2xl border border-slate-800">
+                <button id="dep-tab-qr" onclick="switchDepositType('qr')" class="py-2 text-xs font-black rounded-xl bg-amber-500 text-slate-950 transition">
+                    <i class="fa-solid fa-qrcode"></i> Mã VietQR
+                </button>
+                <button id="dep-tab-cash" onclick="switchDepositType('cash')" class="py-2 text-xs font-bold text-slate-400 hover:text-white transition">
+                    <i class="fa-solid fa-money-bill-wave"></i> Tiền mặt
+                </button>
             </div>
 
-            <div class="flex gap-3">
-                <button onclick="closeDepositModal()" class="w-1/2 bg-slate-800 hover:bg-slate-700 py-2.5 rounded-2xl font-bold text-xs text-slate-300 transition">HỦY BỎ</button>
-                <button onclick="confirmDeposit()" class="w-1/2 bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-black py-2.5 rounded-2xl text-xs shadow-lg shadow-emerald-500/20 transition">XÁC NHẬN NẠP</button>
+            <!-- PHẦN NHẬP SỐ TIỀN -->
+            <div>
+                <label class="block text-xs font-bold text-slate-400 uppercase mb-2">Số tiền muốn nạp (VNĐ)</label>
+                <input type="number" id="deposit-input" value="50000" min="10000" step="10000" class="w-full bg-slate-950 border border-slate-800 rounded-2xl px-4 py-3 text-emerald-400 font-bold text-base sm:text-lg focus:outline-none focus:border-emerald-500 transition">
+            </div>
+
+            <!-- PHƯƠNG THỨC 1: VIETQR -->
+            <div id="dep-view-qr" class="space-y-3">
+                
+                <!-- BƯỚC 1: NÚT TẠO MÃ QR -->
+                <button id="generate-qr-btn" onclick="generateQR()" class="w-full bg-amber-500 hover:bg-amber-400 text-slate-950 font-black py-3 rounded-2xl text-xs shadow-lg shadow-amber-500/20 transition">
+                    <i class="fa-solid fa-qrcode"></i> TẠO MÃ QR THANH TOÁN
+                </button>
+
+                <!-- BƯỚC 2: HIỂN THỊ MÃ QR VÀ UPLOAD CHỨNG NHẬN -->
+                <div id="qr-display-container" class="space-y-3 hidden">
+                    <div class="bg-slate-950 p-3 rounded-2xl border border-slate-800 flex flex-col items-center justify-center">
+                        <p class="text-[11px] text-slate-400 font-medium mb-2">Quét mã QR qua ứng dụng Ngân hàng:</p>
+                        <img id="vietqr-img" src="" alt="Mã VietQR Chuyển Tiền" class="w-48 h-48 rounded-xl border-2 border-amber-400/50 shadow-lg object-contain bg-white p-1">
+                        <div class="text-[10px] text-slate-400 mt-2 text-center">
+                            <p class="font-bold text-amber-400">BIDV - 8893012754</p>
+                            <p class="font-bold text-slate-300">BUI DUY MANH</p>
+                        </div>
+                    </div>
+
+                    <!-- Ô UPLOAD MÀN HÌNH CHUYỂN TIỀN -->
+                    <div class="bg-slate-950 p-3 rounded-2xl border border-slate-800 space-y-2">
+                        <label class="block text-[11px] font-bold text-amber-400 uppercase">
+                            <i class="fa-solid fa-camera"></i> Chứng nhận nạp tiền (Bắt buộc)
+                        </label>
+                        <input type="file" id="deposit-proof-input" accept="image/*" onchange="handleProofUpload(event)" class="hidden">
+                        <button onclick="document.getElementById('deposit-proof-input').click()" class="w-full bg-slate-900 border-2 border-dashed border-slate-700 hover:border-amber-400 text-slate-400 p-3 rounded-xl text-xs font-bold transition flex items-center justify-center gap-2">
+                            <i class="fa-solid fa-upload"></i>
+                            <span id="proof-filename">Tải ảnh bill chuyển tiền lên...</span>
+                        </button>
+                        <img id="proof-preview" class="w-full max-h-32 object-contain rounded-lg hidden border border-slate-800 mt-2">
+                    </div>
+
+                    <button id="confirm-qr-btn" disabled onclick="confirmQRDeposit()" class="w-full bg-slate-800 text-slate-500 font-black py-3 rounded-2xl text-xs transition cursor-not-allowed">
+                        ĐÃ CHUYỂN TIỀN
+                    </button>
+                </div>
+
+            </div>
+
+            <!-- PHƯƠNG THỨC 2: TIỀN MẶT -->
+            <div id="dep-view-cash" class="space-y-3 hidden">
+                <div class="bg-slate-950 p-3 rounded-2xl border border-slate-800 text-xs text-slate-300 space-y-2">
+                    <p class="text-amber-400 font-bold"><i class="fa-solid fa-circle-info"></i> Quy trình nạp tiền mặt:</p>
+                    <p>1. Nhập số tiền mặt và gửi yêu cầu.</p>
+                    <p>2. Admin nhận thông báo Pop-up xác nhận trực tiếp.</p>
+                    <p>3. Khi Admin bấm <span class="text-emerald-400 font-bold">Xác nhận</span>, số dư sẽ tự động cộng vào tài khoản của bạn.</p>
+                </div>
+                <button onclick="submitCashDepositRequest()" class="w-full bg-amber-500 hover:bg-amber-400 text-slate-950 font-black py-3 rounded-2xl text-xs shadow-lg shadow-amber-500/20 transition">
+                    GỬI YÊU CẦU NẠP TIỀN MẶT
+                </button>
             </div>
         </div>
     </div>
 
-    <!-- JAVASCRIPT & LOGIC NÂNG CẤP HOÀN CHỈNH -->
+    <!-- MODAL ADMIN PANEL -->
+    <div id="admin-modal" class="fixed inset-0 bg-black/80 backdrop-blur-md z-50 flex items-center justify-center hidden p-4">
+        <div class="bg-slate-900 border border-slate-800 rounded-3xl p-5 sm:p-6 w-full max-w-2xl shadow-2xl space-y-5 relative max-h-[90vh] overflow-y-auto">
+            <div class="flex justify-between items-center border-b border-slate-800 pb-3">
+                <h3 class="text-base font-black text-rose-500 flex items-center gap-2">
+                    <i class="fa-solid fa-user-shield"></i> BẢNG QUẢN TRỊ ADMIN
+                </h3>
+                <button onclick="closeAdminModal()" class="text-slate-500 hover:text-white transition"><i class="fa-solid fa-xmark text-lg"></i></button>
+            </div>
+
+            <!-- TAB 1: YÊU CẦU NẠP TIỀN XÁC NHẬN -->
+            <div>
+                <h4 class="text-xs font-black text-amber-400 uppercase mb-2 tracking-wider flex items-center gap-2">
+                    <i class="fa-solid fa-clock-rotate-left"></i> Yêu cầu nạp tiền chờ duyệt
+                </h4>
+                <div id="admin-cash-requests" class="space-y-2 max-h-56 overflow-y-auto pr-1">
+                    <!-- Dynamic requests -->
+                </div>
+            </div>
+
+            <!-- TAB 2: DANH SÁCH TÀI KHOẢN -->
+            <div>
+                <h4 class="text-xs font-black text-slate-400 uppercase mb-2 tracking-wider flex items-center gap-2">
+                    <i class="fa-solid fa-users"></i> Danh sách tất cả tài khoản trong hệ thống
+                </h4>
+                <div class="overflow-x-auto rounded-2xl border border-slate-800">
+                    <table class="w-full text-left text-xs text-slate-300">
+                        <thead class="bg-slate-950 text-slate-400 uppercase text-[10px] border-b border-slate-800">
+                            <tr>
+                                <th class="p-2.5">Tài khoản</th>
+                                <th class="p-2.5">Email</th>
+                                <th class="p-2.5">Số dư</th>
+                            </tr>
+                        </thead>
+                        <tbody id="admin-users-table" class="divide-y divide-slate-800/60 bg-slate-900/50">
+                            <!-- Dynamic user rows -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <button onclick="closeAdminModal()" class="w-full bg-slate-800 hover:bg-slate-700 py-2.5 rounded-2xl font-bold text-xs text-slate-300 transition">ĐÓNG PANEL</button>
+        </div>
+    </div>
+
+    <!-- JAVASCRIPT LOGIC -->
     <script>
         const DB_USERS_KEY = 'DOG_RACE_USERS_DB';
         const DB_CURRENT_SESSION_KEY = 'DOG_RACE_CURRENT_USER';
+        const DB_CASH_REQUESTS_KEY = 'DOG_RACE_CASH_REQUESTS';
+
+        // THÔNG TIN TÀI KHOẢN ADMIN DMANHZ
+        const ADMIN_USERNAME = "dmanhz";
+        const ADMIN_EMAIL = "dmanhz@gmail.com";
+        const ADMIN_PASS = "dmanhz@9999";
 
         function getUsersDB() {
             const data = localStorage.getItem(DB_USERS_KEY);
-            return data ? JSON.parse(data) : {};
+            let db = data ? JSON.parse(data) : {};
+            
+            // Luôn ghi đè hoặc bổ sung tài khoản Admin chính xác
+            db[ADMIN_USERNAME] = {
+                username: ADMIN_USERNAME,
+                email: ADMIN_EMAIL,
+                password: ADMIN_PASS,
+                balance: db[ADMIN_USERNAME]?.balance ?? 999999999,
+                isAdmin: true
+            };
+            saveUsersDB(db);
+            return db;
         }
 
         function saveUsersDB(usersObj) {
             localStorage.setItem(DB_USERS_KEY, JSON.stringify(usersObj));
+        }
+
+        function getCashRequests() {
+            const data = localStorage.getItem(DB_CASH_REQUESTS_KEY);
+            return data ? JSON.parse(data) : [];
+        }
+
+        function saveCashRequests(reqs) {
+            localStorage.setItem(DB_CASH_REQUESTS_KEY, JSON.stringify(reqs));
         }
 
         function getCurrentUserSession() {
@@ -550,48 +734,51 @@
             }
         }
 
-        // CẤU HÌNH BIẾN GAME
         let currentUser = null;
         const MIN_BET = 5000; 
         const INITIAL_BALANCE = 15000; 
         let selectedHorse = null;
         let isRacing = false;
+        let currentDepositType = 'qr';
+        let uploadedProofBase64 = null;
 
-        // CẤU HÌNH THEO YÊU CẦU MỚI BẢNG HÌNH ĐÃ CHO
+        // CẤU HÌNH BỔ SUNG THÊM 2 CHÓ: MAX VÀ ZATA
         const horses = {
-            1: { name: "Kil'groth", elementId: "horse-1", timeId: "time-1", minT: 70, maxT: 85, odds: 1.5 },
-            2: { name: "Dolia", elementId: "horse-2", timeId: "time-2", minT: 73, maxT: 88, odds: 2.2 },
+            1: { name: "Kil'groth", elementId: "horse-1", timeId: "time-1", minT: 70, maxT: 87, odds: 1.5 },
+            2: { name: "Dolia", elementId: "horse-2", timeId: "time-2", minT: 72, maxT: 88, odds: 2.2 },
             3: { name: "Billow", elementId: "horse-3", timeId: "time-3", minT: 75, maxT: 92, odds: 3.8 },
-            4: { name: "Flo", elementId: "horse-4", timeId: "time-4", minT: 78, maxT: 95, odds: 6.0 },
-            5: { name: "Bijan", elementId: "horse-5", timeId: "time-5", minT: 81, maxT: 100, odds: 12.0 }
+            4: { name: "Flo", elementId: "horse-4", timeId: "time-4", minT: 79, maxT: 95, odds: 6.0 },
+            5: { name: "Bijan", elementId: "horse-5", timeId: "time-5", minT: 81, maxT: 100, odds: 12.0 },
+            6: { name: "Max", elementId: "horse-6", timeId: "time-6", minT: 72, maxT: 89, odds: 2.0 },
+            7: { name: "Zata", elementId: "horse-7", timeId: "time-7", minT: 74, maxT: 90, odds: 2.8 }
         };
 
         window.addEventListener('DOMContentLoaded', () => {
+            const db = getUsersDB(); // Khởi tạo DB & Admin
             const savedUsername = getCurrentUserSession();
-            if (savedUsername) {
-                const db = getUsersDB();
-                if (db[savedUsername]) {
-                    currentUser = db[savedUsername];
-                    updateAuthUI();
-                }
+            if (savedUsername && db[savedUsername]) {
+                currentUser = db[savedUsername];
+                updateAuthUI();
             }
             updateBalanceDisplay();
+            
+            window.addEventListener('storage', (e) => {
+                if (e.key === DB_CASH_REQUESTS_KEY && currentUser && currentUser.isAdmin) {
+                    checkPendingRequestsForAdmin();
+                }
+            });
         });
 
         function handleRegister(e) {
             e.preventDefault();
-            const usernameInput = document.getElementById('reg-username');
-            const emailInput = document.getElementById('reg-email');
-            const passwordInput = document.getElementById('reg-password');
-
-            const username = usernameInput.value.trim();
-            const email = emailInput.value.trim();
-            const password = passwordInput.value;
+            const username = document.getElementById('reg-username').value.trim();
+            const email = document.getElementById('reg-email').value.trim();
+            const password = document.getElementById('reg-password').value;
 
             const db = getUsersDB();
 
             if (db[username]) {
-                alert("❌ Tên tài khoản này đã tồn tại trong Database!");
+                alert("❌ Tên tài khoản này đã tồn tại trong Hệ thống!");
                 return;
             }
 
@@ -607,7 +794,6 @@
             setCurrentUserSession(username);
 
             document.getElementById('form-register').reset();
-
             updateAuthUI();
             closeAuthModal();
             playBeep(880, 'sine', 0.2);
@@ -616,11 +802,8 @@
 
         function handleLogin(e) {
             e.preventDefault();
-            const usernameInput = document.getElementById('login-username');
-            const passwordInput = document.getElementById('login-password');
-
-            const username = usernameInput.value.trim();
-            const password = passwordInput.value;
+            const username = document.getElementById('login-username').value.trim();
+            const password = document.getElementById('login-password').value;
 
             const db = getUsersDB();
 
@@ -633,10 +816,13 @@
             setCurrentUserSession(username);
 
             document.getElementById('form-login').reset();
-
             updateAuthUI();
             closeAuthModal();
             playBeep(880, 'sine', 0.2);
+
+            if (currentUser.isAdmin) {
+                checkPendingRequestsForAdmin();
+            }
         }
 
         function logout() {
@@ -667,15 +853,23 @@
         }
 
         function updateAuthUI() {
+            const adminBtn = document.getElementById('admin-panel-btn');
             if (currentUser) {
                 document.getElementById('guest-view').classList.add('hidden');
                 document.getElementById('user-view').classList.remove('hidden');
                 document.getElementById('user-display-name').innerText = currentUser.username;
                 document.getElementById('dropdown-username').innerText = currentUser.username;
                 document.getElementById('dropdown-email').innerText = currentUser.email;
+
+                if (currentUser.isAdmin) {
+                    adminBtn.classList.remove('hidden');
+                } else {
+                    adminBtn.classList.add('hidden');
+                }
             } else {
                 document.getElementById('guest-view').classList.remove('hidden');
                 document.getElementById('user-view').classList.add('hidden');
+                adminBtn.classList.add('hidden');
             }
             updateBalanceDisplay();
         }
@@ -704,9 +898,7 @@
             switchAuthTab(tab);
         }
 
-        function closeAuthModal() { 
-            document.getElementById('auth-modal').classList.add('hidden'); 
-        }
+        function closeAuthModal() { document.getElementById('auth-modal').classList.add('hidden'); }
 
         function switchAuthTab(tab) {
             const formLogin = document.getElementById('form-login');
@@ -742,29 +934,269 @@
 
         function closeProfileModal() { document.getElementById('profile-modal').classList.add('hidden'); }
 
+        // --- TÍNH NĂNG NẠP TIỀN CẢI TIẾN VIETQR VÀ TIỀN MẶT ---
         function openDepositModal() {
             if (!currentUser) {
                 alert("⚠️ Vui lòng Đăng nhập tài khoản trước khi nạp tiền!");
                 openAuthModal('login');
                 return;
             }
+            resetDepositModal();
             document.getElementById('deposit-modal').classList.remove('hidden');
         }
 
         function closeDepositModal() { document.getElementById('deposit-modal').classList.add('hidden'); }
 
-        function confirmDeposit() {
-            const amount = parseInt(document.getElementById('deposit-input').value);
-            if (isNaN(amount) || amount <= 0) {
-                alert("⚠️ Số tiền nạp không hợp lệ!");
+        function resetDepositModal() {
+            document.getElementById('qr-display-container').classList.add('hidden');
+            document.getElementById('generate-qr-btn').classList.remove('hidden');
+            document.getElementById('deposit-proof-input').value = '';
+            document.getElementById('proof-filename').innerText = 'Tải ảnh bill chuyển tiền lên...';
+            document.getElementById('proof-preview').classList.add('hidden');
+            uploadedProofBase64 = null;
+            disableConfirmBtn();
+        }
+
+        function switchDepositType(type) {
+            currentDepositType = type;
+            const btnQr = document.getElementById('dep-tab-qr');
+            const btnCash = document.getElementById('dep-tab-cash');
+            const viewQr = document.getElementById('dep-view-qr');
+            const viewCash = document.getElementById('dep-view-cash');
+
+            if (type === 'qr') {
+                btnQr.className = "py-2 text-xs font-black rounded-xl bg-amber-500 text-slate-950 transition";
+                btnCash.className = "py-2 text-xs font-bold text-slate-400 hover:text-white transition";
+                viewQr.classList.remove('hidden');
+                viewCash.classList.add('hidden');
+            } else {
+                btnCash.className = "py-2 text-xs font-black rounded-xl bg-amber-500 text-slate-950 transition";
+                btnQr.className = "py-2 text-xs font-bold text-slate-400 hover:text-white transition";
+                viewCash.classList.remove('hidden');
+                viewQr.classList.add('hidden');
+            }
+        }
+
+        function generateQR() {
+            const amount = parseInt(document.getElementById('deposit-input').value) || 0;
+            if (amount < 10000) {
+                alert("⚠️ Số tiền nạp tối thiểu là 10,000 VNĐ!");
                 return;
             }
-            currentUser.balance += amount;
-            syncBalanceToDB();
-            updateBalanceDisplay();
+            const bankId = "BIDV";
+            const accountNo = "8893012754";
+            const accountName = encodeURIComponent("BUI DUY MANH");
+            const content = encodeURIComponent(`NAP ${currentUser ? currentUser.username : ''}`);
+            const template = "compact";
+
+            const qrUrl = `https://img.vietqr.io/image/${bankId}-${accountNo}-${template}.png?amount=${amount}&addInfo=${content}&accountName=${accountName}`;
+            document.getElementById('vietqr-img').src = qrUrl;
+
+            document.getElementById('generate-qr-btn').classList.add('hidden');
+            document.getElementById('qr-display-container').classList.remove('hidden');
+        }
+
+        function handleProofUpload(e) {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            document.getElementById('proof-filename').innerText = file.name;
+            const reader = new FileReader();
+            reader.onload = function(evt) {
+                uploadedProofBase64 = evt.target.result;
+                const preview = document.getElementById('proof-preview');
+                preview.src = uploadedProofBase64;
+                preview.classList.remove('hidden');
+                enableConfirmBtn();
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function enableConfirmBtn() {
+            const btn = document.getElementById('confirm-qr-btn');
+            btn.disabled = false;
+            btn.className = "w-full bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-black py-3 rounded-2xl text-xs shadow-lg shadow-emerald-500/20 transition cursor-pointer";
+        }
+
+        function disableConfirmBtn() {
+            const btn = document.getElementById('confirm-qr-btn');
+            btn.disabled = true;
+            btn.className = "w-full bg-slate-800 text-slate-500 font-black py-3 rounded-2xl text-xs transition cursor-not-allowed";
+        }
+
+        function confirmQRDeposit() {
+            const amount = parseInt(document.getElementById('deposit-input').value);
+            if (!uploadedProofBase64) {
+                alert("⚠️ Vui lòng chụp màn hình và tải bill chứng nhận chuyển tiền!");
+                return;
+            }
+
+            // Gửi yêu cầu chuyển VietQR tới Admin để duyệt
+            const reqs = getCashRequests();
+            const newReq = {
+                id: Date.now(),
+                username: currentUser.username,
+                amount: amount,
+                type: 'VIETQR',
+                proof: uploadedProofBase64,
+                time: new Date().toLocaleTimeString('vi-VN')
+            };
+
+            reqs.push(newReq);
+            saveCashRequests(reqs);
+
             closeDepositModal();
-            playBeep(880, 'triangle', 0.2);
-            alert(`✅ Đã nạp thành công +${formatMoney(amount)} vào tài khoản [${currentUser.username}]!`);
+            playBeep(880, 'sine', 0.2);
+
+            // THÔNG BÁO HIGHLIGHT DẠNG BANNER NỔI
+            showHighlightNotice("tiền của bạn sẽ được nạp vào trong ít giây nữa");
+
+            if (currentUser.isAdmin) {
+                checkPendingRequestsForAdmin();
+            }
+        }
+
+        function showHighlightNotice(text) {
+            const banner = document.getElementById('result-banner');
+            const bannerContent = document.getElementById('banner-content');
+            const bannerIcon = document.getElementById('banner-icon');
+            const bannerTitle = document.getElementById('banner-title');
+            const bannerSub = document.getElementById('banner-sub');
+
+            bannerContent.className = "p-4 rounded-2xl border-2 border-amber-400 bg-slate-900/95 text-amber-400 shadow-[0_0_30px_rgba(245,158,11,0.5)] backdrop-blur-xl flex items-center justify-between";
+            bannerIcon.innerHTML = "⌛";
+            bannerTitle.innerText = "YÊU CẦU NẠP TIỀN ĐÃ GỬI";
+            bannerSub.innerText = text;
+
+            banner.classList.remove('-translate-y-32', 'opacity-0', 'pointer-events-none');
+            banner.classList.add('translate-y-0', 'opacity-100');
+
+            setTimeout(() => { closeResultBanner(); }, 6000);
+        }
+
+        function submitCashDepositRequest() {
+            const amount = parseInt(document.getElementById('deposit-input').value);
+            if (isNaN(amount) || amount < 10000) {
+                alert("⚠️ Số tiền nạp tối thiểu là 10,000 VNĐ!");
+                return;
+            }
+
+            const reqs = getCashRequests();
+            const newReq = {
+                id: Date.now(),
+                username: currentUser.username,
+                amount: amount,
+                type: 'TIỀN MẶT',
+                proof: null,
+                time: new Date().toLocaleTimeString('vi-VN')
+            };
+
+            reqs.push(newReq);
+            saveCashRequests(reqs);
+
+            closeDepositModal();
+            playBeep(600, 'sine', 0.2);
+            showHighlightNotice("yêu cầu nạp tiền mặt đã gửi, tiền của bạn sẽ được nạp vào trong ít giây nữa");
+
+            if (currentUser.isAdmin) {
+                checkPendingRequestsForAdmin();
+            }
+        }
+
+        // --- BẢNG QUẢN TRỊ ADMIN PANEL ---
+        function openAdminModal() {
+            if (!currentUser || !currentUser.isAdmin) return;
+            renderAdminPanelData();
+            document.getElementById('admin-modal').classList.remove('hidden');
+        }
+
+        function closeAdminModal() {
+            document.getElementById('admin-modal').classList.add('hidden');
+        }
+
+        function renderAdminPanelData() {
+            const reqs = getCashRequests();
+            const reqContainer = document.getElementById('admin-cash-requests');
+
+            if (reqs.length === 0) {
+                reqContainer.innerHTML = `<div class="text-xs text-slate-500 italic p-3 bg-slate-950 rounded-xl text-center">Không có yêu cầu nạp tiền nào chờ duyệt.</div>`;
+            } else {
+                reqContainer.innerHTML = reqs.map(r => `
+                    <div class="bg-slate-950 p-3 rounded-2xl border border-slate-800 flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2 text-xs">
+                        <div>
+                            <span class="font-bold text-amber-400">${r.username}</span>
+                            <span class="text-slate-400"> nạp </span>
+                            <span class="font-bold text-emerald-400">${formatMoney(r.amount)}</span>
+                            <span class="text-[10px] bg-slate-800 px-1.5 py-0.5 rounded text-amber-300 font-bold ml-1">${r.type || 'TIỀN MẶT'}</span>
+                            <div class="text-[10px] text-slate-500 mt-0.5">${r.time}</div>
+                            ${r.proof ? `<a href="${r.proof}" target="_blank" class="text-[10px] text-cyan-400 underline font-bold mt-1 inline-block"><i class="fa-solid fa-image"></i> Xem Bill Chứng Nhận</a>` : ''}
+                        </div>
+                        <button onclick="approveDepositRequest(${r.id})" class="bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-black px-3 py-1.5 rounded-xl transition">
+                            DUYỆT NẠP
+                        </button>
+                    </div>
+                `).join('');
+            }
+
+            const db = getUsersDB();
+            const tableBody = document.getElementById('admin-users-table');
+            tableBody.innerHTML = Object.values(db).map(u => `
+                <tr class="hover:bg-slate-800/30 transition">
+                    <td class="p-2.5 font-bold ${u.isAdmin ? 'text-rose-400' : 'text-amber-400'}">
+                        ${u.username} ${u.isAdmin ? '<span class="text-[9px] bg-rose-500/20 text-rose-300 px-1.5 py-0.5 rounded border border-rose-500/30 ml-1">ADMIN</span>' : ''}
+                    </td>
+                    <td class="p-2.5 text-slate-400">${u.email}</td>
+                    <td class="p-2.5 font-bold text-emerald-400">${formatMoney(u.balance)}</td>
+                </tr>
+            `).join('');
+        }
+
+        function approveDepositRequest(reqId) {
+            let reqs = getCashRequests();
+            const req = reqs.find(r => r.id === reqId);
+            if (!req) return;
+
+            const db = getUsersDB();
+            if (db[req.username]) {
+                db[req.username].balance += req.amount;
+                saveUsersDB(db);
+
+                if (currentUser && currentUser.username === req.username) {
+                    currentUser.balance = db[req.username].balance;
+                    updateBalanceDisplay();
+                }
+            }
+
+            reqs = reqs.filter(r => r.id !== reqId);
+            saveCashRequests(reqs);
+
+            renderAdminPanelData();
+            closeAdminNotify();
+            playBeep(880, 'sine', 0.2);
+            alert(`✅ Đã phê duyệt +${formatMoney(req.amount)} cho [${req.username}]!`);
+        }
+
+        function checkPendingRequestsForAdmin() {
+            if (!currentUser || !currentUser.isAdmin) return;
+            const reqs = getCashRequests();
+            if (reqs.length > 0) {
+                const latest = reqs[reqs.length - 1];
+                const notifyPopup = document.getElementById('admin-notify-popup');
+                const notifyText = document.getElementById('admin-notify-text');
+                const approveBtn = document.getElementById('admin-notify-approve-btn');
+
+                notifyText.innerText = `[${latest.username}] gửi yêu cầu nạp ${formatMoney(latest.amount)} (${latest.type || 'TIỀN MẶT'})`;
+                approveBtn.onclick = () => approveDepositRequest(latest.id);
+
+                notifyPopup.classList.remove('translate-y-40', 'opacity-0', 'pointer-events-none');
+                notifyPopup.classList.add('translate-y-0', 'opacity-100');
+            }
+        }
+
+        function closeAdminNotify() {
+            const notifyPopup = document.getElementById('admin-notify-popup');
+            notifyPopup.classList.remove('translate-y-0', 'opacity-100');
+            notifyPopup.classList.add('translate-y-40', 'opacity-0', 'pointer-events-none');
         }
 
         function setQuickBet(amount) { document.getElementById('bet-amount').value = amount; }
@@ -776,31 +1208,25 @@
 
             document.querySelectorAll('.horse-btn').forEach((btn, idx) => {
                 if (idx + 1 === horseId) {
-                    btn.className = 'horse-btn bg-slate-800 border-2 border-amber-400 p-2.5 sm:p-3 rounded-2xl text-left flex justify-between items-center transition shadow-lg shadow-amber-500/10';
+                    btn.className = 'horse-btn bg-slate-800 border-2 border-amber-400 p-2.5 rounded-2xl text-left flex justify-between items-center transition shadow-lg shadow-amber-500/10';
                 } else {
-                    btn.className = 'horse-btn bg-slate-950 hover:bg-slate-800 border border-slate-800 p-2.5 sm:p-3 rounded-2xl text-left flex justify-between items-center transition group';
+                    btn.className = 'horse-btn bg-slate-950 hover:bg-slate-800 border border-slate-800 p-2.5 rounded-2xl text-left flex justify-between items-center transition group';
                 }
             });
         }
 
-        // HÀM TỰ ĐỘNG CUỘN ĐẾN VỊ TRÍ + HIGHLIGHT VIỀN
         function scrollToSection(elementId, highlightClass) {
             const el = document.getElementById(elementId);
             if (!el) return;
 
             el.scrollIntoView({ behavior: 'smooth', block: 'center' });
-            
-            // Thêm hiệu ứng highlight
             el.classList.remove('highlight-border-gold', 'highlight-border-green', 'highlight-border-red');
-            void el.offsetWidth; // Force Reflow
+            void el.offsetWidth; 
             el.classList.add(highlightClass);
 
-            setTimeout(() => {
-                el.classList.remove(highlightClass);
-            }, 2500);
+            setTimeout(() => { el.classList.remove(highlightClass); }, 2500);
         }
 
-        // BANNER HIỂN THỊ THẮNG / THUA NỔI BẬT
         function showResultBanner(isWin, amount, winnerName) {
             const banner = document.getElementById('result-banner');
             const bannerContent = document.getElementById('banner-content');
@@ -823,9 +1249,7 @@
             banner.classList.remove('-translate-y-32', 'opacity-0', 'pointer-events-none');
             banner.classList.add('translate-y-0', 'opacity-100');
 
-            setTimeout(() => {
-                closeResultBanner();
-            }, 5000);
+            setTimeout(() => { closeResultBanner(); }, 5000);
         }
 
         function closeResultBanner() {
@@ -834,7 +1258,6 @@
             banner.classList.add('-translate-y-32', 'opacity-0', 'pointer-events-none');
         }
 
-        // BẮT ĐẦU CUỘC ĐUA
         function startRace() {
             if (isRacing) return;
 
@@ -864,10 +1287,9 @@
             document.getElementById('start-btn').disabled = true;
             document.getElementById('start-btn').classList.add('opacity-50', 'cursor-not-allowed');
 
-            // CUỘN ĐẾN KHU VỰC ĐƯỜNG ĐUA & HIGHLIGHT
             scrollToSection('track-section', 'highlight-border-gold');
 
-            for (let i = 1; i <= 5; i++) {
+            for (let i = 1; i <= 7; i++) {
                 const hEl = document.getElementById(horses[i].elementId);
                 const tEl = document.getElementById(horses[i].timeId);
                 hEl.style.left = '0%';
@@ -904,13 +1326,12 @@
             }, 1000);
         }
 
-        // LOGIC MÔ PHỎNG ĐƯỢC KÉO DÀI THỜI GIAN LÊN 10 GIÂY ĐỂ TĂNG KỊCH TÍNH
         function runRaceLogic(betAmount) {
             const raceResults = {};
             let minTime = 999;
             let winnerId = null;
 
-            for (let i = 1; i <= 5; i++) {
+            for (let i = 1; i <= 7; i++) {
                 const cfg = horses[i];
                 const randomTime = Math.floor(Math.random() * (cfg.maxT - cfg.minT + 1)) + cfg.minT;
                 raceResults[i] = randomTime;
@@ -920,11 +1341,10 @@
                 }
             }
 
-            // Thời gian chạy mô phỏng 10 giây (10000ms) giúp kịch tính
             const SIMULATION_DURATION = 10000; 
             const startTime = Date.now();
 
-            for (let i = 1; i <= 5; i++) {
+            for (let i = 1; i <= 7; i++) {
                 const hEl = document.getElementById(horses[i].elementId);
                 hEl.classList.add('running', 'dust-cloud');
             }
@@ -933,14 +1353,10 @@
                 const elapsedTime = Date.now() - startTime;
                 const progressRatio = Math.min(elapsedTime / SIMULATION_DURATION, 1);
 
-                for (let i = 1; i <= 5; i++) {
+                for (let i = 1; i <= 7; i++) {
                     const hEl = document.getElementById(horses[i].elementId);
-                    // Tỉ lệ tốc độ dựa trên số giây random của chó
                     const speedFactor = 70 / raceResults[i]; 
-                    
-                    // Điểm cán đích tối đa là 87% (Mép vạch đích màu đỏ)
                     const currentProgress = Math.min(progressRatio * (speedFactor * 87), 87);
-
                     hEl.style.left = `${currentProgress}%`;
                 }
 
@@ -951,10 +1367,8 @@
             }, 30);
         }
 
-        // KHI CÁN ĐÍCH HOÀN THÀNH
         function finishRace(raceResults, winnerId, betAmount) {
-            // Cho cả 5 chú chó đẩy hẳn vào vạch đích 87%
-            for (let i = 1; i <= 5; i++) {
+            for (let i = 1; i <= 7; i++) {
                 const hEl = document.getElementById(horses[i].elementId);
                 const tEl = document.getElementById(horses[i].timeId);
                 
@@ -990,19 +1404,20 @@
             syncBalanceToDB();
             updateBalanceDisplay();
 
-            // Render Bảng Kết Quả Chi Tiết
             let resultsHTML = `
                 <div class="space-y-3 text-left">
                     <div class="flex justify-between items-center bg-amber-500/10 border border-amber-500/30 p-3 rounded-xl">
                         <span class="font-black text-amber-400 text-xs sm:text-sm">🏆 VÔ ĐỊCH: 🐕 Số ${winnerId} - ${horses[winnerId].name} (Odds x${winnerOdds})</span>
                         <span class="font-mono font-bold text-xs text-amber-300">${raceResults[winnerId]}s</span>
                     </div>
-                    <div class="grid grid-cols-2 gap-2 text-[10px] sm:text-[11px] text-slate-400 font-medium">
+                    <div class="grid grid-cols-2 sm:grid-cols-3 gap-2 text-[10px] sm:text-[11px] text-slate-400 font-medium">
                         <div>1. Kil'groth: ${raceResults[1]}s</div>
                         <div>2. Dolia: ${raceResults[2]}s</div>
                         <div>3. Billow: ${raceResults[3]}s</div>
                         <div>4. Flo: ${raceResults[4]}s</div>
                         <div>5. Bijan: ${raceResults[5]}s</div>
+                        <div>6. Max: ${raceResults[6]}s</div>
+                        <div>7. Zata: ${raceResults[7]}s</div>
                     </div>
                     <div class="pt-2 border-t border-slate-800 text-center text-xs sm:text-sm font-black ${isWin ? 'text-emerald-400' : 'text-rose-500'}">
                         ${isWin ? `🎉 THẮNG CƯỢC: +${formatMoney(winProfit)} (Nhận x${winnerOdds})` : `😭 THUA CƯỢC: -${formatMoney(betAmount)}`}
@@ -1011,7 +1426,6 @@
             `;
             document.getElementById('results-board').innerHTML = resultsHTML;
 
-            // HIỂN THỊ BANNER VÀ SCROLL TỚI BẢNG XẾP HẠNG
             showResultBanner(isWin, isWin ? winProfit : betAmount, horses[winnerId].name);
             scrollToSection('results-section', isWin ? 'highlight-border-green' : 'highlight-border-red');
 
