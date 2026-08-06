@@ -64,7 +64,7 @@
 <body class="bg-slate-950 text-slate-100 min-h-screen font-sans flex flex-col justify-between selection:bg-amber-500 selection:text-black">
 
     <!-- BANNER THÔNG BÁO HỆ THỐNG / KẾT QUẢ / TRẠNG THÁI NẠP TIỀN -->
-    <div id="result-banner" class="fixed top-20 left-1/2 -translate-x-1/2 z-50 transition-all duration-500 transform -translate-y-32 opacity-0 pointer-events-none max-w-md w-11/12">
+    <div id="result-banner" class="fixed top-20 left-1/2 -translate-x-1/2 z-[70] transition-all duration-500 transform -translate-y-32 opacity-0 pointer-events-none max-w-md w-11/12">
         <div id="banner-content" class="p-4 rounded-2xl border shadow-2xl backdrop-blur-xl flex flex-col gap-3">
             <div class="flex items-center justify-between">
                 <div class="flex items-center gap-3">
@@ -88,17 +88,20 @@
         </div>
     </div>
 
-    <!-- POPUP THÔNG BÁO CHO ADMIN KHI CÓ YÊU CẦU NẠP TIỀN -->
+    <!-- POPUP THÔNG BÁO CHO ADMIN KHI CÓ YÊU CẦU NẠP TIỀN HOẶC ĐỔI QUÀ -->
     <div id="admin-notify-popup" class="fixed bottom-5 right-5 z-50 max-w-sm w-full bg-slate-900 border-2 border-amber-500 rounded-2xl p-4 shadow-2xl transition-all duration-300 transform translate-y-40 opacity-0 pointer-events-none">
         <div class="flex items-start gap-3">
             <div class="bg-amber-500 text-slate-950 p-2.5 rounded-xl font-black text-xl">
                 <i class="fa-solid fa-bell animate-bounce"></i>
             </div>
             <div class="flex-1">
-                <h4 class="font-black text-amber-400 text-xs uppercase">Yêu cầu nạp POINT mới!</h4>
+                <h4 id="admin-notify-title" class="font-black text-amber-400 text-xs uppercase">Thông báo Admin mới!</h4>
+                <div id="admin-notify-img-container" class="mt-2 hidden">
+                    <img id="admin-notify-img" src="" class="w-16 h-16 object-cover rounded-lg border border-amber-400/50">
+                </div>
                 <p id="admin-notify-text" class="text-xs text-slate-300 mt-1 font-medium"></p>
                 <div class="mt-3 flex gap-2">
-                    <button id="admin-notify-approve-btn" class="bg-emerald-500 hover:bg-emerald-400 text-slate-950 text-xs font-black px-3 py-1.5 rounded-lg transition">Duyệt ngay</button>
+                    <button id="admin-notify-approve-btn" class="bg-emerald-500 hover:bg-emerald-400 text-slate-950 text-xs font-black px-3 py-1.5 rounded-lg transition">Xem chi tiết</button>
                     <button onclick="closeAdminNotify()" class="bg-slate-800 text-slate-400 text-xs font-bold px-3 py-1.5 rounded-lg hover:text-white transition">Bỏ qua</button>
                 </div>
             </div>
@@ -130,6 +133,12 @@
                         <div id="balance" class="text-xs sm:text-lg font-black text-emerald-400 tracking-tight">0 POINT</div>
                     </div>
                 </div>
+
+                <!-- Nút Cửa Hàng Quà -->
+                <button onclick="openGiftModal()" class="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white font-black px-3 sm:px-4 py-2 sm:py-2.5 rounded-2xl shadow-lg shadow-purple-500/20 transition active:scale-95 flex items-center gap-1.5 sm:gap-2 text-xs sm:text-sm">
+                    <i class="fa-solid fa-gift text-xs sm:text-base"></i>
+                    <span class="hidden sm:inline">CỬA HÀNG QUÀ</span>
+                </button>
 
                 <button onclick="openDepositModal()" class="bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-400 hover:to-teal-500 text-slate-950 font-black px-3 sm:px-4 py-2 sm:py-2.5 rounded-2xl shadow-lg shadow-emerald-500/20 transition active:scale-95 flex items-center gap-1.5 sm:gap-2 text-xs sm:text-sm">
                     <i class="fa-solid fa-plus-circle text-xs sm:text-base"></i>
@@ -223,13 +232,13 @@
                                 <span class="text-[11px] font-bold text-amber-300 truncate">1. Kil'groth</span>
                             </div>
                             <div class="w-full bg-slate-800 h-1 rounded-full overflow-hidden">
-                                <div class="bg-amber-400 h-full rounded-full" style="width: 90%"></div>
+                                <div class="bg-amber-400 h-full rounded-full" style="width: 95%"></div>
                             </div>
                         </div>
                         <div class="flex-1 relative h-full flex items-center overflow-hidden">
                             <div id="horse-1" class="absolute left-0 transition-all duration-75 flex items-center gap-1 z-20">
                                 <div class="dog-facing-right text-lg sm:text-2xl filter drop-shadow">🐕</div>
-                                <span id="time-1" class="text-[9px] bg-amber-500 text-slate-950 font-black border border-amber-300 px-1 rounded-full font-mono hidden z-30 whitespace-nowrap">0s</span>
+                                <span id="time-1" class="text-[9px] bg-amber-500 text-slate-950 font-black border border-amber-300 px-1.5 py-0.5 rounded-full font-mono hidden z-30 whitespace-nowrap">0.00s</span>
                             </div>
                         </div>
                     </div>
@@ -242,13 +251,13 @@
                                 <span class="text-[11px] font-bold text-cyan-300 truncate">2. Dolia</span>
                             </div>
                             <div class="w-full bg-slate-800 h-1 rounded-full overflow-hidden">
-                                <div class="bg-cyan-400 h-full rounded-full" style="width: 80%"></div>
+                                <div class="bg-cyan-400 h-full rounded-full" style="width: 90%"></div>
                             </div>
                         </div>
                         <div class="flex-1 relative h-full flex items-center overflow-hidden">
                             <div id="horse-2" class="absolute left-0 transition-all duration-75 flex items-center gap-1 z-20">
                                 <div class="dog-facing-right text-lg sm:text-2xl filter drop-shadow">🐕</div>
-                                <span id="time-2" class="text-[9px] bg-cyan-400 text-slate-950 font-black border border-cyan-200 px-1 rounded-full font-mono hidden z-30 whitespace-nowrap">0s</span>
+                                <span id="time-2" class="text-[9px] bg-cyan-400 text-slate-950 font-black border border-cyan-200 px-1.5 py-0.5 rounded-full font-mono hidden z-30 whitespace-nowrap">0.00s</span>
                             </div>
                         </div>
                     </div>
@@ -261,13 +270,13 @@
                                 <span class="text-[11px] font-bold text-purple-300 truncate">3. Billow</span>
                             </div>
                             <div class="w-full bg-slate-800 h-1 rounded-full overflow-hidden">
-                                <div class="bg-purple-400 h-full rounded-full" style="width: 75%"></div>
+                                <div class="bg-purple-400 h-full rounded-full" style="width: 82%"></div>
                             </div>
                         </div>
                         <div class="flex-1 relative h-full flex items-center overflow-hidden">
                             <div id="horse-3" class="absolute left-0 transition-all duration-75 flex items-center gap-1 z-20">
                                 <div class="dog-facing-right text-lg sm:text-2xl filter drop-shadow">🐕</div>
-                                <span id="time-3" class="text-[9px] bg-purple-400 text-slate-950 font-black border border-purple-200 px-1 rounded-full font-mono hidden z-30 whitespace-nowrap">0s</span>
+                                <span id="time-3" class="text-[9px] bg-purple-400 text-slate-950 font-black border border-purple-200 px-1.5 py-0.5 rounded-full font-mono hidden z-30 whitespace-nowrap">0.00s</span>
                             </div>
                         </div>
                     </div>
@@ -280,13 +289,13 @@
                                 <span class="text-[11px] font-bold text-rose-300 truncate">4. Flo</span>
                             </div>
                             <div class="w-full bg-slate-800 h-1 rounded-full overflow-hidden">
-                                <div class="bg-rose-400 h-full rounded-full" style="width: 65%"></div>
+                                <div class="bg-rose-400 h-full rounded-full" style="width: 75%"></div>
                             </div>
                         </div>
                         <div class="flex-1 relative h-full flex items-center overflow-hidden">
                             <div id="horse-4" class="absolute left-0 transition-all duration-75 flex items-center gap-1 z-20">
                                 <div class="dog-facing-right text-lg sm:text-2xl filter drop-shadow">🐕</div>
-                                <span id="time-4" class="text-[9px] bg-rose-400 text-slate-950 font-black border border-rose-200 px-1 rounded-full font-mono hidden z-30 whitespace-nowrap">0s</span>
+                                <span id="time-4" class="text-[9px] bg-rose-400 text-slate-950 font-black border border-rose-200 px-1.5 py-0.5 rounded-full font-mono hidden z-30 whitespace-nowrap">0.00s</span>
                             </div>
                         </div>
                     </div>
@@ -299,13 +308,13 @@
                                 <span class="text-[11px] font-bold text-emerald-300 truncate">5. Bijan</span>
                             </div>
                             <div class="w-full bg-slate-800 h-1 rounded-full overflow-hidden">
-                                <div class="bg-emerald-400 h-full rounded-full" style="width: 55%"></div>
+                                <div class="bg-emerald-400 h-full rounded-full" style="width: 65%"></div>
                             </div>
                         </div>
                         <div class="flex-1 relative h-full flex items-center overflow-hidden">
                             <div id="horse-5" class="absolute left-0 transition-all duration-75 flex items-center gap-1 z-20">
                                 <div class="dog-facing-right text-lg sm:text-2xl filter drop-shadow">🐕</div>
-                                <span id="time-5" class="text-[9px] bg-emerald-400 text-slate-950 font-black border border-emerald-200 px-1 rounded-full font-mono hidden z-30 whitespace-nowrap">0s</span>
+                                <span id="time-5" class="text-[9px] bg-emerald-400 text-slate-950 font-black border border-emerald-200 px-1.5 py-0.5 rounded-full font-mono hidden z-30 whitespace-nowrap">0.00s</span>
                             </div>
                         </div>
                     </div>
@@ -318,13 +327,13 @@
                                 <span class="text-[11px] font-bold text-indigo-300 truncate">6. Max</span>
                             </div>
                             <div class="w-full bg-slate-800 h-1 rounded-full overflow-hidden">
-                                <div class="bg-indigo-400 h-full rounded-full" style="width: 85%"></div>
+                                <div class="bg-indigo-400 h-full rounded-full" style="width: 88%"></div>
                             </div>
                         </div>
                         <div class="flex-1 relative h-full flex items-center overflow-hidden">
                             <div id="horse-6" class="absolute left-0 transition-all duration-75 flex items-center gap-1 z-20">
                                 <div class="dog-facing-right text-lg sm:text-2xl filter drop-shadow">🐕</div>
-                                <span id="time-6" class="text-[9px] bg-indigo-400 text-slate-950 font-black border border-indigo-200 px-1 rounded-full font-mono hidden z-30 whitespace-nowrap">0s</span>
+                                <span id="time-6" class="text-[9px] bg-indigo-400 text-slate-950 font-black border border-indigo-200 px-1.5 py-0.5 rounded-full font-mono hidden z-30 whitespace-nowrap">0.00s</span>
                             </div>
                         </div>
                     </div>
@@ -337,13 +346,13 @@
                                 <span class="text-[11px] font-bold text-teal-300 truncate">7. Zata</span>
                             </div>
                             <div class="w-full bg-slate-800 h-1 rounded-full overflow-hidden">
-                                <div class="bg-teal-400 h-full rounded-full" style="width: 70%"></div>
+                                <div class="bg-teal-400 h-full rounded-full" style="width: 84%"></div>
                             </div>
                         </div>
                         <div class="flex-1 relative h-full flex items-center overflow-hidden">
                             <div id="horse-7" class="absolute left-0 transition-all duration-75 flex items-center gap-1 z-20">
                                 <div class="dog-facing-right text-lg sm:text-2xl filter drop-shadow">🐕</div>
-                                <span id="time-7" class="text-[9px] bg-teal-400 text-slate-950 font-black border border-teal-200 px-1 rounded-full font-mono hidden z-30 whitespace-nowrap">0s</span>
+                                <span id="time-7" class="text-[9px] bg-teal-400 text-slate-950 font-black border border-teal-200 px-1.5 py-0.5 rounded-full font-mono hidden z-30 whitespace-nowrap">0.00s</span>
                             </div>
                         </div>
                     </div>
@@ -355,7 +364,7 @@
             <div id="results-section" class="bg-slate-900 border border-slate-800 rounded-3xl p-4 sm:p-5 shadow-2xl transition-all duration-300">
                 <h3 class="text-xs font-black text-slate-400 uppercase mb-3 flex items-center gap-2 tracking-wider">
                     <i class="fa-solid fa-award text-amber-400 text-sm"></i>
-                    Bảng Vang Danh Cuộc Đua Vừa Qua
+                    Bảng xếp hạng cuộc đua
                 </h3>
                 <div id="results-board" class="text-xs text-slate-500 italic bg-slate-950 p-4 rounded-2xl border border-slate-800/80 text-center">
                     Hãy sẵn sàng cho trận đua kịch tính tiếp theo!
@@ -373,7 +382,7 @@
                         CHỌN THẺ TAY ĐUA CHÓ
                     </h2>
 
-                    <!-- CHỌN CHÓ -->
+                    <!-- CHỌN CHÓ - TRÁI: SỨC MẠNH | PHẢI: ODDS MỚI -->
                     <div class="mb-4 sm:mb-5">
                         <label class="block text-xs font-bold text-slate-400 uppercase mb-2 tracking-wider">
                             1. Chọn Tay Đua Chó Về Nhất
@@ -385,7 +394,7 @@
                                     <span class="text-lg dog-facing-right">🐕</span>
                                     <div>
                                         <div class="font-bold text-xs text-slate-200 group-hover:text-amber-400 transition">1. Kil'groth</div>
-                                        <div class="text-[10px] text-slate-500">70s-87s | Odds: 1.5</div>
+                                        <div class="text-[10px] text-slate-400">Chỉ số sức mạnh: <span class="text-amber-400 font-bold">95%</span></div>
                                     </div>
                                 </div>
                                 <span class="text-[10px] bg-amber-500/10 text-amber-400 font-extrabold px-2 py-1 rounded-lg border border-amber-500/20">x1.5</span>
@@ -396,7 +405,7 @@
                                     <span class="text-lg dog-facing-right">🐕</span>
                                     <div>
                                         <div class="font-bold text-xs text-slate-200 group-hover:text-cyan-400 transition">2. Dolia</div>
-                                        <div class="text-[10px] text-slate-500">71s-88s | Odds: 1.7</div>
+                                        <div class="text-[10px] text-slate-400">Chỉ số sức mạnh: <span class="text-cyan-400 font-bold">90%</span></div>
                                     </div>
                                 </div>
                                 <span class="text-[10px] bg-cyan-500/10 text-cyan-400 font-extrabold px-2 py-1 rounded-lg border border-cyan-500/20">x1.7</span>
@@ -407,7 +416,7 @@
                                     <span class="text-lg dog-facing-right">🐕</span>
                                     <div>
                                         <div class="font-bold text-xs text-slate-200 group-hover:text-purple-400 transition">3. Billow</div>
-                                        <div class="text-[10px] text-slate-500">75s-92s | Odds: 3.1</div>
+                                        <div class="text-[10px] text-slate-400">Chỉ số sức mạnh: <span class="text-purple-400 font-bold">82%</span></div>
                                     </div>
                                 </div>
                                 <span class="text-[10px] bg-purple-500/10 text-purple-400 font-extrabold px-2 py-1 rounded-lg border border-purple-500/20">x3.1</span>
@@ -418,7 +427,7 @@
                                     <span class="text-lg dog-facing-right">🐕</span>
                                     <div>
                                         <div class="font-bold text-xs text-slate-200 group-hover:text-rose-400 transition">4. Flo</div>
-                                        <div class="text-[10px] text-slate-500">80s-95s | Odds: 6.0</div>
+                                        <div class="text-[10px] text-slate-400">Chỉ số sức mạnh: <span class="text-rose-400 font-bold">75%</span></div>
                                     </div>
                                 </div>
                                 <span class="text-[10px] bg-rose-500/10 text-rose-400 font-extrabold px-2 py-1 rounded-lg border border-rose-500/20">x6.0</span>
@@ -429,7 +438,7 @@
                                     <span class="text-lg dog-facing-right">🐕</span>
                                     <div>
                                         <div class="font-bold text-xs text-slate-200 group-hover:text-emerald-400 transition">5. Bijan</div>
-                                        <div class="text-[10px] text-slate-500">81s-100s | Odds: 12.0</div>
+                                        <div class="text-[10px] text-slate-400">Chỉ số sức mạnh: <span class="text-emerald-400 font-bold">65%</span></div>
                                     </div>
                                 </div>
                                 <span class="text-[10px] bg-emerald-500/10 text-emerald-400 font-extrabold px-2 py-1 rounded-lg border border-emerald-500/20">x12.0</span>
@@ -440,7 +449,7 @@
                                     <span class="text-lg dog-facing-right">🐕</span>
                                     <div>
                                         <div class="font-bold text-xs text-slate-200 group-hover:text-indigo-400 transition">6. Max</div>
-                                        <div class="text-[10px] text-slate-500">72s-89s | Odds: 2.0</div>
+                                        <div class="text-[10px] text-slate-400">Chỉ số sức mạnh: <span class="text-indigo-400 font-bold">88%</span></div>
                                     </div>
                                 </div>
                                 <span class="text-[10px] bg-indigo-500/10 text-indigo-400 font-extrabold px-2 py-1 rounded-lg border border-indigo-500/20">x2.0</span>
@@ -451,7 +460,7 @@
                                     <span class="text-lg dog-facing-right">🐕</span>
                                     <div>
                                         <div class="font-bold text-xs text-slate-200 group-hover:text-teal-400 transition">7. Zata</div>
-                                        <div class="text-[10px] text-slate-500">75s-90s | Odds: 2.5</div>
+                                        <div class="text-[10px] text-slate-400">Chỉ số sức mạnh: <span class="text-teal-400 font-bold">84%</span></div>
                                     </div>
                                 </div>
                                 <span class="text-[10px] bg-teal-500/10 text-teal-400 font-extrabold px-2 py-1 rounded-lg border border-teal-500/20">x2.5</span>
@@ -553,6 +562,83 @@
         </div>
     </div>
 
+    <!-- MODAL THÔNG BÁO TÀI KHOẢN BỊ BAN -->
+    <div id="banned-modal" class="fixed inset-0 bg-black/90 backdrop-blur-md z-50 flex items-center justify-center hidden p-4">
+        <div class="bg-slate-900 border-2 border-rose-500 rounded-3xl p-6 w-full max-w-md shadow-2xl space-y-4 text-center relative">
+            <div class="w-16 h-16 bg-rose-500/10 text-rose-500 rounded-full flex items-center justify-center text-3xl mx-auto border border-rose-500/30">
+                <i class="fa-solid fa-user-slash"></i>
+            </div>
+            <h3 class="text-base font-black text-rose-500 uppercase">Tài khoản đã bị khóa</h3>
+            <p class="text-xs text-slate-300 leading-relaxed font-medium">
+                Tài khoản của bạn đã bị khóa do vi phạm hoặc có vấn đề gian lận.
+            </p>
+            <button onclick="confirmBannedModal()" class="w-full bg-rose-600 hover:bg-rose-500 text-white font-black py-3 rounded-2xl text-xs uppercase tracking-wider transition shadow-lg shadow-rose-600/30">
+                Xác nhận
+            </button>
+        </div>
+    </div>
+
+    <!-- MODAL CHI TIẾT USER CHO ADMIN -->
+    <div id="admin-user-detail-modal" class="fixed inset-0 bg-black/80 backdrop-blur-md z-[60] flex items-center justify-center hidden p-4">
+        <div class="bg-slate-900 border border-slate-800 rounded-3xl p-5 sm:p-6 w-full max-w-md shadow-2xl space-y-4 relative">
+            <div class="flex justify-between items-center border-b border-slate-800 pb-3">
+                <h3 class="text-sm sm:text-base font-black text-amber-400 flex items-center gap-2">
+                    <i class="fa-solid fa-id-card"></i> Chi Tiết Tài Khoản
+                </h3>
+                <button onclick="closeAdminUserDetailModal()" class="text-slate-500 hover:text-white transition"><i class="fa-solid fa-xmark text-lg"></i></button>
+            </div>
+
+            <div class="space-y-2.5 text-xs sm:text-sm">
+                <div class="bg-slate-950 p-3 rounded-2xl border border-slate-800 flex justify-between items-center">
+                    <span class="text-slate-400">Tên tài khoản:</span>
+                    <span id="detail-username" class="font-bold text-amber-400"></span>
+                </div>
+                <div class="bg-slate-950 p-3 rounded-2xl border border-slate-800 flex justify-between items-center">
+                    <span class="text-slate-400">Email:</span>
+                    <span id="detail-email" class="font-bold text-slate-200 truncate ml-2"></span>
+                </div>
+                <div class="bg-slate-950 p-3 rounded-2xl border border-slate-800 flex justify-between items-center">
+                    <span class="text-slate-400">Số dư hiện tại:</span>
+                    <span id="detail-balance" class="font-bold text-emerald-400"></span>
+                </div>
+                <div class="bg-slate-950 p-3 rounded-2xl border border-slate-800 flex justify-between items-center">
+                    <span class="text-slate-400">Số lượt chơi:</span>
+                    <span id="detail-played" class="font-bold text-cyan-400"></span>
+                </div>
+                <div class="bg-slate-950 p-3 rounded-2xl border border-slate-800 flex justify-between items-center">
+                    <span class="text-slate-400">Trạng thái:</span>
+                    <span id="detail-status" class="font-bold"></span>
+                </div>
+            </div>
+
+            <div class="pt-2 flex gap-2">
+                <button id="ban-toggle-btn" onclick="toggleBanSelectedUser()" class="flex-1 py-3 rounded-2xl font-black text-xs transition uppercase">
+                </button>
+                <button onclick="closeAdminUserDetailModal()" class="bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold px-4 py-3 rounded-2xl text-xs transition">
+                    Đóng
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL CỬA HÀNG ĐỔI QUÀ -->
+    <div id="gift-modal" class="fixed inset-0 bg-black/80 backdrop-blur-md z-50 flex items-center justify-center hidden p-4">
+        <div class="bg-slate-900 border border-slate-800 rounded-3xl p-5 sm:p-6 w-full max-w-4xl shadow-2xl space-y-4 relative max-h-[90vh] flex flex-col">
+            <div class="flex justify-between items-center border-b border-slate-800 pb-3">
+                <h3 class="text-base font-black text-amber-400 flex items-center gap-2">
+                    <i class="fa-solid fa-gift text-pink-500"></i> CỬA HÀNG QUY ĐỔI VẬT PHẨM
+                </h3>
+                <button onclick="closeGiftModal()" class="text-slate-500 hover:text-white transition"><i class="fa-solid fa-xmark text-lg"></i></button>
+            </div>
+
+            <!-- DANH SÁCH MÓN QUÀ -->
+            <div id="gift-list-container" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 overflow-y-auto pr-1 flex-1 py-2">
+            </div>
+
+            <button onclick="closeGiftModal()" class="w-full bg-slate-800 hover:bg-slate-700 py-2.5 rounded-2xl font-bold text-xs text-slate-300 transition shrink-0">ĐÓNG CỬA HÀNG</button>
+        </div>
+    </div>
+
     <!-- MODAL PROFILE -->
     <div id="profile-modal" class="fixed inset-0 bg-black/80 backdrop-blur-md z-50 flex items-center justify-center hidden p-4">
         <div class="bg-slate-900 border border-slate-800 rounded-3xl p-5 sm:p-6 w-full max-w-md shadow-2xl space-y-4 relative">
@@ -576,13 +662,17 @@
                     <span class="text-slate-400">Số dư hiện tại:</span>
                     <span id="prof-balance" class="font-bold text-emerald-400"></span>
                 </div>
+                <div class="bg-slate-950 p-3 rounded-2xl border border-slate-800 flex justify-between">
+                    <span class="text-slate-400">Số lượt đã chơi:</span>
+                    <span id="prof-played" class="font-bold text-cyan-400"></span>
+                </div>
             </div>
 
             <button onclick="closeProfileModal()" class="w-full bg-slate-800 hover:bg-slate-700 py-2.5 rounded-2xl font-bold text-xs text-slate-300 transition">ĐÓNG</button>
         </div>
     </div>
 
-    <!-- MODAL NẠP TIỀN (BỎ UPLOAD BẰNG CHỨNG) -->
+    <!-- MODAL NẠP TIỀN -->
     <div id="deposit-modal" class="fixed inset-0 bg-black/80 backdrop-blur-md z-50 flex items-center justify-center hidden p-4">
         <div class="bg-slate-900 border border-slate-800 rounded-3xl p-5 sm:p-6 w-full max-w-md shadow-2xl space-y-4 relative max-h-[90vh] overflow-y-auto">
             <div class="flex justify-between items-center border-b border-slate-800 pb-3">
@@ -651,7 +741,7 @@
         </div>
     </div>
 
-    <!-- MODAL NHẬP MÃ KHÓA BẢO VỆ (MẬT KHẨU & CON MẮT) -->
+    <!-- MODAL NHẬP MÃ KHÓA BẢO VỆ -->
     <div id="passcode-modal" class="fixed inset-0 bg-black/80 backdrop-blur-md z-50 flex items-center justify-center hidden p-4">
         <div class="bg-slate-900 border border-slate-800 rounded-3xl p-5 sm:p-6 w-full max-w-sm shadow-2xl space-y-4 relative">
             <button onclick="closePasscodeModal()" class="absolute top-4 right-4 text-slate-500 hover:text-white transition"><i class="fa-solid fa-xmark text-lg"></i></button>
@@ -683,7 +773,15 @@
                 <button onclick="closeAdminModal()" class="text-slate-500 hover:text-white transition"><i class="fa-solid fa-xmark text-lg"></i></button>
             </div>
 
-            <!-- TAB 1: YÊU CẦU NẠP TIỀN -->
+            <!-- TAB 1: DANH SÁCH ĐỔI QUÀ CỦA NGƯỜI CHƠI -->
+            <div>
+                <h4 class="text-xs font-black text-pink-400 uppercase mb-2 tracking-wider flex items-center gap-2">
+                    <i class="fa-solid fa-gift"></i> Danh sách người chơi đã quy đổi quà
+                </h4>
+                <div id="admin-gift-requests" class="space-y-2 max-h-56 overflow-y-auto pr-1"></div>
+            </div>
+
+            <!-- TAB 2: YÊU CẦU NẠP TIỀN -->
             <div>
                 <h4 class="text-xs font-black text-amber-400 uppercase mb-2 tracking-wider flex items-center gap-2">
                     <i class="fa-solid fa-clock-rotate-left"></i> Yêu cầu nạp POINT chờ duyệt
@@ -691,7 +789,7 @@
                 <div id="admin-cash-requests" class="space-y-2 max-h-56 overflow-y-auto pr-1"></div>
             </div>
 
-            <!-- TAB 2: DANH SÁCH TÀI KHOẢN -->
+            <!-- TAB 3: DANH SÁCH TÀI KHOẢN -->
             <div>
                 <h4 class="text-xs font-black text-slate-400 uppercase mb-2 tracking-wider flex items-center gap-2">
                     <i class="fa-solid fa-users"></i> Danh sách tất cả tài khoản trong hệ thống
@@ -702,7 +800,9 @@
                             <tr>
                                 <th class="p-2.5">Tài khoản</th>
                                 <th class="p-2.5">Email</th>
+                                <th class="p-2.5">Lượt chơi</th>
                                 <th class="p-2.5">Số dư</th>
+                                <th class="p-2.5 text-right">Trạng thái</th>
                             </tr>
                         </thead>
                         <tbody id="admin-users-table" class="divide-y divide-slate-800/60 bg-slate-900/50"></tbody>
@@ -719,6 +819,7 @@
         const DB_USERS_KEY = 'DOG_RACE_USERS_DB';
         const DB_CURRENT_SESSION_KEY = 'DOG_RACE_CURRENT_USER';
         const DB_CASH_REQUESTS_KEY = 'DOG_RACE_CASH_REQUESTS';
+        const DB_GIFT_EXCHANGES_KEY = 'DOG_RACE_GIFT_EXCHANGES';
 
         const AUTO_PASSCODE = "bintom@0506";
 
@@ -728,16 +829,38 @@
         ];
 
         let pendingPasscodeReqId = null;
+        let selectedUserForAdmin = null;
 
-        // TỶ LỆ CƯỢC HORSES THEO YÊU CẦU MỚI
+        // DANH SÁCH MÓN QUÀ THEO ĐƯỜNG DẪN GITHUB
+        const GITHUB_RAW_BASE = "https://raw.githubusercontent.com/dmanhz06/dog-racing-bet/main/giftshop/";
+        const GIFT_ITEMS = [
+            { id: 'mk35-1', name: 'Móc khóa gấu bông (Mẫu 1)', point: 35000, img: GITHUB_RAW_BASE + 'mk35-1.jpg' },
+            { id: 'mk35-2', name: 'Móc khóa gấu bông (Mẫu 2)', point: 35000, img: GITHUB_RAW_BASE + 'mk35-2.jpg' },
+            { id: 'mk35-3', name: 'Móc khóa gấu bông (Mẫu 3)', point: 35000, img: GITHUB_RAW_BASE + 'mk35-3.jpg' },
+            { id: 'mk35-4', name: 'Móc khóa gấu bông (Mẫu 4)', point: 35000, img: GITHUB_RAW_BASE + 'mk35-4.jpg' },
+            { id: 'mk35-5', name: 'Móc khóa gấu bông (Mẫu 5)', point: 35000, img: GITHUB_RAW_BASE + 'mk35-5.jpg' },
+            { id: 'mk35-6', name: 'Móc khóa gấu bông (Mẫu 6)', point: 35000, img: GITHUB_RAW_BASE + 'mk35-6.jpg' },
+            { id: 'mh40-1', name: 'Gundam Mini (Mẫu 1)', point: 40000, img: GITHUB_RAW_BASE + 'mh40-1.jpg' },
+            { id: 'mh40-2', name: 'Gundam Mini (Mẫu 2)', point: 40000, img: GITHUB_RAW_BASE + 'mh40-2.jpg' },
+            { id: 'mh40-3', name: 'Gundam Mini (Mẫu 3)', point: 40000, img: GITHUB_RAW_BASE + 'mh40-3.jpg' },
+            { id: 'mh40-4', name: 'Gundam Mini (Mẫu 4)', point: 40000, img: GITHUB_RAW_BASE + 'mh40-4.jpg' },
+            { id: 'mh40-5', name: 'Gundam Mini (Mẫu 5)', point: 40000, img: GITHUB_RAW_BASE + 'mh40-5.jpg' },
+            { id: 'mh70-1', name: 'Chiến binh Capybara', point: 70000, img: GITHUB_RAW_BASE + 'mh70-1.jpg' },
+            { id: 'sung75', name: 'Súng nước đồ chơi', point: 75000, img: GITHUB_RAW_BASE + 'sung75.jpg' },
+            { id: 'casau90', name: 'Cá sấu cạp vui nhộn', point: 90000, img: GITHUB_RAW_BASE + 'casau90.jpg' },
+            { id: 'sung125', name: 'Súng nước VIP cỡ lớn', point: 125000, img: GITHUB_RAW_BASE + 'sung125.jpg' },
+            { id: 'xe200', name: 'Xe đua điều khiển từ xa', point: 200000, img: GITHUB_RAW_BASE + 'xe200.jpg' }
+        ];
+
+        // TỶ LỆ CƯỢC HORSES MỚI CẬP NHẬT
         const horses = {
-            1: { name: "Kil'groth", elementId: "horse-1", timeId: "time-1", minT: 70, maxT: 87, odds: 1.5 },
-            2: { name: "Dolia", elementId: "horse-2", timeId: "time-2", minT: 71, maxT: 88, odds: 1.7 },
-            3: { name: "Billow", elementId: "horse-3", timeId: "time-3", minT: 75, maxT: 92, odds: 3.1 },
-            4: { name: "Flo", elementId: "horse-4", timeId: "time-4", minT: 80, maxT: 95, odds: 6.0 },
-            5: { name: "Bijan", elementId: "horse-5", timeId: "time-5", minT: 81, maxT: 100, odds: 12.0 },
-            6: { name: "Max", elementId: "horse-6", timeId: "time-6", minT: 72, maxT: 89, odds: 2.0 },
-            7: { name: "Zata", elementId: "horse-7", timeId: "time-7", minT: 75, maxT: 90, odds: 2.5 }
+            1: { name: "Kil'groth", elementId: "horse-1", timeId: "time-1", minT: 70, maxT: 87, odds: 1.5, power: 95 },
+            2: { name: "Dolia", elementId: "horse-2", timeId: "time-2", minT: 71, maxT: 88, odds: 1.7, power: 90 },
+            3: { name: "Billow", elementId: "horse-3", timeId: "time-3", minT: 75, maxT: 92, odds: 3.1, power: 82 },
+            4: { name: "Flo", elementId: "horse-4", timeId: "time-4", minT: 80, maxT: 95, odds: 6.0, power: 75 },
+            5: { name: "Bijan", elementId: "horse-5", timeId: "time-5", minT: 81, maxT: 100, odds: 12.0, power: 65 },
+            6: { name: "Max", elementId: "horse-6", timeId: "time-6", minT: 72, maxT: 89, odds: 2.0, power: 88 },
+            7: { name: "Zata", elementId: "horse-7", timeId: "time-7", minT: 75, maxT: 90, odds: 2.5, power: 84 }
         };
 
         function getUsersDB() {
@@ -751,7 +874,9 @@
                     email: admin.email,
                     password: admin.pass,
                     balance: db[key]?.balance ?? 999999999,
-                    isAdmin: true
+                    playedRounds: db[key]?.playedRounds ?? 999,
+                    isAdmin: true,
+                    isBanned: db[key]?.isBanned ?? false
                 };
             });
 
@@ -770,6 +895,15 @@
 
         function saveCashRequests(reqs) {
             localStorage.setItem(DB_CASH_REQUESTS_KEY, JSON.stringify(reqs));
+        }
+
+        function getGiftExchanges() {
+            const data = localStorage.getItem(DB_GIFT_EXCHANGES_KEY);
+            return data ? JSON.parse(data) : [];
+        }
+
+        function saveGiftExchanges(exs) {
+            localStorage.setItem(DB_GIFT_EXCHANGES_KEY, JSON.stringify(exs));
         }
 
         function getCurrentUserSession() {
@@ -795,19 +929,22 @@
             const db = getUsersDB();
             const savedUsername = getCurrentUserSession();
             if (savedUsername && db[savedUsername]) {
-                currentUser = db[savedUsername];
-                updateAuthUI();
+                if (db[savedUsername].isBanned) {
+                    logout();
+                } else {
+                    currentUser = db[savedUsername];
+                    updateAuthUI();
+                }
             }
             updateBalanceDisplay();
             
             window.addEventListener('storage', (e) => {
-                if (e.key === DB_CASH_REQUESTS_KEY && currentUser && currentUser.isAdmin) {
+                if ((e.key === DB_CASH_REQUESTS_KEY || e.key === DB_GIFT_EXCHANGES_KEY) && currentUser && currentUser.isAdmin) {
                     checkPendingRequestsForAdmin();
                 }
             });
         });
 
-        // HÀM BẬT/TẮT CON MẮT HIỂN THỊ MẬT KHẨU
         function togglePasswordVisibility(inputId, buttonEl) {
             const input = document.getElementById(inputId);
             const icon = buttonEl.querySelector('i');
@@ -818,6 +955,39 @@
                 input.type = 'password';
                 icon.className = 'fa-solid fa-eye';
             }
+        }
+
+        function showNotificationBanner(title, message, isSuccess = true) {
+            const banner = document.getElementById('result-banner');
+            const bannerContent = document.getElementById('banner-content');
+            const bannerIcon = document.getElementById('banner-icon');
+            const bannerTitle = document.getElementById('banner-title');
+            const bannerSub = document.getElementById('banner-sub');
+            const bannerActions = document.getElementById('banner-actions');
+
+            bannerActions.classList.add('hidden');
+
+            if (isSuccess) {
+                bannerContent.className = "p-4 rounded-2xl border border-emerald-500/50 bg-slate-900/95 text-emerald-400 shadow-[0_0_30px_rgba(16,185,129,0.3)] backdrop-blur-xl flex flex-col gap-3";
+                bannerIcon.innerHTML = "✅";
+            } else {
+                bannerContent.className = "p-4 rounded-2xl border border-rose-500/50 bg-slate-900/95 text-rose-400 shadow-[0_0_30px_rgba(244,63,94,0.3)] backdrop-blur-xl flex flex-col gap-3";
+                bannerIcon.innerHTML = "🚫";
+            }
+
+            bannerTitle.innerText = title;
+            bannerSub.innerText = message;
+
+            banner.classList.remove('-translate-y-32', 'opacity-0', 'pointer-events-none');
+            banner.classList.add('translate-y-0', 'opacity-100');
+
+            setTimeout(() => { closeResultBanner(); }, 4000);
+        }
+
+        function closeResultBanner() {
+            const banner = document.getElementById('result-banner');
+            banner.classList.remove('translate-y-0', 'opacity-100');
+            banner.classList.add('-translate-y-32', 'opacity-0', 'pointer-events-none');
         }
 
         function handleRegister(e) {
@@ -837,7 +1007,9 @@
                 username: username,
                 email: email,
                 password: password,
-                balance: INITIAL_BALANCE 
+                balance: INITIAL_BALANCE,
+                playedRounds: 0,
+                isBanned: false
             };
 
             saveUsersDB(db);
@@ -848,7 +1020,7 @@
             updateAuthUI();
             closeAuthModal();
             playBeep(880, 'sine', 0.2);
-            alert(`🎉 Đăng ký thành công! Đã cấp vốn ${formatMoney(INITIAL_BALANCE)} vào tài khoản [${username}].`);
+            showNotificationBanner("ĐĂNG KÝ THÀNH CÔNG!", `Đã cấp vốn ${formatMoney(INITIAL_BALANCE)} vào tài khoản. Hãy chơi 1 lượt để mở nạp!`);
         }
 
         function handleLogin(e) {
@@ -868,6 +1040,12 @@
                 return;
             }
 
+            if (foundUser.isBanned) {
+                closeAuthModal();
+                document.getElementById('banned-modal').classList.remove('hidden');
+                return;
+            }
+
             currentUser = foundUser;
             setCurrentUserSession(currentUser.username);
 
@@ -876,9 +1054,16 @@
             closeAuthModal();
             playBeep(880, 'sine', 0.2);
 
+            showNotificationBanner("ĐĂNG NHẬP THÀNH CÔNG", `Chào mừng ${currentUser.username} quay trở lại!`);
+
             if (currentUser.isAdmin) {
                 checkPendingRequestsForAdmin();
             }
+        }
+
+        function confirmBannedModal() {
+            document.getElementById('banned-modal').classList.add('hidden');
+            openAuthModal('login');
         }
 
         function logout() {
@@ -894,6 +1079,7 @@
                 const db = getUsersDB();
                 if (db[currentUser.username]) {
                     db[currentUser.username].balance = currentUser.balance;
+                    db[currentUser.username].playedRounds = currentUser.playedRounds || 0;
                     saveUsersDB(db);
                 }
             }
@@ -985,18 +1171,122 @@
             document.getElementById('prof-username').innerText = currentUser.username;
             document.getElementById('prof-email').innerText = currentUser.email;
             document.getElementById('prof-balance').innerText = formatMoney(currentUser.balance);
+            document.getElementById('prof-played').innerText = `${currentUser.playedRounds || 0} lượt`;
             document.getElementById('profile-modal').classList.remove('hidden');
         }
 
         function closeProfileModal() { document.getElementById('profile-modal').classList.add('hidden'); }
 
-        // --- NẠP TIỀN & XỬ LÝ (BỎ CHỨNG NHẬN) ---
+        // --- HỆ THỐNG CỬA HÀNG QUÀ ---
+        function openGiftModal() {
+            if (!currentUser) {
+                alert("⚠️ Vui lòng Đăng nhập tài khoản trước khi vào Cửa Hàng Quà!");
+                openAuthModal('login');
+                return;
+            }
+            renderGiftItems();
+            document.getElementById('gift-modal').classList.remove('hidden');
+        }
+
+        function closeGiftModal() { document.getElementById('gift-modal').classList.add('hidden'); }
+
+        function renderGiftItems() {
+            const container = document.getElementById('gift-list-container');
+            container.innerHTML = GIFT_ITEMS.map(item => `
+                <div class="bg-slate-950 border border-slate-800 rounded-2xl p-3 flex flex-col justify-between hover:border-pink-500/50 transition group">
+                    <div>
+                        <div class="w-full h-40 rounded-xl overflow-hidden bg-slate-900 border border-slate-800/80 mb-2 relative">
+                            <img src="${item.img}" alt="${item.name}" class="w-full h-full object-cover group-hover:scale-105 transition duration-300" onerror="this.src='https://via.placeholder.com/150?text=Gift+Image'">
+                        </div>
+                        <h4 class="font-bold text-xs text-slate-200 line-clamp-1 group-hover:text-pink-400 transition">${item.name}</h4>
+                        <div class="text-xs font-black text-amber-400 mt-1">${formatMoney(item.point)}</div>
+                    </div>
+                    <button onclick="exchangeGift('${item.id}')" class="mt-3 w-full bg-gradient-to-r from-pink-500 to-purple-600 hover:from-pink-400 hover:to-purple-500 text-white font-black py-2 rounded-xl text-xs transition shadow-lg shadow-pink-500/20 flex items-center justify-center gap-1">
+                        <i class="fa-solid fa-cart-shopping"></i> ĐỔI NGAY
+                    </button>
+                </div>
+            `).join('');
+        }
+
+        function exchangeGift(itemId) {
+            const item = GIFT_ITEMS.find(g => g.id === itemId);
+            if (!item) return;
+
+            if (currentUser.balance < item.point) {
+                alert(`❌ Số dư của bạn không đủ để đổi [${item.name}]! Bạn cần có ${formatMoney(item.point)}.`);
+                return;
+            }
+
+            if (!confirm(`🎁 Bạn có chắc chắn muốn quy đổi [${item.name}] với giá ${formatMoney(item.point)} không?`)) {
+                return;
+            }
+
+            currentUser.balance -= item.point;
+            syncBalanceToDB();
+            updateBalanceDisplay();
+
+            const exchanges = getGiftExchanges();
+            const newExchange = {
+                id: Date.now(),
+                username: currentUser.username,
+                itemName: item.name,
+                itemPoint: item.point,
+                itemImg: item.img,
+                isGiven: false,
+                time: new Date().toLocaleTimeString('vi-VN') + " - " + new Date().toLocaleDateString('vi-VN')
+            };
+            exchanges.push(newExchange);
+            saveGiftExchanges(exchanges);
+
+            closeGiftModal();
+            playBeep(1000, 'sine', 0.4);
+
+            showGiftSuccessBanner(item.name);
+            notifyAdminExchange(newExchange);
+        }
+
+        function showGiftSuccessBanner(itemName) {
+            showNotificationBanner("QUY ĐỔI THÀNH CÔNG!", `Quà [${itemName}] của bạn đã quy đổi thành công. Hãy liên hệ Admin!`, true);
+        }
+
+        function notifyAdminExchange(ex) {
+            if (!currentUser || !currentUser.isAdmin) return;
+            
+            const notifyPopup = document.getElementById('admin-notify-popup');
+            const notifyTitle = document.getElementById('admin-notify-title');
+            const notifyText = document.getElementById('admin-notify-text');
+            const notifyImgContainer = document.getElementById('admin-notify-img-container');
+            const notifyImg = document.getElementById('admin-notify-img');
+            const approveBtn = document.getElementById('admin-notify-approve-btn');
+
+            notifyTitle.innerText = "NGƯỜI CHƠI ĐỔI QUÀ MỚI!";
+            notifyText.innerText = `[${ex.username}] vừa đổi [${ex.itemName}] giá ${formatMoney(ex.itemPoint)}`;
+            notifyImg.src = ex.itemImg;
+            notifyImgContainer.classList.remove('hidden');
+
+            approveBtn.onclick = () => {
+                openAdminModal();
+                closeAdminNotify();
+            };
+
+            notifyPopup.classList.remove('translate-y-40', 'opacity-0', 'pointer-events-none');
+            notifyPopup.classList.add('translate-y-0', 'opacity-100');
+        }
+
+        // --- NẠP TIỀN & XỬ LÝ ---
         function openDepositModal() {
             if (!currentUser) {
                 alert("⚠️ Vui lòng Đăng nhập tài khoản trước khi nạp POINT!");
                 openAuthModal('login');
                 return;
             }
+
+            const played = currentUser.playedRounds || 0;
+            if (played < 1 && !currentUser.isAdmin) {
+                alert(`⚠️ TÀI KHOẢN MỚI CẦN CHƠI ĐỦ 1 LƯỢT!\nBạn hiện mới chơi ${played}/1 lượt. Vui lòng tham gia ít nhất 1 lượt cược đua chó đầu tiên trước khi thực hiện nạp POINT!`);
+                return;
+            }
+
             resetDepositModal();
             document.getElementById('deposit-modal').classList.remove('hidden');
         }
@@ -1168,13 +1458,14 @@
                     approveDepositRequest(pendingPasscodeReqId);
                     closeResultBanner();
                     closePasscodeModal();
-                    alert("🎉 Mã bảo vệ chính xác! Số POINT đã được nạp vào tài khoản của bạn.");
+                    showNotificationBanner("DUYỆT NẠP TỰ ĐỘNG", "Mã bảo vệ chính xác! POINT đã được nạp vào tài khoản.", true);
                 }
             } else {
                 alert("❌ Mã bảo vệ không chính xác! Vui lòng kiểm tra lại.");
             }
         }
 
+        // --- BẢNG QUẢN TRỊ ADMIN ---
         function openAdminModal() {
             if (!currentUser || !currentUser.isAdmin) return;
             renderAdminPanelData();
@@ -1186,6 +1477,32 @@
         }
 
         function renderAdminPanelData() {
+            const exchanges = getGiftExchanges();
+            const giftContainer = document.getElementById('admin-gift-requests');
+            if (exchanges.length === 0) {
+                giftContainer.innerHTML = `<div class="text-xs text-slate-500 italic p-3 bg-slate-950 rounded-xl text-center">Chưa có lượt quy đổi quà nào.</div>`;
+            } else {
+                giftContainer.innerHTML = exchanges.map(ex => `
+                    <div class="bg-slate-950 p-3 rounded-2xl border border-slate-800 flex items-center justify-between gap-3 text-xs">
+                        <div class="flex items-center gap-3 flex-1 min-w-0">
+                            <img src="${ex.itemImg}" class="w-12 h-12 object-cover rounded-lg border border-pink-500/30 shrink-0">
+                            <div class="truncate">
+                                <div class="flex items-center gap-2">
+                                    <span class="font-bold text-amber-400 truncate">${ex.username}</span>
+                                    <span class="text-[10px] text-slate-500 shrink-0">${ex.time}</span>
+                                </div>
+                                <div class="text-slate-200 font-bold mt-0.5 truncate">${ex.itemName}</div>
+                                <div class="text-[10px] text-pink-400 font-bold">Giá trị: ${formatMoney(ex.itemPoint)}</div>
+                            </div>
+                        </div>
+                        <button onclick="toggleGiftGivenStatus(${ex.id})" class="px-3 py-1.5 rounded-xl font-bold text-xs transition shrink-0 ${ex.isGiven ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 hover:bg-emerald-500/30' : 'bg-amber-500/20 text-amber-400 border border-amber-500/30 hover:bg-amber-500/30'}">
+                            <i class="fa-solid ${ex.isGiven ? 'fa-circle-check' : 'fa-clock'}"></i>
+                            ${ex.isGiven ? 'Đã tặng' : 'Chưa tặng'}
+                        </button>
+                    </div>
+                `).join('');
+            }
+
             const reqs = getCashRequests();
             const reqContainer = document.getElementById('admin-cash-requests');
 
@@ -1201,9 +1518,14 @@
                             <span class="text-[10px] bg-slate-800 px-1.5 py-0.5 rounded text-amber-300 font-bold ml-1">${r.type || 'TIỀN MẶT'}</span>
                             <div class="text-[10px] text-slate-500 mt-0.5">${r.time}</div>
                         </div>
-                        <button onclick="approveDepositRequest(${r.id})" class="bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-black px-3 py-1.5 rounded-xl transition">
-                            DUYỆT NẠP
-                        </button>
+                        <div class="flex items-center gap-2">
+                            <button onclick="approveDepositRequest(${r.id})" class="bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-black px-3 py-1.5 rounded-xl transition">
+                                DUYỆT NẠP
+                            </button>
+                            <button onclick="rejectDepositRequest(${r.id})" class="bg-rose-500/20 hover:bg-rose-500/30 text-rose-400 border border-rose-500/30 font-bold px-3 py-1.5 rounded-xl transition">
+                                HỦY BỎ
+                            </button>
+                        </div>
                     </div>
                 `).join('');
             }
@@ -1211,14 +1533,108 @@
             const db = getUsersDB();
             const tableBody = document.getElementById('admin-users-table');
             tableBody.innerHTML = Object.values(db).map(u => `
-                <tr class="hover:bg-slate-800/30 transition">
+                <tr onclick="openAdminUserDetailModal('${u.username}')" class="hover:bg-slate-800/50 cursor-pointer transition">
                     <td class="p-2.5 font-bold ${u.isAdmin ? 'text-rose-400' : 'text-amber-400'}">
                         ${u.username} ${u.isAdmin ? '<span class="text-[9px] bg-rose-500/20 text-rose-300 px-1.5 py-0.5 rounded border border-rose-500/30 ml-1">ADMIN</span>' : ''}
                     </td>
                     <td class="p-2.5 text-slate-400">${u.email}</td>
+                    <td class="p-2.5 font-bold text-cyan-400">${u.playedRounds || 0} lượt</td>
                     <td class="p-2.5 font-bold text-emerald-400">${formatMoney(u.balance)}</td>
+                    <td class="p-2.5 text-right">
+                        ${u.isBanned ? 
+                            `<span class="text-[10px] bg-rose-500/20 text-rose-400 border border-rose-500/30 font-bold px-2 py-1 rounded-lg">Đã ban</span>` : 
+                            `<span class="text-[10px] bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 font-bold px-2 py-1 rounded-lg">Hoạt động</span>`
+                        }
+                    </td>
                 </tr>
             `).join('');
+        }
+
+        function toggleGiftGivenStatus(exId) {
+            let exchanges = getGiftExchanges();
+            const ex = exchanges.find(e => e.id === exId);
+            if (!ex) return;
+
+            ex.isGiven = !ex.isGiven;
+            saveGiftExchanges(exchanges);
+            renderAdminPanelData();
+            showNotificationBanner("ĐÃ CẬP NHẬT TRẠNG THÁI", `Quà [${ex.itemName}] chuyển thành: ${ex.isGiven ? 'Đã tặng' : 'Chưa tặng'}`);
+        }
+
+        function rejectDepositRequest(reqId) {
+            let reqs = getCashRequests();
+            const req = reqs.find(r => r.id === reqId);
+            if (!req) return;
+
+            if (confirm(`❌ Bạn có chắc muốn HỦY BỎ yêu cầu nạp ${formatMoney(req.amount)} của [${req.username}] không?`)) {
+                reqs = reqs.filter(r => r.id !== reqId);
+                saveCashRequests(reqs);
+                renderAdminPanelData();
+                showNotificationBanner("ĐÃ HỦY YÊU CẦU NẠP", `Đã hủy yêu cầu nạp POINT của [${req.username}]`, false);
+            }
+        }
+
+        // --- CHI TIẾT TÀI KHOẢN & KHÓA/GỠ KHÓA TÀI KHOẢN ---
+        function openAdminUserDetailModal(username) {
+            const db = getUsersDB();
+            const u = db[username];
+            if (!u) return;
+
+            selectedUserForAdmin = u.username;
+            document.getElementById('detail-username').innerText = u.username;
+            document.getElementById('detail-email').innerText = u.email;
+            document.getElementById('detail-balance').innerText = formatMoney(u.balance);
+            document.getElementById('detail-played').innerText = `${u.playedRounds || 0} lượt`;
+            
+            const statusEl = document.getElementById('detail-status');
+            const banBtn = document.getElementById('ban-toggle-btn');
+
+            if (u.isBanned) {
+                statusEl.innerText = "Đã bị khóa (Banned)";
+                statusEl.className = "font-bold text-rose-500";
+                banBtn.className = "flex-1 py-3 rounded-2xl font-black text-xs transition uppercase bg-emerald-500 hover:bg-emerald-400 text-slate-950 shadow-lg shadow-emerald-500/20";
+                banBtn.innerHTML = `<i class="fa-solid fa-lock-open mr-1"></i> Gỡ ban tài khoản`;
+            } else {
+                statusEl.innerText = "Đang hoạt động";
+                statusEl.className = "font-bold text-emerald-400";
+                banBtn.className = "flex-1 py-3 rounded-2xl font-black text-xs transition uppercase bg-rose-600 hover:bg-rose-500 text-white shadow-lg shadow-rose-600/30";
+                banBtn.innerHTML = `<i class="fa-solid fa-user-slash mr-1"></i> Khóa tài khoản (Ban)`;
+            }
+
+            document.getElementById('admin-user-detail-modal').classList.remove('hidden');
+        }
+
+        function closeAdminUserDetailModal() {
+            document.getElementById('admin-user-detail-modal').classList.add('hidden');
+            selectedUserForAdmin = null;
+        }
+
+        function toggleBanSelectedUser() {
+            if (!selectedUserForAdmin) return;
+            const db = getUsersDB();
+            const u = db[selectedUserForAdmin];
+            if (!u) return;
+
+            if (u.isAdmin) {
+                alert("❌ Không thể khóa tài khoản Administrator!");
+                return;
+            }
+
+            if (u.isBanned) {
+                u.isBanned = false;
+                showNotificationBanner("ĐÃ GỠ BAN", `Tài khoản [${u.username}] đã hoạt động bình thường!`, true);
+            } else {
+                if (confirm(`🚨 Bạn có chắc chắn muốn BAN / KHÓA tài khoản [${u.username}] không?`)) {
+                    u.isBanned = true;
+                    showNotificationBanner("ĐÃ KHÓA TÀI KHOẢN", `Tài khoản [${u.username}] đã bị cấm đăng nhập!`, false);
+                } else {
+                    return;
+                }
+            }
+
+            saveUsersDB(db);
+            closeAdminUserDetailModal();
+            renderAdminPanelData();
         }
 
         function approveDepositRequest(reqId) {
@@ -1243,6 +1659,7 @@
             renderAdminPanelData();
             closeAdminNotify();
             playBeep(880, 'sine', 0.2);
+            showNotificationBanner("DUYỆT NẠP THÀNH CÔNG", `Đã cộng +${formatMoney(req.amount)} cho [${req.username}]`, true);
         }
 
         function checkPendingRequestsForAdmin() {
@@ -1251,9 +1668,13 @@
             if (reqs.length > 0) {
                 const latest = reqs[reqs.length - 1];
                 const notifyPopup = document.getElementById('admin-notify-popup');
+                const notifyTitle = document.getElementById('admin-notify-title');
                 const notifyText = document.getElementById('admin-notify-text');
+                const notifyImgContainer = document.getElementById('admin-notify-img-container');
                 const approveBtn = document.getElementById('admin-notify-approve-btn');
 
+                notifyTitle.innerText = "YÊU CẦU NẠP POINT MỚI!";
+                notifyImgContainer.classList.add('hidden');
                 notifyText.innerText = `[${latest.username}] gửi yêu cầu nạp ${formatMoney(latest.amount)} (${latest.type || 'TIỀN MẶT'})`;
                 approveBtn.onclick = () => approveDepositRequest(latest.id);
 
@@ -1308,14 +1729,14 @@
 
             if (isWin) {
                 bannerContent.className = "p-4 rounded-2xl border border-emerald-500/50 bg-slate-900/95 text-emerald-400 shadow-[0_0_30px_rgba(16,185,129,0.3)] backdrop-blur-xl flex flex-col gap-3";
-                bannerIcon.innerHTML = "🎉";
-                bannerTitle.innerText = "XIN CHÚC MỪNG! BẠN ĐÃ THẮNG CƯỢC";
-                bannerSub.innerText = `Chú chó ${winnerName} đã cán đích xuất sắc! +${formatMoney(amount)}`;
+                bannerIcon.innerHTML = "🏆";
+                bannerTitle.innerText = "BẠN ĐÃ THẮNG CƯỢC!";
+                bannerSub.innerText = `${winnerName} về nhất! Bạn nhận +${formatMoney(amount)}`;
             } else {
                 bannerContent.className = "p-4 rounded-2xl border border-rose-500/50 bg-slate-900/95 text-rose-400 shadow-[0_0_30px_rgba(244,63,94,0.3)] backdrop-blur-xl flex flex-col gap-3";
-                bannerIcon.innerHTML = "😭";
-                bannerTitle.innerText = "RẤT TIẾC! BẠN ĐÃ THUA CƯỢC";
-                bannerSub.innerText = `Chú chó ${winnerName} về nhất. Bạn bị trừ -${formatMoney(amount)}`;
+                bannerIcon.innerHTML = "💔";
+                bannerTitle.innerText = "BẠN ĐÃ THUA CƯỢC!";
+                bannerSub.innerText = `${winnerName} về nhất. Bạn mất -${formatMoney(amount)}`;
             }
 
             banner.classList.remove('-translate-y-32', 'opacity-0', 'pointer-events-none');
@@ -1324,71 +1745,82 @@
             setTimeout(() => { closeResultBanner(); }, 5000);
         }
 
-        function closeResultBanner() {
-            const banner = document.getElementById('result-banner');
-            banner.classList.remove('translate-y-0', 'opacity-100');
-            banner.classList.add('-translate-y-32', 'opacity-0', 'pointer-events-none');
-        }
-
+        // --- XỬ LÝ CHẠY ĐUA TỰ ĐỘNG DI CHUYỂN, ĐẾM NGUỢC 3S VÀ HIGHLIGHT ---
         function startRace() {
             if (isRacing) return;
 
             if (!currentUser) {
-                alert("⚠️ Vui lòng Đăng nhập hoặc Đăng ký tài khoản!");
+                alert("⚠️ Bạn cần Đăng nhập tài khoản để tham gia đặt cược!");
                 openAuthModal('login');
                 return;
             }
 
-            const betAmount = parseInt(document.getElementById('bet-amount').value);
-
             if (!selectedHorse) {
-                alert("⚠️ Bạn chưa chọn chú chó nào để đặt cược!");
+                alert("⚠️ Vui lòng chọn 1 chú chó chiến thắng trước khi bắt đầu!");
                 return;
             }
+
+            const betInput = document.getElementById('bet-amount');
+            const betAmount = parseInt(betInput.value);
+
             if (isNaN(betAmount) || betAmount < MIN_BET) {
-                alert(`⚠️ Mức đặt cược tối thiểu là ${formatMoney(MIN_BET)}!`);
+                alert(`⚠️ Mức cược tối thiểu là ${formatMoney(MIN_BET)}!`);
                 return;
             }
-            if (betAmount > currentUser.balance) {
-                alert("❌ Số dư tài khoản không đủ!");
-                openDepositModal();
+
+            if (currentUser.balance < betAmount) {
+                alert("❌ Số dư tài khoản không đủ để thực hiện lượt cược này!");
                 return;
             }
+
+            // Trừ tiền cược
+            currentUser.balance -= betAmount;
+            currentUser.playedRounds = (currentUser.playedRounds || 0) + 1;
+            syncBalanceToDB();
+            updateBalanceDisplay();
 
             isRacing = true;
-            document.getElementById('start-btn').disabled = true;
-            document.getElementById('start-btn').classList.add('opacity-50', 'cursor-not-allowed');
+            const startBtn = document.getElementById('start-btn');
+            startBtn.disabled = true;
+            startBtn.classList.add('opacity-50', 'cursor-not-allowed');
 
+            // 1. Tự động cuộn xuống khu vực đường đua và HIGHLIGHT VIỀN VÀNG
             scrollToSection('track-section', 'highlight-border-gold');
 
-            for (let i = 1; i <= 7; i++) {
-                const hEl = document.getElementById(horses[i].elementId);
-                const tEl = document.getElementById(horses[i].timeId);
-                hEl.style.left = '0%';
+            // Reset vị trí & thời gian đường đua
+            Object.keys(horses).forEach(id => {
+                const hEl = document.getElementById(horses[id].elementId);
+                const tEl = document.getElementById(horses[id].timeId);
+                hEl.style.left = "0%";
                 hEl.classList.remove('running', 'dust-cloud');
                 tEl.classList.add('hidden');
-            }
+            });
 
-            let count = 3;
+            // 2. ĐẾM NGUỢC 3 GIÂY TRƯỚC KHU VỰC ĐUA
             const statusEl = document.getElementById('race-status');
             const countdownEl = document.getElementById('countdown-display');
             const liveDot = document.getElementById('live-dot');
             const livePing = document.getElementById('live-ping');
 
-            statusEl.innerText = "ĐANG VÀO VẠCH XUẤT PHÁT...";
-            statusEl.className = "font-extrabold text-[11px] sm:text-xs md:text-sm text-amber-400 uppercase tracking-wider";
+            statusEl.innerText = "ĐANG CHUẨN BỊ XUẤT PHÁT...";
+            statusEl.className = "font-extrabold text-[11px] sm:text-xs md:text-sm text-amber-400 uppercase tracking-wider animate-pulse";
+            
+            let countdown = 3;
+            countdownEl.innerText = `00:0${countdown}`;
+            playBeep(523, 'sine', 0.15);
 
             const timer = setInterval(() => {
-                if (count > 0) {
-                    countdownEl.innerText = `00:0${count}`;
-                    playBeep(400, 'square', 0.1);
-                    count--;
+                countdown--;
+                if (countdown > 0) {
+                    countdownEl.innerText = `00:0${countdown}`;
+                    playBeep(523, 'sine', 0.15);
                 } else {
                     clearInterval(timer);
-                    countdownEl.innerText = "GO!";
-                    playBeep(800, 'square', 0.3);
-                    
-                    statusEl.innerText = "CUỘC ĐUA ĐANG DIỄN RA KỊCH TÍNH!";
+                    countdownEl.innerText = "START!";
+                    playBeep(880, 'sine', 0.3);
+
+                    // BẮT ĐẦU CHẠY ĐUA
+                    statusEl.innerText = "CUỘC ĐUA ĐANG DIỄN RA...";
                     statusEl.className = "font-extrabold text-[11px] sm:text-xs md:text-sm text-rose-500 uppercase tracking-wider animate-pulse";
                     liveDot.className = "relative inline-flex rounded-full h-3 w-3 sm:h-3.5 sm:w-3.5 bg-rose-500";
                     livePing.classList.remove('hidden');
@@ -1399,126 +1831,130 @@
         }
 
         function runRaceLogic(betAmount) {
-            const raceResults = {};
-            let minTime = 999;
-            let winnerId = null;
+            const trackWidthPercent = 90; // Điểm đích là 90%
+            let positions = {};
+            let raceTimes = {};
+            let finishedCount = 0;
+            let finishOrder = [];
 
-            for (let i = 1; i <= 7; i++) {
-                const cfg = horses[i];
-                const randomTime = Math.floor(Math.random() * (cfg.maxT - cfg.minT + 1)) + cfg.minT;
-                raceResults[i] = randomTime;
-                if (randomTime < minTime) {
-                    minTime = randomTime;
-                    winnerId = i;
-                }
-            }
-
-            const SIMULATION_DURATION = 10000; 
             const startTime = Date.now();
 
-            for (let i = 1; i <= 7; i++) {
-                const hEl = document.getElementById(horses[i].elementId);
+            // Khởi tạo tốc độ ngẫu nhiên cho từng chó
+            Object.keys(horses).forEach(id => {
+                positions[id] = 0;
+                const hEl = document.getElementById(horses[id].elementId);
                 hEl.classList.add('running', 'dust-cloud');
-            }
+            });
 
             const raceInterval = setInterval(() => {
-                const elapsedTime = Date.now() - startTime;
-                const progressRatio = Math.min(elapsedTime / SIMULATION_DURATION, 1);
+                const elapsedTime = (Date.now() - startTime) / 1000;
+                
+                Object.keys(horses).forEach(id => {
+                    if (positions[id] < trackWidthPercent) {
+                        // Tính vận tốc tiến lên dựa trên sức mạnh & yếu tố may mắn
+                        const speed = (Math.random() * 0.8 + (horses[id].power / 100) * 0.6);
+                        positions[id] += speed;
 
-                for (let i = 1; i <= 7; i++) {
-                    const hEl = document.getElementById(horses[i].elementId);
-                    const speedFactor = 70 / raceResults[i]; 
-                    const currentProgress = Math.min(progressRatio * (speedFactor * 87), 87);
-                    hEl.style.left = `${currentProgress}%`;
-                }
+                        if (positions[id] >= trackWidthPercent) {
+                            positions[id] = trackWidthPercent;
+                            if (!raceTimes[id]) {
+                                raceTimes[id] = elapsedTime.toFixed(2);
+                                finishOrder.push(parseInt(id));
+                                finishedCount++;
 
-                if (progressRatio >= 1) {
+                                const hEl = document.getElementById(horses[id].elementId);
+                                const tEl = document.getElementById(horses[id].timeId);
+                                hEl.classList.remove('running', 'dust-cloud');
+                                tEl.innerText = `${raceTimes[id]}s`;
+                                tEl.classList.remove('hidden');
+                            }
+                        }
+
+                        document.getElementById(horses[id].elementId).style.left = `${positions[id]}%`;
+                    }
+                });
+
+                // Cập nhật bộ đếm thời gian
+                document.getElementById('countdown-display').innerText = `00:${elapsedTime < 10 ? '0' : ''}${Math.floor(elapsedTime)}`;
+
+                // KẾT THÚC CUỘC ĐUA
+                if (finishedCount === Object.keys(horses).length) {
                     clearInterval(raceInterval);
-                    finishRace(raceResults, winnerId, betAmount);
+                    finishRace(finishOrder, raceTimes, betAmount);
                 }
-            }, 30);
+            }, 50);
         }
 
-        function finishRace(raceResults, winnerId, betAmount) {
-            for (let i = 1; i <= 7; i++) {
-                const hEl = document.getElementById(horses[i].elementId);
-                const tEl = document.getElementById(horses[i].timeId);
-                
-                hEl.style.left = '87%';
-                hEl.classList.remove('running', 'dust-cloud');
-                
-                tEl.innerText = `${raceResults[i]}s`;
-                tEl.classList.remove('hidden');
+        function finishRace(finishOrder, raceTimes, betAmount) {
+            const winnerId = finishOrder[0];
+            const winnerHorse = horses[winnerId];
+            const isWin = (selectedHorse === winnerId);
+
+            let winAmount = 0;
+            if (isWin) {
+                winAmount = Math.floor(betAmount * winnerHorse.odds);
+                currentUser.balance += winAmount;
+                syncBalanceToDB();
+                updateBalanceDisplay();
             }
 
+            // Cập nhật UI trạng thái
             const statusEl = document.getElementById('race-status');
             const liveDot = document.getElementById('live-dot');
             const livePing = document.getElementById('live-ping');
 
-            statusEl.innerText = "ĐÃ CÁN VẠCH ĐÍCH HOÀN THÀNH";
+            statusEl.innerText = "KẾT THÚC CUỘC ĐUA";
             statusEl.className = "font-extrabold text-[11px] sm:text-xs md:text-sm text-emerald-400 uppercase tracking-wider";
             liveDot.className = "relative inline-flex rounded-full h-3 w-3 sm:h-3.5 sm:w-3.5 bg-slate-600";
             livePing.classList.add('hidden');
 
-            const isWin = (selectedHorse === winnerId);
-            const winnerOdds = horses[winnerId].odds;
-            let winProfit = 0;
-
-            if (isWin) {
-                winProfit = Math.round(betAmount * (winnerOdds - 1));
-                currentUser.balance += winProfit;
-                playBeep(1000, 'sine', 0.4);
-            } else {
-                currentUser.balance -= betAmount;
-                playBeep(200, 'sawtooth', 0.4);
-            }
-
-            syncBalanceToDB();
-            updateBalanceDisplay();
-
-            let resultsHTML = `
-                <div class="space-y-3 text-left">
-                    <div class="flex justify-between items-center bg-amber-500/10 border border-amber-500/30 p-3 rounded-xl">
-                        <span class="font-black text-amber-400 text-xs sm:text-sm">🏆 VÔ ĐỊCH: 🐕 Số ${winnerId} - ${horses[winnerId].name} (Odds x${winnerOdds})</span>
-                        <span class="font-mono font-bold text-xs text-amber-300">${raceResults[winnerId]}s</span>
-                    </div>
-                    <div class="grid grid-cols-2 sm:grid-cols-3 gap-2 text-[10px] sm:text-[11px] text-slate-400 font-medium">
-                        <div>1. Kil'groth: ${raceResults[1]}s</div>
-                        <div>2. Dolia: ${raceResults[2]}s</div>
-                        <div>3. Billow: ${raceResults[3]}s</div>
-                        <div>4. Flo: ${raceResults[4]}s</div>
-                        <div>5. Bijan: ${raceResults[5]}s</div>
-                        <div>6. Max: ${raceResults[6]}s</div>
-                        <div>7. Zata: ${raceResults[7]}s</div>
-                    </div>
-                    <div class="pt-2 border-t border-slate-800 text-center text-xs sm:text-sm font-black ${isWin ? 'text-emerald-400' : 'text-rose-500'}">
-                        ${isWin ? `🎉 THẮNG CƯỢC: +${formatMoney(winProfit)} (Nhận x${winnerOdds})` : `😭 THUA CƯỢC: -${formatMoney(betAmount)}`}
-                    </div>
+            // Render Bảng xếp hạng thành tích
+            const resultsBoard = document.getElementById('results-board');
+            resultsBoard.className = "bg-slate-950 p-4 rounded-2xl border border-slate-800/80 space-y-2 text-left";
+            
+            resultsBoard.innerHTML = `
+                <div class="flex justify-between items-center pb-2 border-b border-slate-800 text-xs font-black text-amber-400 uppercase tracking-wider">
+                    <span>Hạng / Chú Chó</span>
+                    <span>Thời Gian Về Đích</span>
                 </div>
-            `;
-            document.getElementById('results-board').innerHTML = resultsHTML;
+            ` + finishOrder.map((id, index) => {
+                const rankColors = [
+                    'text-amber-400 font-black text-sm',
+                    'text-cyan-300 font-bold',
+                    'text-purple-300 font-bold',
+                    'text-slate-400',
+                    'text-slate-400',
+                    'text-slate-400',
+                    'text-slate-400'
+                ];
+                const rankIcons = ['🥇 HẠNG 1', '🥈 HẠNG 2', '🥉 HẠNG 3', '4', '5', '6', '7'];
+                return `
+                    <div class="flex justify-between items-center py-1.5 px-2 rounded-xl bg-slate-900/60 border border-slate-800/40 text-xs">
+                        <div class="flex items-center gap-2">
+                            <span class="w-16 font-black ${rankColors[index]}">${rankIcons[index]}</span>
+                            <span class="font-bold text-slate-200">${horses[id].name}</span>
+                            ${id === selectedHorse ? '<span class="text-[9px] bg-amber-500/20 text-amber-300 border border-amber-500/30 px-1.5 py-0.5 rounded font-black">BẠN ĐẶT</span>' : ''}
+                        </div>
+                        <span class="font-mono font-bold text-emerald-400">${raceTimes[id]}s</span>
+                    </div>
+                `;
+            }).join('');
 
-            showResultBanner(isWin, isWin ? winProfit : betAmount, horses[winnerId].name);
-            scrollToSection('results-section', isWin ? 'highlight-border-green' : 'highlight-border-red');
+            // Hiển thị Banner kết quả
+            showResultBanner(isWin, isWin ? winAmount : betAmount, winnerHorse.name);
 
-            isRacing = false;
-            document.getElementById('start-btn').disabled = false;
-            document.getElementById('start-btn').classList.remove('opacity-50', 'cursor-not-allowed');
+            // 3. TỰ ĐỘNG DI CHUYỂN TỚI BẢNG XẾP HẠNG & HIGHLIGHT VIỀN (XANH NẾU THẮNG, ĐỎ NẾU THUA)
+            setTimeout(() => {
+                const highlightColor = isWin ? 'highlight-border-green' : 'highlight-border-red';
+                scrollToSection('results-section', highlightColor);
 
-            if (currentUser.balance < MIN_BET) {
-                setTimeout(() => {
-                    alert(`💥 Số dư trong DB còn ${formatMoney(currentUser.balance)}, không đủ mức cược tối thiểu. Vui lòng nạp thêm!`);
-                    openDepositModal();
-                }, 1500);
-            }
+                // Mở lại nút đặt cược
+                isRacing = false;
+                const startBtn = document.getElementById('start-btn');
+                startBtn.disabled = false;
+                startBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+            }, 800);
         }
-
-        window.addEventListener('click', function(e) {
-            const userView = document.getElementById('user-view');
-            if (userView && !userView.contains(e.target)) {
-                document.getElementById('user-dropdown').classList.add('hidden');
-            }
-        });
     </script>
 </body>
 </html>
