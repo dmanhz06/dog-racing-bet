@@ -63,17 +63,28 @@
 </head>
 <body class="bg-slate-950 text-slate-100 min-h-screen font-sans flex flex-col justify-between selection:bg-amber-500 selection:text-black">
 
-    <!-- BANNER THÔNG BÁO THẮNG / THUA & THÔNG BÁO NẠP TIỀN -->
+    <!-- BANNER THÔNG BÁO HỆ THỐNG / KẾT QUẢ / TRẠNG THÁI NẠP TIỀN -->
     <div id="result-banner" class="fixed top-20 left-1/2 -translate-x-1/2 z-50 transition-all duration-500 transform -translate-y-32 opacity-0 pointer-events-none max-w-md w-11/12">
-        <div id="banner-content" class="p-4 rounded-2xl border shadow-2xl backdrop-blur-xl flex items-center justify-between">
-            <div class="flex items-center gap-3">
-                <div id="banner-icon" class="text-3xl"></div>
-                <div>
-                    <h4 id="banner-title" class="font-black text-sm uppercase tracking-wider"></h4>
-                    <p id="banner-sub" class="text-xs font-bold mt-0.5"></p>
+        <div id="banner-content" class="p-4 rounded-2xl border shadow-2xl backdrop-blur-xl flex flex-col gap-3">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center gap-3">
+                    <div id="banner-icon" class="text-3xl"></div>
+                    <div>
+                        <h4 id="banner-title" class="font-black text-sm uppercase tracking-wider"></h4>
+                        <p id="banner-sub" class="text-xs font-bold mt-0.5"></p>
+                    </div>
                 </div>
+                <button onclick="closeResultBanner()" class="text-slate-400 hover:text-white p-1"><i class="fa-solid fa-xmark"></i></button>
             </div>
-            <button onclick="closeResultBanner()" class="text-slate-400 hover:text-white p-1"><i class="fa-solid fa-xmark"></i></button>
+            <!-- KHU VỰC TƯƠNG TÁC XÁC NHẬN / NHẬP MÃ BẢO VỆ CHO NẠP TIỀN -->
+            <div id="banner-actions" class="hidden border-t border-slate-700/60 pt-3 flex flex-wrap gap-2 justify-end">
+                <button id="banner-approve-btn" class="bg-emerald-500 hover:bg-emerald-400 text-slate-950 text-xs font-black px-3 py-1.5 rounded-lg transition flex items-center gap-1">
+                    <i class="fa-solid fa-check-circle"></i> Xác nhận
+                </button>
+                <button id="banner-passcode-btn" class="bg-amber-500 hover:bg-amber-400 text-slate-950 text-xs font-black px-3 py-1.5 rounded-lg transition flex items-center gap-1">
+                    <i class="fa-solid fa-key"></i> Nhập mã bảo vệ
+                </button>
+            </div>
         </div>
     </div>
 
@@ -84,7 +95,7 @@
                 <i class="fa-solid fa-bell animate-bounce"></i>
             </div>
             <div class="flex-1">
-                <h4 class="font-black text-amber-400 text-xs uppercase">Yêu cầu nạp tiền mới!</h4>
+                <h4 class="font-black text-amber-400 text-xs uppercase">Yêu cầu nạp POINT mới!</h4>
                 <p id="admin-notify-text" class="text-xs text-slate-300 mt-1 font-medium"></p>
                 <div class="mt-3 flex gap-2">
                     <button id="admin-notify-approve-btn" class="bg-emerald-500 hover:bg-emerald-400 text-slate-950 text-xs font-black px-3 py-1.5 rounded-lg transition">Duyệt ngay</button>
@@ -116,16 +127,16 @@
                     <i class="fa-solid fa-coins text-amber-400 text-base sm:text-xl animate-bounce"></i>
                     <div>
                         <div class="text-[9px] sm:text-[10px] text-slate-400 font-bold uppercase tracking-wider">Số dư</div>
-                        <div id="balance" class="text-xs sm:text-lg font-black text-emerald-400 tracking-tight">0 VNĐ</div>
+                        <div id="balance" class="text-xs sm:text-lg font-black text-emerald-400 tracking-tight">0 POINT</div>
                     </div>
                 </div>
 
                 <button onclick="openDepositModal()" class="bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-400 hover:to-teal-500 text-slate-950 font-black px-3 sm:px-4 py-2 sm:py-2.5 rounded-2xl shadow-lg shadow-emerald-500/20 transition active:scale-95 flex items-center gap-1.5 sm:gap-2 text-xs sm:text-sm">
                     <i class="fa-solid fa-plus-circle text-xs sm:text-base"></i>
-                    <span class="hidden sm:inline">NẠP TIỀN</span>
+                    <span class="hidden sm:inline">NẠP POINT</span>
                 </button>
 
-                <!-- Nút Admin Panel (Hiện khi Admin đăng nhập) -->
+                <!-- Nút Admin Panel -->
                 <button id="admin-panel-btn" onclick="openAdminModal()" class="hidden bg-rose-600 hover:bg-rose-500 text-white font-black px-3 sm:px-4 py-2 sm:py-2.5 rounded-2xl shadow-lg shadow-rose-600/30 transition active:scale-95 flex items-center gap-1.5 text-xs sm:text-sm animate-pulse">
                     <i class="fa-solid fa-user-shield"></i>
                     <span>ADMIN PANEL</span>
@@ -299,7 +310,7 @@
                         </div>
                     </div>
 
-                    <!-- Làn Đua 6 (Max) -->
+                    <!-- Làn Đua 6 -->
                     <div class="relative bg-slate-900/90 rounded-xl p-1.5 border border-slate-800/80 flex items-center h-12 sm:h-14 group hover:border-indigo-500/30 transition">
                         <div class="w-24 sm:w-32 flex flex-col justify-center gap-0.5 z-20 shrink-0 pr-1">
                             <div class="flex items-center gap-1">
@@ -318,7 +329,7 @@
                         </div>
                     </div>
 
-                    <!-- Làn Đua 7 (Zata) -->
+                    <!-- Làn Đua 7 -->
                     <div class="relative bg-slate-900/90 rounded-xl p-1.5 border border-slate-800/80 flex items-center h-12 sm:h-14 group hover:border-teal-500/30 transition">
                         <div class="w-24 sm:w-32 flex flex-col justify-center gap-0.5 z-20 shrink-0 pr-1">
                             <div class="flex items-center gap-1">
@@ -356,15 +367,16 @@
         <section class="lg:col-span-4 space-y-4">
             <div class="bg-slate-900 border border-slate-800 rounded-3xl p-4 sm:p-5 shadow-2xl flex flex-col justify-between h-full">
                 <div>
+                    <!-- TIÊU ĐỀ MỚI -->
                     <h2 class="text-sm sm:text-base font-black text-amber-400 uppercase mb-3 sm:mb-4 flex items-center gap-2 border-b border-slate-800 pb-2.5 sm:pb-3 tracking-wider">
                         <i class="fa-solid fa-ticket"></i>
-                        Phiếu Cá Cược
+                        CHỌN THẺ TAY ĐUA CHÓ
                     </h2>
 
                     <!-- CHỌN CHÓ -->
                     <div class="mb-4 sm:mb-5">
                         <label class="block text-xs font-bold text-slate-400 uppercase mb-2 tracking-wider">
-                            1. Chọn Chiến Dũng Sĩ Về Nhất
+                            1. Chọn Tay Đua Chó Về Nhất
                         </label>
                         <div class="grid grid-cols-1 gap-2 max-h-[380px] overflow-y-auto pr-1">
                             
@@ -373,7 +385,7 @@
                                     <span class="text-lg dog-facing-right">🐕</span>
                                     <div>
                                         <div class="font-bold text-xs text-slate-200 group-hover:text-amber-400 transition">1. Kil'groth</div>
-                                        <div class="text-[10px] text-slate-500">70s-87s | Power: 90</div>
+                                        <div class="text-[10px] text-slate-500">70s-87s | Odds: 1.5</div>
                                     </div>
                                 </div>
                                 <span class="text-[10px] bg-amber-500/10 text-amber-400 font-extrabold px-2 py-1 rounded-lg border border-amber-500/20">x1.5</span>
@@ -384,10 +396,10 @@
                                     <span class="text-lg dog-facing-right">🐕</span>
                                     <div>
                                         <div class="font-bold text-xs text-slate-200 group-hover:text-cyan-400 transition">2. Dolia</div>
-                                        <div class="text-[10px] text-slate-500">72s-88s | Power: 80</div>
+                                        <div class="text-[10px] text-slate-500">71s-88s | Odds: 1.7</div>
                                     </div>
                                 </div>
-                                <span class="text-[10px] bg-cyan-500/10 text-cyan-400 font-extrabold px-2 py-1 rounded-lg border border-cyan-500/20">x2.2</span>
+                                <span class="text-[10px] bg-cyan-500/10 text-cyan-400 font-extrabold px-2 py-1 rounded-lg border border-cyan-500/20">x1.7</span>
                             </button>
 
                             <button onclick="selectHorse(3)" id="btn-horse-3" class="horse-btn bg-slate-950 hover:bg-slate-800 border border-slate-800 p-2.5 rounded-2xl text-left flex justify-between items-center transition group">
@@ -395,10 +407,10 @@
                                     <span class="text-lg dog-facing-right">🐕</span>
                                     <div>
                                         <div class="font-bold text-xs text-slate-200 group-hover:text-purple-400 transition">3. Billow</div>
-                                        <div class="text-[10px] text-slate-500">75s-92s | Power: 75</div>
+                                        <div class="text-[10px] text-slate-500">75s-92s | Odds: 3.1</div>
                                     </div>
                                 </div>
-                                <span class="text-[10px] bg-purple-500/10 text-purple-400 font-extrabold px-2 py-1 rounded-lg border border-purple-500/20">x3.8</span>
+                                <span class="text-[10px] bg-purple-500/10 text-purple-400 font-extrabold px-2 py-1 rounded-lg border border-purple-500/20">x3.1</span>
                             </button>
 
                             <button onclick="selectHorse(4)" id="btn-horse-4" class="horse-btn bg-slate-950 hover:bg-slate-800 border border-slate-800 p-2.5 rounded-2xl text-left flex justify-between items-center transition group">
@@ -406,7 +418,7 @@
                                     <span class="text-lg dog-facing-right">🐕</span>
                                     <div>
                                         <div class="font-bold text-xs text-slate-200 group-hover:text-rose-400 transition">4. Flo</div>
-                                        <div class="text-[10px] text-slate-500">79s-95s | Power: 65</div>
+                                        <div class="text-[10px] text-slate-500">80s-95s | Odds: 6.0</div>
                                     </div>
                                 </div>
                                 <span class="text-[10px] bg-rose-500/10 text-rose-400 font-extrabold px-2 py-1 rounded-lg border border-rose-500/20">x6.0</span>
@@ -417,7 +429,7 @@
                                     <span class="text-lg dog-facing-right">🐕</span>
                                     <div>
                                         <div class="font-bold text-xs text-slate-200 group-hover:text-emerald-400 transition">5. Bijan</div>
-                                        <div class="text-[10px] text-slate-500">81s-100s | Power: 55</div>
+                                        <div class="text-[10px] text-slate-500">81s-100s | Odds: 12.0</div>
                                     </div>
                                 </div>
                                 <span class="text-[10px] bg-emerald-500/10 text-emerald-400 font-extrabold px-2 py-1 rounded-lg border border-emerald-500/20">x12.0</span>
@@ -428,7 +440,7 @@
                                     <span class="text-lg dog-facing-right">🐕</span>
                                     <div>
                                         <div class="font-bold text-xs text-slate-200 group-hover:text-indigo-400 transition">6. Max</div>
-                                        <div class="text-[10px] text-slate-500">72s-89s | Power: 85</div>
+                                        <div class="text-[10px] text-slate-500">72s-89s | Odds: 2.0</div>
                                     </div>
                                 </div>
                                 <span class="text-[10px] bg-indigo-500/10 text-indigo-400 font-extrabold px-2 py-1 rounded-lg border border-indigo-500/20">x2.0</span>
@@ -439,10 +451,10 @@
                                     <span class="text-lg dog-facing-right">🐕</span>
                                     <div>
                                         <div class="font-bold text-xs text-slate-200 group-hover:text-teal-400 transition">7. Zata</div>
-                                        <div class="text-[10px] text-slate-500">74s-90s | Power: 70</div>
+                                        <div class="text-[10px] text-slate-500">75s-90s | Odds: 2.5</div>
                                     </div>
                                 </div>
-                                <span class="text-[10px] bg-teal-500/10 text-teal-400 font-extrabold px-2 py-1 rounded-lg border border-teal-500/20">x2.8</span>
+                                <span class="text-[10px] bg-teal-500/10 text-teal-400 font-extrabold px-2 py-1 rounded-lg border border-teal-500/20">x2.5</span>
                             </button>
 
                         </div>
@@ -452,12 +464,12 @@
                     <div class="mb-4 sm:mb-5">
                         <div class="flex justify-between items-center mb-2">
                             <label class="text-xs font-bold text-slate-400 uppercase tracking-wider">2. Nhập Mức Đặt Cược</label>
-                            <span class="text-[10px] font-extrabold text-amber-400">Min 5,000 VNĐ</span>
+                            <span class="text-[10px] font-extrabold text-amber-400">Min 5,000 POINT</span>
                         </div>
                         
                         <div class="relative">
                             <input type="number" id="bet-amount" value="5000" min="5000" step="5000" class="w-full bg-slate-950 border border-slate-800 rounded-2xl px-4 py-2.5 sm:py-3 text-emerald-400 font-black text-base sm:text-lg focus:outline-none focus:border-amber-400/80 transition" placeholder="5000">
-                            <span class="absolute right-4 top-1/2 -translate-y-1/2 text-xs font-bold text-slate-500">VNĐ</span>
+                            <span class="absolute right-4 top-1/2 -translate-y-1/2 text-xs font-bold text-slate-500">POINT</span>
                         </div>
 
                         <div class="grid grid-cols-3 gap-2 mt-2">
@@ -478,8 +490,9 @@
     </main>
 
     <!-- FOOTER -->
-    <footer class="bg-slate-900 border-t border-slate-800 py-4 text-center text-xs text-slate-500">
-        <p>© 2026 Game Cá Cược Đua Chó Chuyên Nghiệp - Hệ thống quản lý tài khoản & nạp tiền tự động.</p>
+    <footer class="bg-slate-900 border-t border-slate-800 py-4 text-center text-xs text-slate-500 space-y-1">
+        <p>© 2026 Game Đua Chó Chuyên Nghiệp - Hệ thống quản lý tài khoản & nạp tiền tự động.</p>
+        <p class="text-[11px] text-slate-400 font-medium">Phiên bản thử nghiệm dùng cho mục đích giải trí và học tập -- Contact me : duymanhbui305@gmail.com</p>
     </footer>
 
     <!-- MODALS HỆ THỐNG -->
@@ -494,20 +507,27 @@
                 <button id="tab-register" onclick="switchAuthTab('register')" class="text-sm sm:text-base font-bold text-slate-500 hover:text-slate-300 pb-1 transition">ĐĂNG KÝ</button>
             </div>
 
+            <!-- FORM LOG IN -->
             <form id="form-login" onsubmit="handleLogin(event)" class="space-y-4">
                 <div>
-                    <label class="block text-xs font-bold text-slate-400 uppercase mb-1">Tên tài khoản</label>
-                    <input type="text" id="login-username" required class="w-full bg-slate-950 border border-slate-800 rounded-2xl px-4 py-2.5 sm:py-3 text-slate-100 text-sm focus:outline-none focus:border-amber-400 transition" placeholder="Nhập tên tài khoản...">
+                    <label class="block text-xs font-bold text-slate-400 uppercase mb-1">Tên tài khoản hoặc Email</label>
+                    <input type="text" id="login-username" required class="w-full bg-slate-950 border border-slate-800 rounded-2xl px-4 py-2.5 sm:py-3 text-slate-100 text-sm focus:outline-none focus:border-amber-400 transition" placeholder="Nhập tên tài khoản hoặc email...">
                 </div>
                 <div>
                     <label class="block text-xs font-bold text-slate-400 uppercase mb-1">Mật khẩu</label>
-                    <input type="password" id="login-password" required class="w-full bg-slate-950 border border-slate-800 rounded-2xl px-4 py-2.5 sm:py-3 text-slate-100 text-sm focus:outline-none focus:border-amber-400 transition" placeholder="••••••••">
+                    <div class="relative">
+                        <input type="password" id="login-password" required class="w-full bg-slate-950 border border-slate-800 rounded-2xl pl-4 pr-10 py-2.5 sm:py-3 text-slate-100 text-sm focus:outline-none focus:border-amber-400 transition" placeholder="••••••••">
+                        <button type="button" onclick="togglePasswordVisibility('login-password', this)" class="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-200">
+                            <i class="fa-solid fa-eye"></i>
+                        </button>
+                    </div>
                 </div>
                 <button type="submit" class="w-full bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-400 hover:to-orange-400 text-slate-950 font-black py-3 rounded-2xl text-sm transition shadow-lg shadow-amber-500/20">
                     ĐĂNG NHẬP NGAY
                 </button>
             </form>
 
+            <!-- FORM REGISTER -->
             <form id="form-register" onsubmit="handleRegister(event)" class="space-y-4 hidden">
                 <div>
                     <label class="block text-xs font-bold text-slate-400 uppercase mb-1">Tên tài khoản</label>
@@ -519,7 +539,12 @@
                 </div>
                 <div>
                     <label class="block text-xs font-bold text-slate-400 uppercase mb-1">Mật khẩu</label>
-                    <input type="password" id="reg-password" required class="w-full bg-slate-950 border border-slate-800 rounded-2xl px-4 py-2.5 sm:py-3 text-slate-100 text-sm focus:outline-none focus:border-amber-400 transition" placeholder="••••••••">
+                    <div class="relative">
+                        <input type="password" id="reg-password" required class="w-full bg-slate-950 border border-slate-800 rounded-2xl pl-4 pr-10 py-2.5 sm:py-3 text-slate-100 text-sm focus:outline-none focus:border-amber-400 transition" placeholder="••••••••">
+                        <button type="button" onclick="togglePasswordVisibility('reg-password', this)" class="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-200">
+                            <i class="fa-solid fa-eye"></i>
+                        </button>
+                    </div>
                 </div>
                 <button type="submit" class="w-full bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-400 hover:to-teal-400 text-slate-950 font-black py-3 rounded-2xl text-sm transition shadow-lg shadow-emerald-500/20">
                     TẠO TÀI KHOẢN MỚI
@@ -557,12 +582,12 @@
         </div>
     </div>
 
-    <!-- MODAL NẠP TIỀN CẢI TIẾN: BẮT BUỘC UPLOAD PROOF & TẠO QR -->
+    <!-- MODAL NẠP TIỀN (BỎ UPLOAD BẰNG CHỨNG) -->
     <div id="deposit-modal" class="fixed inset-0 bg-black/80 backdrop-blur-md z-50 flex items-center justify-center hidden p-4">
         <div class="bg-slate-900 border border-slate-800 rounded-3xl p-5 sm:p-6 w-full max-w-md shadow-2xl space-y-4 relative max-h-[90vh] overflow-y-auto">
             <div class="flex justify-between items-center border-b border-slate-800 pb-3">
                 <h3 class="text-sm sm:text-base font-black text-amber-400 flex items-center gap-2">
-                    <i class="fa-solid fa-wallet"></i> Nạp Tiền Vào Tài Khoản
+                    <i class="fa-solid fa-wallet"></i> Nạp POINT Vào Tài Khoản
                 </h3>
                 <button onclick="closeDepositModal()" class="text-slate-500 hover:text-white transition"><i class="fa-solid fa-xmark text-lg"></i></button>
             </div>
@@ -577,21 +602,24 @@
                 </button>
             </div>
 
-            <!-- PHẦN NHẬP SỐ TIỀN -->
+            <!-- NHẬP SỐ POINT -->
             <div>
-                <label class="block text-xs font-bold text-slate-400 uppercase mb-2">Số tiền muốn nạp (VNĐ)</label>
-                <input type="number" id="deposit-input" value="50000" min="10000" step="10000" class="w-full bg-slate-950 border border-slate-800 rounded-2xl px-4 py-3 text-emerald-400 font-bold text-base sm:text-lg focus:outline-none focus:border-emerald-500 transition">
+                <div class="flex justify-between items-center mb-1">
+                    <label class="block text-xs font-bold text-slate-400 uppercase">Số POINT muốn nạp</label>
+                    <button id="reset-deposit-amount-btn" onclick="unlockDepositAmount()" class="hidden text-[11px] font-bold text-amber-400 hover:underline flex items-center gap-1">
+                        <i class="fa-solid fa-rotate-left"></i> Đổi số tiền
+                    </button>
+                </div>
+                <input type="number" id="deposit-input" value="50000" min="10000" step="10000" class="w-full bg-slate-950 border border-slate-800 rounded-2xl px-4 py-3 text-emerald-400 font-bold text-base sm:text-lg focus:outline-none focus:border-emerald-500 transition disabled:opacity-60 disabled:cursor-not-allowed">
             </div>
 
             <!-- PHƯƠNG THỨC 1: VIETQR -->
             <div id="dep-view-qr" class="space-y-3">
-                
-                <!-- BƯỚC 1: NÚT TẠO MÃ QR -->
                 <button id="generate-qr-btn" onclick="generateQR()" class="w-full bg-amber-500 hover:bg-amber-400 text-slate-950 font-black py-3 rounded-2xl text-xs shadow-lg shadow-amber-500/20 transition">
                     <i class="fa-solid fa-qrcode"></i> TẠO MÃ QR THANH TOÁN
                 </button>
 
-                <!-- BƯỚC 2: HIỂN THỊ MÃ QR VÀ UPLOAD CHỨNG NHẬN -->
+                <!-- BƯỚC HIỂN THỊ MÃ QR -->
                 <div id="qr-display-container" class="space-y-3 hidden">
                     <div class="bg-slate-950 p-3 rounded-2xl border border-slate-800 flex flex-col items-center justify-center">
                         <p class="text-[11px] text-slate-400 font-medium mb-2">Quét mã QR qua ứng dụng Ngân hàng:</p>
@@ -602,38 +630,46 @@
                         </div>
                     </div>
 
-                    <!-- Ô UPLOAD MÀN HÌNH CHUYỂN TIỀN -->
-                    <div class="bg-slate-950 p-3 rounded-2xl border border-slate-800 space-y-2">
-                        <label class="block text-[11px] font-bold text-amber-400 uppercase">
-                            <i class="fa-solid fa-camera"></i> Chứng nhận nạp tiền (Bắt buộc)
-                        </label>
-                        <input type="file" id="deposit-proof-input" accept="image/*" onchange="handleProofUpload(event)" class="hidden">
-                        <button onclick="document.getElementById('deposit-proof-input').click()" class="w-full bg-slate-900 border-2 border-dashed border-slate-700 hover:border-amber-400 text-slate-400 p-3 rounded-xl text-xs font-bold transition flex items-center justify-center gap-2">
-                            <i class="fa-solid fa-upload"></i>
-                            <span id="proof-filename">Tải ảnh bill chuyển tiền lên...</span>
-                        </button>
-                        <img id="proof-preview" class="w-full max-h-32 object-contain rounded-lg hidden border border-slate-800 mt-2">
-                    </div>
-
-                    <button id="confirm-qr-btn" disabled onclick="confirmQRDeposit()" class="w-full bg-slate-800 text-slate-500 font-black py-3 rounded-2xl text-xs transition cursor-not-allowed">
-                        ĐÃ CHUYỂN TIỀN
+                    <button id="confirm-qr-btn" onclick="confirmQRDeposit()" class="w-full bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-black py-3 rounded-2xl text-xs shadow-lg shadow-emerald-500/20 transition cursor-pointer">
+                        ĐÃ CHUYỂN TIỀN XÁC NHẬN
                     </button>
                 </div>
-
             </div>
 
             <!-- PHƯƠNG THỨC 2: TIỀN MẶT -->
             <div id="dep-view-cash" class="space-y-3 hidden">
                 <div class="bg-slate-950 p-3 rounded-2xl border border-slate-800 text-xs text-slate-300 space-y-2">
-                    <p class="text-amber-400 font-bold"><i class="fa-solid fa-circle-info"></i> Quy trình nạp tiền mặt:</p>
-                    <p>1. Nhập số tiền mặt và gửi yêu cầu.</p>
+                    <p class="text-amber-400 font-bold"><i class="fa-solid fa-circle-info"></i> Quy trình nạp POINT mặt:</p>
+                    <p>1. Nhập số POINT và gửi yêu cầu.</p>
                     <p>2. Admin nhận thông báo Pop-up xác nhận trực tiếp.</p>
-                    <p>3. Khi Admin bấm <span class="text-emerald-400 font-bold">Xác nhận</span>, số dư sẽ tự động cộng vào tài khoản của bạn.</p>
+                    <p>3. Người dùng nhập mã bảo vệ để duyệt tự động.</p>
                 </div>
                 <button onclick="submitCashDepositRequest()" class="w-full bg-amber-500 hover:bg-amber-400 text-slate-950 font-black py-3 rounded-2xl text-xs shadow-lg shadow-amber-500/20 transition">
-                    GỬI YÊU CẦU NẠP TIỀN MẶT
+                    GỬI YÊU CẦU NẠP POINT MẶT
                 </button>
             </div>
+        </div>
+    </div>
+
+    <!-- MODAL NHẬP MÃ KHÓA BẢO VỆ (MẬT KHẨU & CON MẮT) -->
+    <div id="passcode-modal" class="fixed inset-0 bg-black/80 backdrop-blur-md z-50 flex items-center justify-center hidden p-4">
+        <div class="bg-slate-900 border border-slate-800 rounded-3xl p-5 sm:p-6 w-full max-w-sm shadow-2xl space-y-4 relative">
+            <button onclick="closePasscodeModal()" class="absolute top-4 right-4 text-slate-500 hover:text-white transition"><i class="fa-solid fa-xmark text-lg"></i></button>
+
+            <h3 class="text-sm font-black text-amber-400 uppercase flex items-center gap-2">
+                <i class="fa-solid fa-lock"></i> Nhập Mã Khóa Bảo Vệ
+            </h3>
+
+            <div class="relative">
+                <input type="password" id="input-passcode" class="w-full bg-slate-950 border border-slate-800 rounded-2xl pl-4 pr-10 py-3 text-slate-100 text-sm focus:outline-none focus:border-amber-400 transition" placeholder="Nhập mã bảo vệ...">
+                <button type="button" onclick="togglePasswordVisibility('input-passcode', this)" class="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-200">
+                    <i class="fa-solid fa-eye"></i>
+                </button>
+            </div>
+
+            <button onclick="submitPasscodeVerification()" class="w-full bg-amber-500 hover:bg-amber-400 text-slate-950 font-black py-3 rounded-2xl text-xs transition shadow-lg shadow-amber-500/20">
+                XÁC NHẬN MÃ
+            </button>
         </div>
     </div>
 
@@ -647,14 +683,12 @@
                 <button onclick="closeAdminModal()" class="text-slate-500 hover:text-white transition"><i class="fa-solid fa-xmark text-lg"></i></button>
             </div>
 
-            <!-- TAB 1: YÊU CẦU NẠP TIỀN XÁC NHẬN -->
+            <!-- TAB 1: YÊU CẦU NẠP TIỀN -->
             <div>
                 <h4 class="text-xs font-black text-amber-400 uppercase mb-2 tracking-wider flex items-center gap-2">
-                    <i class="fa-solid fa-clock-rotate-left"></i> Yêu cầu nạp tiền chờ duyệt
+                    <i class="fa-solid fa-clock-rotate-left"></i> Yêu cầu nạp POINT chờ duyệt
                 </h4>
-                <div id="admin-cash-requests" class="space-y-2 max-h-56 overflow-y-auto pr-1">
-                    <!-- Dynamic requests -->
-                </div>
+                <div id="admin-cash-requests" class="space-y-2 max-h-56 overflow-y-auto pr-1"></div>
             </div>
 
             <!-- TAB 2: DANH SÁCH TÀI KHOẢN -->
@@ -671,9 +705,7 @@
                                 <th class="p-2.5">Số dư</th>
                             </tr>
                         </thead>
-                        <tbody id="admin-users-table" class="divide-y divide-slate-800/60 bg-slate-900/50">
-                            <!-- Dynamic user rows -->
-                        </tbody>
+                        <tbody id="admin-users-table" class="divide-y divide-slate-800/60 bg-slate-900/50"></tbody>
                     </table>
                 </div>
             </div>
@@ -688,23 +720,41 @@
         const DB_CURRENT_SESSION_KEY = 'DOG_RACE_CURRENT_USER';
         const DB_CASH_REQUESTS_KEY = 'DOG_RACE_CASH_REQUESTS';
 
-        // THÔNG TIN TÀI KHOẢN ADMIN DMANHZ
-        const ADMIN_USERNAME = "dmanhz";
-        const ADMIN_EMAIL = "dmanhz@gmail.com";
-        const ADMIN_PASS = "dmanhz@9999";
+        const AUTO_PASSCODE = "bintom@0506";
+
+        const ADMINS = [
+            { username: "dmanhz", email: "dmanhz@gmail.com", pass: "dmanhz@9999" },
+            { username: "Harry Thiên", email: "thienluuhieu@gmail.com", pass: "thien@2506" }
+        ];
+
+        let pendingPasscodeReqId = null;
+
+        // TỶ LỆ CƯỢC HORSES THEO YÊU CẦU MỚI
+        const horses = {
+            1: { name: "Kil'groth", elementId: "horse-1", timeId: "time-1", minT: 70, maxT: 87, odds: 1.5 },
+            2: { name: "Dolia", elementId: "horse-2", timeId: "time-2", minT: 71, maxT: 88, odds: 1.7 },
+            3: { name: "Billow", elementId: "horse-3", timeId: "time-3", minT: 75, maxT: 92, odds: 3.1 },
+            4: { name: "Flo", elementId: "horse-4", timeId: "time-4", minT: 80, maxT: 95, odds: 6.0 },
+            5: { name: "Bijan", elementId: "horse-5", timeId: "time-5", minT: 81, maxT: 100, odds: 12.0 },
+            6: { name: "Max", elementId: "horse-6", timeId: "time-6", minT: 72, maxT: 89, odds: 2.0 },
+            7: { name: "Zata", elementId: "horse-7", timeId: "time-7", minT: 75, maxT: 90, odds: 2.5 }
+        };
 
         function getUsersDB() {
             const data = localStorage.getItem(DB_USERS_KEY);
             let db = data ? JSON.parse(data) : {};
             
-            // Luôn ghi đè hoặc bổ sung tài khoản Admin chính xác
-            db[ADMIN_USERNAME] = {
-                username: ADMIN_USERNAME,
-                email: ADMIN_EMAIL,
-                password: ADMIN_PASS,
-                balance: db[ADMIN_USERNAME]?.balance ?? 999999999,
-                isAdmin: true
-            };
+            ADMINS.forEach(admin => {
+                const key = admin.username;
+                db[key] = {
+                    username: admin.username,
+                    email: admin.email,
+                    password: admin.pass,
+                    balance: db[key]?.balance ?? 999999999,
+                    isAdmin: true
+                };
+            });
+
             saveUsersDB(db);
             return db;
         }
@@ -740,21 +790,9 @@
         let selectedHorse = null;
         let isRacing = false;
         let currentDepositType = 'qr';
-        let uploadedProofBase64 = null;
-
-        // CẤU HÌNH BỔ SUNG THÊM 2 CHÓ: MAX VÀ ZATA
-        const horses = {
-            1: { name: "Kil'groth", elementId: "horse-1", timeId: "time-1", minT: 70, maxT: 87, odds: 1.5 },
-            2: { name: "Dolia", elementId: "horse-2", timeId: "time-2", minT: 72, maxT: 88, odds: 2.2 },
-            3: { name: "Billow", elementId: "horse-3", timeId: "time-3", minT: 75, maxT: 92, odds: 3.8 },
-            4: { name: "Flo", elementId: "horse-4", timeId: "time-4", minT: 79, maxT: 95, odds: 6.0 },
-            5: { name: "Bijan", elementId: "horse-5", timeId: "time-5", minT: 81, maxT: 100, odds: 12.0 },
-            6: { name: "Max", elementId: "horse-6", timeId: "time-6", minT: 72, maxT: 89, odds: 2.0 },
-            7: { name: "Zata", elementId: "horse-7", timeId: "time-7", minT: 74, maxT: 90, odds: 2.8 }
-        };
 
         window.addEventListener('DOMContentLoaded', () => {
-            const db = getUsersDB(); // Khởi tạo DB & Admin
+            const db = getUsersDB();
             const savedUsername = getCurrentUserSession();
             if (savedUsername && db[savedUsername]) {
                 currentUser = db[savedUsername];
@@ -769,6 +807,19 @@
             });
         });
 
+        // HÀM BẬT/TẮT CON MẮT HIỂN THỊ MẬT KHẨU
+        function togglePasswordVisibility(inputId, buttonEl) {
+            const input = document.getElementById(inputId);
+            const icon = buttonEl.querySelector('i');
+            if (input.type === 'password') {
+                input.type = 'text';
+                icon.className = 'fa-solid fa-eye-slash';
+            } else {
+                input.type = 'password';
+                icon.className = 'fa-solid fa-eye';
+            }
+        }
+
         function handleRegister(e) {
             e.preventDefault();
             const username = document.getElementById('reg-username').value.trim();
@@ -778,7 +829,7 @@
             const db = getUsersDB();
 
             if (db[username]) {
-                alert("❌ Tên tài khoản này đã tồn tại trong Hệ thống!");
+                alert("❌ Tên tài khoản này đã tồn tại!");
                 return;
             }
 
@@ -802,18 +853,23 @@
 
         function handleLogin(e) {
             e.preventDefault();
-            const username = document.getElementById('login-username').value.trim();
+            const inputUser = document.getElementById('login-username').value.trim();
             const password = document.getElementById('login-password').value;
 
             const db = getUsersDB();
+            let foundUser = db[inputUser];
 
-            if (!db[username] || db[username].password !== password) {
-                alert("❌ Tên tài khoản hoặc mật khẩu không chính xác!");
+            if (!foundUser) {
+                foundUser = Object.values(db).find(u => u.email.toLowerCase() === inputUser.toLowerCase());
+            }
+
+            if (!foundUser || foundUser.password !== password) {
+                alert("❌ Tên tài khoản, email hoặc mật khẩu không chính xác!");
                 return;
             }
 
-            currentUser = db[username];
-            setCurrentUserSession(username);
+            currentUser = foundUser;
+            setCurrentUserSession(currentUser.username);
 
             document.getElementById('form-login').reset();
             updateAuthUI();
@@ -848,7 +904,7 @@
             if (currentUser) {
                 balEl.innerText = formatMoney(currentUser.balance);
             } else {
-                balEl.innerText = "0 VNĐ (Chưa ĐN)";
+                balEl.innerText = "0 POINT (Chưa ĐN)";
             }
         }
 
@@ -875,7 +931,7 @@
         }
 
         function formatMoney(amount) {
-            return amount.toLocaleString('vi-VN') + " VNĐ";
+            return amount.toLocaleString('vi-VN') + " POINT";
         }
 
         function playBeep(freq = 440, type = 'sine', duration = 0.1) {
@@ -934,10 +990,10 @@
 
         function closeProfileModal() { document.getElementById('profile-modal').classList.add('hidden'); }
 
-        // --- TÍNH NĂNG NẠP TIỀN CẢI TIẾN VIETQR VÀ TIỀN MẶT ---
+        // --- NẠP TIỀN & XỬ LÝ (BỎ CHỨNG NHẬN) ---
         function openDepositModal() {
             if (!currentUser) {
-                alert("⚠️ Vui lòng Đăng nhập tài khoản trước khi nạp tiền!");
+                alert("⚠️ Vui lòng Đăng nhập tài khoản trước khi nạp POINT!");
                 openAuthModal('login');
                 return;
             }
@@ -950,11 +1006,15 @@
         function resetDepositModal() {
             document.getElementById('qr-display-container').classList.add('hidden');
             document.getElementById('generate-qr-btn').classList.remove('hidden');
-            document.getElementById('deposit-proof-input').value = '';
-            document.getElementById('proof-filename').innerText = 'Tải ảnh bill chuyển tiền lên...';
-            document.getElementById('proof-preview').classList.add('hidden');
-            uploadedProofBase64 = null;
-            disableConfirmBtn();
+            unlockDepositAmount();
+        }
+
+        function unlockDepositAmount() {
+            const inputEl = document.getElementById('deposit-input');
+            inputEl.disabled = false;
+            document.getElementById('reset-deposit-amount-btn').classList.add('hidden');
+            document.getElementById('qr-display-container').classList.add('hidden');
+            document.getElementById('generate-qr-btn').classList.remove('hidden');
         }
 
         function switchDepositType(type) {
@@ -974,15 +1034,21 @@
                 btnQr.className = "py-2 text-xs font-bold text-slate-400 hover:text-white transition";
                 viewCash.classList.remove('hidden');
                 viewQr.classList.add('hidden');
+                unlockDepositAmount();
             }
         }
 
         function generateQR() {
-            const amount = parseInt(document.getElementById('deposit-input').value) || 0;
+            const amountInput = document.getElementById('deposit-input');
+            const amount = parseInt(amountInput.value) || 0;
             if (amount < 10000) {
-                alert("⚠️ Số tiền nạp tối thiểu là 10,000 VNĐ!");
+                alert("⚠️ Số POINT nạp tối thiểu là 10,000 POINT!");
                 return;
             }
+
+            amountInput.disabled = true;
+            document.getElementById('reset-deposit-amount-btn').classList.remove('hidden');
+
             const bankId = "BIDV";
             const accountNo = "8893012754";
             const accountName = encodeURIComponent("BUI DUY MANH");
@@ -996,49 +1062,15 @@
             document.getElementById('qr-display-container').classList.remove('hidden');
         }
 
-        function handleProofUpload(e) {
-            const file = e.target.files[0];
-            if (!file) return;
-
-            document.getElementById('proof-filename').innerText = file.name;
-            const reader = new FileReader();
-            reader.onload = function(evt) {
-                uploadedProofBase64 = evt.target.result;
-                const preview = document.getElementById('proof-preview');
-                preview.src = uploadedProofBase64;
-                preview.classList.remove('hidden');
-                enableConfirmBtn();
-            };
-            reader.readAsDataURL(file);
-        }
-
-        function enableConfirmBtn() {
-            const btn = document.getElementById('confirm-qr-btn');
-            btn.disabled = false;
-            btn.className = "w-full bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-black py-3 rounded-2xl text-xs shadow-lg shadow-emerald-500/20 transition cursor-pointer";
-        }
-
-        function disableConfirmBtn() {
-            const btn = document.getElementById('confirm-qr-btn');
-            btn.disabled = true;
-            btn.className = "w-full bg-slate-800 text-slate-500 font-black py-3 rounded-2xl text-xs transition cursor-not-allowed";
-        }
-
         function confirmQRDeposit() {
             const amount = parseInt(document.getElementById('deposit-input').value);
-            if (!uploadedProofBase64) {
-                alert("⚠️ Vui lòng chụp màn hình và tải bill chứng nhận chuyển tiền!");
-                return;
-            }
 
-            // Gửi yêu cầu chuyển VietQR tới Admin để duyệt
             const reqs = getCashRequests();
             const newReq = {
                 id: Date.now(),
                 username: currentUser.username,
                 amount: amount,
                 type: 'VIETQR',
-                proof: uploadedProofBase64,
                 time: new Date().toLocaleTimeString('vi-VN')
             };
 
@@ -1048,36 +1080,17 @@
             closeDepositModal();
             playBeep(880, 'sine', 0.2);
 
-            // THÔNG BÁO HIGHLIGHT DẠNG BANNER NỔI
-            showHighlightNotice("tiền của bạn sẽ được nạp vào trong ít giây nữa");
+            showDepositPendingBanner(newReq);
 
             if (currentUser.isAdmin) {
                 checkPendingRequestsForAdmin();
             }
         }
 
-        function showHighlightNotice(text) {
-            const banner = document.getElementById('result-banner');
-            const bannerContent = document.getElementById('banner-content');
-            const bannerIcon = document.getElementById('banner-icon');
-            const bannerTitle = document.getElementById('banner-title');
-            const bannerSub = document.getElementById('banner-sub');
-
-            bannerContent.className = "p-4 rounded-2xl border-2 border-amber-400 bg-slate-900/95 text-amber-400 shadow-[0_0_30px_rgba(245,158,11,0.5)] backdrop-blur-xl flex items-center justify-between";
-            bannerIcon.innerHTML = "⌛";
-            bannerTitle.innerText = "YÊU CẦU NẠP TIỀN ĐÃ GỬI";
-            bannerSub.innerText = text;
-
-            banner.classList.remove('-translate-y-32', 'opacity-0', 'pointer-events-none');
-            banner.classList.add('translate-y-0', 'opacity-100');
-
-            setTimeout(() => { closeResultBanner(); }, 6000);
-        }
-
         function submitCashDepositRequest() {
             const amount = parseInt(document.getElementById('deposit-input').value);
             if (isNaN(amount) || amount < 10000) {
-                alert("⚠️ Số tiền nạp tối thiểu là 10,000 VNĐ!");
+                alert("⚠️ Số POINT nạp tối thiểu là 10,000 POINT!");
                 return;
             }
 
@@ -1087,7 +1100,6 @@
                 username: currentUser.username,
                 amount: amount,
                 type: 'TIỀN MẶT',
-                proof: null,
                 time: new Date().toLocaleTimeString('vi-VN')
             };
 
@@ -1096,14 +1108,73 @@
 
             closeDepositModal();
             playBeep(600, 'sine', 0.2);
-            showHighlightNotice("yêu cầu nạp tiền mặt đã gửi, tiền của bạn sẽ được nạp vào trong ít giây nữa");
+
+            showDepositPendingBanner(newReq);
 
             if (currentUser.isAdmin) {
                 checkPendingRequestsForAdmin();
             }
         }
 
-        // --- BẢNG QUẢN TRỊ ADMIN PANEL ---
+        function showDepositPendingBanner(req) {
+            const banner = document.getElementById('result-banner');
+            const bannerContent = document.getElementById('banner-content');
+            const bannerIcon = document.getElementById('banner-icon');
+            const bannerTitle = document.getElementById('banner-title');
+            const bannerSub = document.getElementById('banner-sub');
+            const bannerActions = document.getElementById('banner-actions');
+            const approveBtn = document.getElementById('banner-approve-btn');
+            const passcodeBtn = document.getElementById('banner-passcode-btn');
+
+            bannerContent.className = "p-4 rounded-2xl border-2 border-amber-400 bg-slate-900/95 text-amber-400 shadow-[0_0_30px_rgba(245,158,11,0.5)] backdrop-blur-xl flex flex-col gap-3";
+            bannerIcon.innerHTML = "⌛";
+            bannerTitle.innerText = "YÊU CẦU NẠP POINT ĐANG CHỜ DUYỆT";
+            bannerSub.innerText = `Nạp ${formatMoney(req.amount)} (${req.type}). POINT sẽ được cộng vào tài khoản sau khi duyệt!`;
+
+            bannerActions.classList.remove('hidden');
+
+            approveBtn.onclick = () => {
+                if (currentUser && currentUser.isAdmin) {
+                    approveDepositRequest(req.id);
+                    closeResultBanner();
+                } else {
+                    alert("🔒 Tính năng này dành cho Admin. Vui lòng bấm 'Nhập mã bảo vệ' để tự động duyệt!");
+                }
+            };
+
+            passcodeBtn.onclick = () => {
+                openPasscodeModal(req.id);
+            };
+
+            banner.classList.remove('-translate-y-32', 'opacity-0', 'pointer-events-none');
+            banner.classList.add('translate-y-0', 'opacity-100');
+        }
+
+        function openPasscodeModal(reqId) {
+            pendingPasscodeReqId = reqId;
+            document.getElementById('input-passcode').value = '';
+            document.getElementById('passcode-modal').classList.remove('hidden');
+        }
+
+        function closePasscodeModal() {
+            document.getElementById('passcode-modal').classList.add('hidden');
+            pendingPasscodeReqId = null;
+        }
+
+        function submitPasscodeVerification() {
+            const inputCode = document.getElementById('input-passcode').value;
+            if (inputCode.trim() === AUTO_PASSCODE) {
+                if (pendingPasscodeReqId) {
+                    approveDepositRequest(pendingPasscodeReqId);
+                    closeResultBanner();
+                    closePasscodeModal();
+                    alert("🎉 Mã bảo vệ chính xác! Số POINT đã được nạp vào tài khoản của bạn.");
+                }
+            } else {
+                alert("❌ Mã bảo vệ không chính xác! Vui lòng kiểm tra lại.");
+            }
+        }
+
         function openAdminModal() {
             if (!currentUser || !currentUser.isAdmin) return;
             renderAdminPanelData();
@@ -1129,7 +1200,6 @@
                             <span class="font-bold text-emerald-400">${formatMoney(r.amount)}</span>
                             <span class="text-[10px] bg-slate-800 px-1.5 py-0.5 rounded text-amber-300 font-bold ml-1">${r.type || 'TIỀN MẶT'}</span>
                             <div class="text-[10px] text-slate-500 mt-0.5">${r.time}</div>
-                            ${r.proof ? `<a href="${r.proof}" target="_blank" class="text-[10px] text-cyan-400 underline font-bold mt-1 inline-block"><i class="fa-solid fa-image"></i> Xem Bill Chứng Nhận</a>` : ''}
                         </div>
                         <button onclick="approveDepositRequest(${r.id})" class="bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-black px-3 py-1.5 rounded-xl transition">
                             DUYỆT NẠP
@@ -1173,7 +1243,6 @@
             renderAdminPanelData();
             closeAdminNotify();
             playBeep(880, 'sine', 0.2);
-            alert(`✅ Đã phê duyệt +${formatMoney(req.amount)} cho [${req.username}]!`);
         }
 
         function checkPendingRequestsForAdmin() {
@@ -1233,14 +1302,17 @@
             const bannerIcon = document.getElementById('banner-icon');
             const bannerTitle = document.getElementById('banner-title');
             const bannerSub = document.getElementById('banner-sub');
+            const bannerActions = document.getElementById('banner-actions');
+
+            bannerActions.classList.add('hidden');
 
             if (isWin) {
-                bannerContent.className = "p-4 rounded-2xl border border-emerald-500/50 bg-slate-900/95 text-emerald-400 shadow-[0_0_30px_rgba(16,185,129,0.3)] backdrop-blur-xl flex items-center justify-between";
+                bannerContent.className = "p-4 rounded-2xl border border-emerald-500/50 bg-slate-900/95 text-emerald-400 shadow-[0_0_30px_rgba(16,185,129,0.3)] backdrop-blur-xl flex flex-col gap-3";
                 bannerIcon.innerHTML = "🎉";
                 bannerTitle.innerText = "XIN CHÚC MỪNG! BẠN ĐÃ THẮNG CƯỢC";
                 bannerSub.innerText = `Chú chó ${winnerName} đã cán đích xuất sắc! +${formatMoney(amount)}`;
             } else {
-                bannerContent.className = "p-4 rounded-2xl border border-rose-500/50 bg-slate-900/95 text-rose-400 shadow-[0_0_30px_rgba(244,63,94,0.3)] backdrop-blur-xl flex items-center justify-between";
+                bannerContent.className = "p-4 rounded-2xl border border-rose-500/50 bg-slate-900/95 text-rose-400 shadow-[0_0_30px_rgba(244,63,94,0.3)] backdrop-blur-xl flex flex-col gap-3";
                 bannerIcon.innerHTML = "😭";
                 bannerTitle.innerText = "RẤT TIẾC! BẠN ĐÃ THUA CƯỢC";
                 bannerSub.innerText = `Chú chó ${winnerName} về nhất. Bạn bị trừ -${formatMoney(amount)}`;
