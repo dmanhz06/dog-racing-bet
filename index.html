@@ -624,11 +624,30 @@
     <!-- MODAL CỬA HÀNG ĐỔI QUÀ -->
     <div id="gift-modal" class="fixed inset-0 bg-black/80 backdrop-blur-md z-50 flex items-center justify-center hidden p-4">
         <div class="bg-slate-900 border border-slate-800 rounded-3xl p-5 sm:p-6 w-full max-w-4xl shadow-2xl space-y-4 relative max-h-[90vh] flex flex-col">
-            <div class="flex justify-between items-center border-b border-slate-800 pb-3">
+            <div class="flex flex-wrap justify-between items-center border-b border-slate-800 pb-3 gap-2">
                 <h3 class="text-base font-black text-amber-400 flex items-center gap-2">
                     <i class="fa-solid fa-gift text-pink-500"></i> CỬA HÀNG QUY ĐỔI VẬT PHẨM
                 </h3>
+                
+                <!-- SỐ POINT CỦA BẠN TRONG CỬA HÀNG -->
+                <div class="bg-slate-950 border border-amber-500/30 px-3 py-1.5 rounded-xl flex items-center gap-2 text-xs font-bold text-slate-300">
+                    <span>Số POINT của bạn:</span>
+                    <span id="shop-balance-display" class="text-emerald-400 font-black">0 POINT</span>
+                </div>
+
                 <button onclick="closeGiftModal()" class="text-slate-500 hover:text-white transition"><i class="fa-solid fa-xmark text-lg"></i></button>
+            </div>
+
+            <!-- THANH BỘ LỌC VÀ SẮP XẾP SẢN PHẨM -->
+            <div class="flex justify-between items-center bg-slate-950/60 p-2 rounded-2xl border border-slate-800/80">
+                <label for="gift-sort-select" class="text-xs font-bold text-slate-400 flex items-center gap-1.5">
+                    <i class="fa-solid fa-arrow-up-wide-short text-amber-400"></i> Sắp xếp giá:
+                </label>
+                <select id="gift-sort-select" onchange="renderGiftItems()" class="bg-slate-900 border border-slate-700 text-slate-200 text-xs font-bold rounded-xl px-3 py-1.5 focus:outline-none focus:border-amber-400 transition cursor-pointer">
+                    <option value="default">Mặc định (Gundam Mini lên đầu)</option>
+                    <option value="asc">Giá: Thấp lên Cao</option>
+                    <option value="desc">Giá: Cao xuống Thấp</option>
+                </select>
             </div>
 
             <!-- DANH SÁCH MÓN QUÀ -->
@@ -831,20 +850,20 @@
         let pendingPasscodeReqId = null;
         let selectedUserForAdmin = null;
 
-        // DANH SÁCH MÓN QUÀ THEO ĐƯỜNG DẪN GITHUB
+        // DANH SÁCH MÓN QUÀ THEO ĐƯỜNG DẪN GITHUB (ĐÃ SẮP XẾP GUNDAM MINI LÊN ĐẦU)
         const GITHUB_RAW_BASE = "https://raw.githubusercontent.com/dmanhz06/dog-racing-bet/main/giftshop/";
         const GIFT_ITEMS = [
+            { id: 'mh40-1', name: 'Gundam Mini (Mẫu 1)', point: 40000, img: GITHUB_RAW_BASE + 'mh40-1.jpg' },
+            { id: 'mh40-2', name: 'Gundam Mini (Mẫu 2)', point: 40000, img: GITHUB_RAW_BASE + 'mh40-2.jpg' },
+            { id: 'mh40-3', name: 'Gundam Mini (Mẫu 3)', point: 40000, img: GITHUB_RAW_BASE + 'mh40-3.jpg' },
+            { id: 'mh40-4', name: 'Gundam Mini (Mẫu 4)', point: 40000, img: GITHUB_RAW_BASE + 'mh40-4.jpg' },
+            { id: 'mh40-5', name: 'Gundam Mini (Mẫu 5)', point: 40000, img: GITHUB_RAW_BASE + 'mh40-5.jpg' },
             { id: 'mk35-1', name: 'Móc khóa gấu bông (Mẫu 1)', point: 35000, img: GITHUB_RAW_BASE + 'mk35-1.jpg' },
             { id: 'mk35-2', name: 'Móc khóa gấu bông (Mẫu 2)', point: 35000, img: GITHUB_RAW_BASE + 'mk35-2.jpg' },
             { id: 'mk35-3', name: 'Móc khóa gấu bông (Mẫu 3)', point: 35000, img: GITHUB_RAW_BASE + 'mk35-3.jpg' },
             { id: 'mk35-4', name: 'Móc khóa gấu bông (Mẫu 4)', point: 35000, img: GITHUB_RAW_BASE + 'mk35-4.jpg' },
             { id: 'mk35-5', name: 'Móc khóa gấu bông (Mẫu 5)', point: 35000, img: GITHUB_RAW_BASE + 'mk35-5.jpg' },
             { id: 'mk35-6', name: 'Móc khóa gấu bông (Mẫu 6)', point: 35000, img: GITHUB_RAW_BASE + 'mk35-6.jpg' },
-            { id: 'mh40-1', name: 'Gundam Mini (Mẫu 1)', point: 40000, img: GITHUB_RAW_BASE + 'mh40-1.jpg' },
-            { id: 'mh40-2', name: 'Gundam Mini (Mẫu 2)', point: 40000, img: GITHUB_RAW_BASE + 'mh40-2.jpg' },
-            { id: 'mh40-3', name: 'Gundam Mini (Mẫu 3)', point: 40000, img: GITHUB_RAW_BASE + 'mh40-3.jpg' },
-            { id: 'mh40-4', name: 'Gundam Mini (Mẫu 4)', point: 40000, img: GITHUB_RAW_BASE + 'mh40-4.jpg' },
-            { id: 'mh40-5', name: 'Gundam Mini (Mẫu 5)', point: 40000, img: GITHUB_RAW_BASE + 'mh40-5.jpg' },
             { id: 'mh70-1', name: 'Chiến binh Capybara', point: 70000, img: GITHUB_RAW_BASE + 'mh70-1.jpg' },
             { id: 'sung75', name: 'Súng nước đồ chơi', point: 75000, img: GITHUB_RAW_BASE + 'sung75.jpg' },
             { id: 'casau90', name: 'Cá sấu cạp vui nhộn', point: 90000, img: GITHUB_RAW_BASE + 'casau90.jpg' },
@@ -1087,10 +1106,14 @@
 
         function updateBalanceDisplay() {
             const balEl = document.getElementById('balance');
+            const shopBalEl = document.getElementById('shop-balance-display');
             if (currentUser) {
-                balEl.innerText = formatMoney(currentUser.balance);
+                const formatted = formatMoney(currentUser.balance);
+                balEl.innerText = formatted;
+                if (shopBalEl) shopBalEl.innerText = formatted;
             } else {
                 balEl.innerText = "0 POINT (Chưa ĐN)";
+                if (shopBalEl) shopBalEl.innerText = "0 POINT";
             }
         }
 
@@ -1177,13 +1200,19 @@
 
         function closeProfileModal() { document.getElementById('profile-modal').classList.add('hidden'); }
 
-        // --- HỆ THỐNG CỬA HÀNG QUÀ ---
+        // --- HỆ THỐNG CỬA HÀNG QUÀ (UPDATE HIỂN THỊ POINT & SORT BỘ LỌC) ---
         function openGiftModal() {
             if (!currentUser) {
                 alert("⚠️ Vui lòng Đăng nhập tài khoản trước khi vào Cửa Hàng Quà!");
                 openAuthModal('login');
                 return;
             }
+            updateBalanceDisplay();
+            
+            // Đặt lại giá trị bộ lọc mặc định khi mở cửa hàng
+            const sortSelect = document.getElementById('gift-sort-select');
+            if (sortSelect) sortSelect.value = 'default';
+
             renderGiftItems();
             document.getElementById('gift-modal').classList.remove('hidden');
         }
@@ -1192,7 +1221,19 @@
 
         function renderGiftItems() {
             const container = document.getElementById('gift-list-container');
-            container.innerHTML = GIFT_ITEMS.map(item => `
+            const sortType = document.getElementById('gift-sort-select')?.value || 'default';
+
+            // Tạo bản sao mảng để sắp xếp mà không thay đổi mảng gốc
+            let itemsToRender = [...GIFT_ITEMS];
+
+            if (sortType === 'asc') {
+                itemsToRender.sort((a, b) => a.point - b.point);
+            } else if (sortType === 'desc') {
+                itemsToRender.sort((a, b) => b.point - a.point);
+            }
+            // Nếu sortType === 'default', giữ nguyên mảng GIFT_ITEMS đã đưa Gundam Mini lên đầu
+
+            container.innerHTML = itemsToRender.map(item => `
                 <div class="bg-slate-950 border border-slate-800 rounded-2xl p-3 flex flex-col justify-between hover:border-pink-500/50 transition group">
                     <div>
                         <div class="w-full h-40 rounded-xl overflow-hidden bg-slate-900 border border-slate-800/80 mb-2 relative">
@@ -1780,14 +1821,15 @@
             updateBalanceDisplay();
 
             isRacing = true;
-            const startBtn = document.getElementById('start-btn');
-            startBtn.disabled = true;
-            startBtn.classList.add('opacity-50', 'cursor-not-allowed');
+            document.getElementById('start-btn').disabled = true;
+            document.getElementById('start-btn').classList.add('opacity-50', 'cursor-not-allowed');
 
-            // 1. Tự động cuộn xuống khu vực đường đua và HIGHLIGHT VIỀN VÀNG
-            scrollToSection('track-section', 'highlight-border-gold');
+            const statusText = document.getElementById('race-status');
+            const liveDot = document.getElementById('live-dot');
+            const livePing = document.getElementById('live-ping');
+            const countdownDisplay = document.getElementById('countdown-display');
 
-            // Reset vị trí & thời gian đường đua
+            // Reset đường đua
             Object.keys(horses).forEach(id => {
                 const hEl = document.getElementById(horses[id].elementId);
                 const tEl = document.getElementById(horses[id].timeId);
@@ -1796,172 +1838,146 @@
                 tEl.classList.add('hidden');
             });
 
-            // 2. ĐẾM NGUỢC 3 GIÂY TRƯỚC KHU VỰC ĐUA
-            const statusEl = document.getElementById('race-status');
-            const countdownEl = document.getElementById('countdown-display');
+            // Tự động cuộn tới đường đua & highlight viền vàng
+            scrollToSection('track-section', 'highlight-border-gold');
+
+            // Đếm ngược 3s xuất phát
+            let count = 3;
+            statusText.innerText = `CHUẨN BỊ XUẤT PHÁT: ${count}S...`;
+            statusText.className = "font-extrabold text-[11px] sm:text-xs md:text-sm text-amber-400 uppercase tracking-wider";
+            playBeep(440, 'sine', 0.1);
+
+            const countdownInterval = setInterval(() => {
+                count--;
+                if (count > 0) {
+                    statusText.innerText = `CHUẨN BỊ XUẤT PHÁT: ${count}S...`;
+                    playBeep(440, 'sine', 0.1);
+                } else {
+                    clearInterval(countdownInterval);
+                    executeRaceStart();
+                }
+            }, 1000);
+
+            function executeRaceStart() {
+                statusText.innerText = "TRẬN ĐUA ĐANG DIỄN RA!";
+                statusText.className = "font-extrabold text-[11px] sm:text-xs md:text-sm text-rose-500 uppercase tracking-wider animate-pulse";
+                liveDot.className = "relative inline-flex rounded-full h-3 w-3 sm:h-3.5 sm:w-3.5 bg-rose-500";
+                livePing.classList.remove('hidden');
+
+                playBeep(880, 'square', 0.3);
+
+                // Tính toán thời gian ngẫu nhiên theo chỉ số từng chú chó
+                const times = {};
+                Object.keys(horses).forEach(id => {
+                    const h = horses[id];
+                    const rawT = (Math.random() * (h.maxT - h.minT) + h.minT) / 10;
+                    times[id] = parseFloat(rawT.toFixed(2));
+                });
+
+                // Sắp xếp thứ tự về đích
+                const rank = Object.keys(times).sort((a, b) => times[a] - times[b]);
+                const winnerId = parseInt(rank[0]);
+
+                let startTime = Date.now();
+                let raceDuration = Math.max(...Object.values(times)) * 1000;
+
+                Object.keys(horses).forEach(id => {
+                    const hEl = document.getElementById(horses[id].elementId);
+                    hEl.classList.add('running', 'dust-cloud');
+                });
+
+                const raceTimer = setInterval(() => {
+                    let elapsed = (Date.now() - startTime) / 1000;
+                    countdownDisplay.innerText = elapsed.toFixed(2) + "s";
+
+                    Object.keys(horses).forEach(id => {
+                        const targetTime = times[id];
+                        const hEl = document.getElementById(horses[id].elementId);
+                        
+                        let progress = (elapsed / targetTime);
+                        if (progress > 1) progress = 1;
+
+                        // Chó chạy tới đích ở mốc 90% chiều dài đường đua
+                        hEl.style.left = (progress * 90) + "%";
+
+                        if (progress >= 1) {
+                            hEl.classList.remove('running', 'dust-cloud');
+                            const tEl = document.getElementById(horses[id].timeId);
+                            tEl.innerText = targetTime.toFixed(2) + "s";
+                            tEl.classList.remove('hidden');
+                        }
+                    });
+
+                    if (elapsed * 1000 >= raceDuration + 200) {
+                        clearInterval(raceTimer);
+                        finishRace(winnerId, rank, times, betAmount);
+                    }
+                }, 30);
+            }
+        }
+
+        function finishRace(winnerId, rank, times, betAmount) {
+            isRacing = false;
+            document.getElementById('start-btn').disabled = false;
+            document.getElementById('start-btn').classList.remove('opacity-50', 'cursor-not-allowed');
+
+            const statusText = document.getElementById('race-status');
             const liveDot = document.getElementById('live-dot');
             const livePing = document.getElementById('live-ping');
 
-            statusEl.innerText = "ĐANG CHUẨN BỊ XUẤT PHÁT...";
-            statusEl.className = "font-extrabold text-[11px] sm:text-xs md:text-sm text-amber-400 uppercase tracking-wider animate-pulse";
-            
-            let countdown = 3;
-            countdownEl.innerText = `00:0${countdown}`;
-            playBeep(523, 'sine', 0.15);
+            statusText.innerText = "CUỘC ĐUA ĐÃ KẾT THÚC";
+            statusText.className = "font-extrabold text-[11px] sm:text-xs md:text-sm text-emerald-400 uppercase tracking-wider";
+            liveDot.className = "relative inline-flex rounded-full h-3 w-3 sm:h-3.5 sm:w-3.5 bg-emerald-500";
+            livePing.classList.add('hidden');
 
-            const timer = setInterval(() => {
-                countdown--;
-                if (countdown > 0) {
-                    countdownEl.innerText = `00:0${countdown}`;
-                    playBeep(523, 'sine', 0.15);
-                } else {
-                    clearInterval(timer);
-                    countdownEl.innerText = "START!";
-                    playBeep(880, 'sine', 0.3);
-
-                    // BẮT ĐẦU CHẠY ĐUA
-                    statusEl.innerText = "CUỘC ĐUA ĐANG DIỄN RA...";
-                    statusEl.className = "font-extrabold text-[11px] sm:text-xs md:text-sm text-rose-500 uppercase tracking-wider animate-pulse";
-                    liveDot.className = "relative inline-flex rounded-full h-3 w-3 sm:h-3.5 sm:w-3.5 bg-rose-500";
-                    livePing.classList.remove('hidden');
-
-                    runRaceLogic(betAmount);
-                }
-            }, 1000);
-        }
-
-        function runRaceLogic(betAmount) {
-            const trackWidthPercent = 90; // Điểm đích là 90%
-            let positions = {};
-            let randomTimes = {}; // Thời gian ngẫu nhiên theo minT - maxT
-            let raceTimes = {};
-            let finishedCount = 0;
-            let finishOrder = [];
-
-            const TARGET_RACE_DURATION = 8.0; // Tăng thời gian chạy đua từ 5s lên 8s
-            const startTime = Date.now();
-
-            // Tính toán thời gian ngẫu nhiên và tốc độ cho từng chú chó
-            Object.keys(horses).forEach(id => {
-                positions[id] = 0;
-                const h = horses[id];
-                // Tính thời gian ngẫu nhiên thực tế (ví dụ: 71.55s)
-                const randTime = h.minT + Math.random() * (h.maxT - h.minT);
-                randomTimes[id] = randTime;
-
-                const hEl = document.getElementById(h.elementId);
-                hEl.classList.add('running', 'dust-cloud');
-            });
-
-            // Tìm chú chó có thời gian ngẫu nhiên thấp nhất (chạy nhanh nhất)
-            const minRandTimeValue = Math.min(...Object.values(randomTimes));
-
-            // Tốc độ được điều chỉnh để chú chó thắng cuộc cán đích đúng khoảng 8s
-            let speeds = {};
-            Object.keys(horses).forEach(id => {
-                // Tỉ lệ vận tốc tỉ lệ nghịch với thời gian ngẫu nhiên
-                speeds[id] = (minRandTimeValue / randomTimes[id]) * (trackWidthPercent / (TARGET_RACE_DURATION * 20));
-            });
-
-            const raceInterval = setInterval(() => {
-                const elapsedTime = (Date.now() - startTime) / 1000;
-                
-                Object.keys(horses).forEach(id => {
-                    if (positions[id] < trackWidthPercent) {
-                        // Thêm biến động nhỏ để đường đua trông sống động và kịch tính hơn
-                        const noise = (Math.random() - 0.5) * 0.15;
-                        positions[id] += Math.max(0.05, speeds[id] + noise);
-
-                        if (positions[id] >= trackWidthPercent) {
-                            positions[id] = trackWidthPercent;
-                            if (!raceTimes[id]) {
-                                raceTimes[id] = randomTimes[id].toFixed(2); // Số giây thực tế tỉ lệ với phần random giây [minT, maxT]
-                                finishOrder.push(parseInt(id));
-                                finishedCount++;
-
-                                const hEl = document.getElementById(horses[id].elementId);
-                                const tEl = document.getElementById(horses[id].timeId);
-                                hEl.classList.remove('running', 'dust-cloud');
-                                tEl.innerText = `${raceTimes[id]}s`;
-                                tEl.classList.remove('hidden');
-                            }
-                        }
-
-                        document.getElementById(horses[id].elementId).style.left = `${positions[id]}%`;
-                    }
-                });
-
-                // Cập nhật bộ đếm thời gian
-                document.getElementById('countdown-display').innerText = `00:${elapsedTime < 10 ? '0' : ''}${Math.floor(elapsedTime)}`;
-
-                // KẾT THÚC CUỘC ĐUA
-                if (finishedCount === Object.keys(horses).length) {
-                    clearInterval(raceInterval);
-                    finishRace(finishOrder, raceTimes, betAmount);
-                }
-            }, 50);
-        }
-
-        function finishRace(finishOrder, raceTimes, betAmount) {
-            const winnerId = finishOrder[0];
-            const winnerHorse = horses[winnerId];
+            const winner = horses[winnerId];
             const isWin = (selectedHorse === winnerId);
 
-            let winAmount = 0;
+            let winBonus = 0;
             if (isWin) {
-                winAmount = Math.floor(betAmount * winnerHorse.odds);
-                currentUser.balance += winAmount;
+                winBonus = Math.floor(betAmount * winner.odds);
+                currentUser.balance += winBonus;
                 syncBalanceToDB();
                 updateBalanceDisplay();
-                playBeep(1000, 'sine', 0.5);
-                showResultBanner(true, winAmount, winnerHorse.name);
-                scrollToSection('results-section', 'highlight-border-green');
+                playBeep(1200, 'triangle', 0.5);
+                scrollToSection('track-section', 'highlight-border-green');
+                showResultBanner(true, winBonus, winner.name);
             } else {
-                playBeep(200, 'sawtooth', 0.5);
-                showResultBanner(false, betAmount, winnerHorse.name);
-                scrollToSection('results-section', 'highlight-border-red');
+                playBeep(200, 'sawtooth', 0.4);
+                scrollToSection('track-section', 'highlight-border-red');
+                showResultBanner(false, betAmount, winner.name);
             }
 
-            // Cập nhật Bảng xếp hạng thành tích
-            const resultsBoard = document.getElementById('results-board');
-            resultsBoard.className = "bg-slate-950 rounded-2xl border border-slate-800 p-3 sm:p-4 text-xs space-y-2";
-            
-            let rankHTML = `<div class="font-bold text-amber-400 mb-2 flex justify-between items-center border-b border-slate-800 pb-2">
-                <span>🏆 KẾT QUẢ VÒNG ĐUA VỪA KHIẾN:</span>
-                <span class="text-emerald-400 font-extrabold">ĐỊA VỊ VỀ NHẤT: ${winnerHorse.name.toUpperCase()}</span>
-            </div>`;
+            // Cập nhật Bảng xếp hạng kết quả
+            const board = document.getElementById('results-board');
+            let boardHtml = `
+                <div class="space-y-2 text-left">
+                    <div class="text-xs font-black text-amber-400 uppercase tracking-wider mb-2 border-b border-slate-800 pb-2 flex justify-between">
+                        <span>🏆 QUÁN QUÂN: ${winner.name.toUpperCase()} (${times[winnerId]}s)</span>
+                        <span>Odds: x${winner.odds}</span>
+                    </div>
+                    <div class="grid grid-cols-1 gap-1.5">
+            `;
 
-            finishOrder.forEach((hId, index) => {
-                const rankColor = index === 0 ? 'text-amber-400 font-black' : (index === 1 ? 'text-slate-300 font-bold' : (index === 2 ? 'text-orange-400 font-bold' : 'text-slate-500'));
-                const medal = index === 0 ? '🥇' : (index === 1 ? '🥈' : (index === 2 ? '🥉' : `#${index + 1}`));
-                
-                rankHTML += `
-                    <div class="flex justify-between items-center py-1 border-b border-slate-900 last:border-0 ${rankColor}">
+            rank.forEach((hId, index) => {
+                const h = horses[hId];
+                const medal = index === 0 ? "🥇" : index === 1 ? "🥈" : index === 2 ? "🥉" : `#${index + 1}`;
+                const highlight = (parseInt(hId) === selectedHorse) ? "border-amber-400 bg-amber-500/10 font-bold" : "border-slate-800 bg-slate-900";
+
+                boardHtml += `
+                    <div class="p-2 rounded-xl border ${highlight} flex justify-between items-center text-xs">
                         <div class="flex items-center gap-2">
                             <span class="w-6 text-center font-bold">${medal}</span>
-                            <span>${horses[hId].name}</span>
+                            <span class="dog-facing-right">🐕</span>
+                            <span class="text-slate-200 font-bold">${h.name}</span>
                         </div>
-                        <span class="font-mono bg-slate-900 px-2 py-0.5 rounded text-[10px] text-slate-300">${raceTimes[hId]}s</span>
+                        <span class="font-mono text-slate-400 text-[11px]">${times[hId]}s</span>
                     </div>
                 `;
             });
 
-            resultsBoard.innerHTML = rankHTML;
-
-            // Đưa trạng thái về ban đầu
-            const statusEl = document.getElementById('race-status');
-            const liveDot = document.getElementById('live-dot');
-            const livePing = document.getElementById('live-ping');
-            const startBtn = document.getElementById('start-btn');
-
-            statusEl.innerText = "SẴN SÀNG ĐẶT CƯỢC";
-            statusEl.className = "font-extrabold text-[11px] sm:text-xs md:text-sm text-slate-400 uppercase tracking-wider";
-            liveDot.className = "relative inline-flex rounded-full h-3 w-3 sm:h-3.5 sm:w-3.5 bg-slate-600";
-            livePing.classList.add('hidden');
-
-            startBtn.disabled = false;
-            startBtn.classList.remove('opacity-50', 'cursor-not-allowed');
-            isRacing = false;
+            boardHtml += `</div></div>`;
+            board.innerHTML = boardHtml;
         }
     </script>
 </body>
